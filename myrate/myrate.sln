@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "myrate_frontend", "myrate_frontend\myrate_frontend.esproj", "{8E7572FE-64D8-4A2F-B9C8-99A22C460267}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myrate_backend", "myrate_backend\myrate_backend.csproj", "{D570F8E1-DA0E-4764-AF8D-1CC835D32FEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E7572FE-64D8-4A2F-B9C8-99A22C460267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E7572FE-64D8-4A2F-B9C8-99A22C460267}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E7572FE-64D8-4A2F-B9C8-99A22C460267}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8E7572FE-64D8-4A2F-B9C8-99A22C460267}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E7572FE-64D8-4A2F-B9C8-99A22C460267}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E7572FE-64D8-4A2F-B9C8-99A22C460267}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D570F8E1-DA0E-4764-AF8D-1CC835D32FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D570F8E1-DA0E-4764-AF8D-1CC835D32FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D570F8E1-DA0E-4764-AF8D-1CC835D32FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D570F8E1-DA0E-4764-AF8D-1CC835D32FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D7267D0-68FD-471B-843B-5F12A618A55A}
+	EndGlobalSection
+EndGlobal
