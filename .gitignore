@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/myrate/.vs/myrate
+/myrate/myrate_frontend/.vscode
+/myrate/myrate_frontend/obj/Debug
+/myrate/myrate_backend/obj
+/myrate/myrate_backend/bin/Debug/net6.0
+/myrate/.vs/ProjectEvaluation
