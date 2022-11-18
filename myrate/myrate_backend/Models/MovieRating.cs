@@ -17,5 +17,6 @@ namespace myrate_backend.Models
 {
     public class MovieRating : Rating
     {
+        public Movie ReviewMovie { get; set; }
     }
 }
