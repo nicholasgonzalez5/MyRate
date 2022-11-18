@@ -10,19 +10,12 @@
  * are cited in my README file and in the appropriate method header.
  *
  * File Contents
- * Model class for Movies Models. Extends IdentitiyUser class.
+ * Model class for Movie Ratings.
  */
 
 namespace myrate_backend.Models
 {
-    public class Movies
+    public class MovieRating : Rating
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Director { get; set; }
-        public DateOnly ReleaseDate { get; set; }
-        public string summary { get; set; }
-        // will add later, not to be implemeneted currently
-        public List<string>? Actors { get; set; }
     }
 }
