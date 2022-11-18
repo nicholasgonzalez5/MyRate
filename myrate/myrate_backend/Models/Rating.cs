@@ -10,7 +10,7 @@
  * are cited in my README file and in the appropriate method header.
  *
  * File Contents
- * Model class for Ratings.
+ * Base model class for Ratings.
  */
 namespace myrate_backend.Models
 {

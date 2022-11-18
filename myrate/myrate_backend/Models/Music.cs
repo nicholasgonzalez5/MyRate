@@ -10,14 +10,15 @@
  * are cited in my README file and in the appropriate method header.
  *
  * File Contents
- * Model class for Books. Extends Media class.
+ * Model class for Music. Extends Media class.
  */
 namespace myrate_backend.Models
 {
-    public class Book
+    public class Music : Media
     {
-        public string Author { get; set; }
-        public string Summary { get; set; }
+        public string? Artist { get; set; }
+        public string? Producer { get; set; }
+        public string? Lyrics { get; set; }
         // In future we will add more properties such as tags
     }
 }

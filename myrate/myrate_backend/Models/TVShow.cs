@@ -10,18 +10,15 @@
  * are cited in my README file and in the appropriate method header.
  *
  * File Contents
- * Model class for TVShow Models. Extends IdentitiyUser class.
+ * Model class for TVShow Models. Extends Media class.
  */
 
 namespace myrate_backend.Models
 {
-    public class TVShow
+    public class TVShow : Media
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
         public string Director { get; set; }
-        public DateOnly ReleaseDate { get; set; }
-        public string summary { get; set; }
+        public string Summary { get; set; }
         // will add later, not to be implemeneted currently
         public List<string>? Actors { get; set; }
     }
