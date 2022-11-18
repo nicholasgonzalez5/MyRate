@@ -18,9 +18,6 @@ namespace myrate_backend.Models
 {
     public class MyRateUser : IdentityUser
     {
-        public int ID { get; set; }
         public string Name { get; set; }
-        public string UserName { get; set; }
-
     }
 }
