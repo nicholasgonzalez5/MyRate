@@ -30,6 +30,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var DB = scope.ServiceProvider.GetRequiredService<MyRateDbContext>();
+
+    await DB.SeedData();
     //var um = scope.ServiceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<MyRateUser>>();
 }
 
