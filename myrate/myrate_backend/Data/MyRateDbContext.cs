@@ -69,6 +69,154 @@ namespace myrate_backend.Data
             await Users.AddAsync(u4);
             await Users.AddAsync(u5);
 
+            // Build Movies
+            var u1 = CreateUser();
+            var u2 = CreateUser();
+            var u3 = CreateUser();
+            var u4 = CreateUser();
+            var u5 = CreateUser();
+
+            u1.Email = "admin@utah.edu";
+            u2.Email = "professor@utah.edu";
+            u3.Email = "u0000000@utah.edu";
+            u4.Email = "u0000001@utah.edu";
+            u5.Email = "u0000002@utah.edu";
+
+            u1.UserName = u1.Email;
+            u2.UserName = u2.Email;
+            u3.UserName = u3.Email;
+            u4.UserName = u4.Email;
+            u5.UserName = u5.Email;
+
+            u1.EmailConfirmed = true;
+            u2.EmailConfirmed = true;
+            u3.EmailConfirmed = true;
+            u4.EmailConfirmed = true;
+            u5.EmailConfirmed = true;
+
+            u1.Name = "Monkey D. Luffy";
+            u2.Name = "Jim";
+            u3.Name = "Shavly Lumirk";
+            u4.Name = "Nicholas";
+            u5.Name = "Alyse";
+
+            await Users.AddAsync(u1);
+            await Users.AddAsync(u2);
+            await Users.AddAsync(u3);
+            await Users.AddAsync(u4);
+            await Users.AddAsync(u5);
+
+            // Build TvShows
+            var u1 = CreateUser();
+            var u2 = CreateUser();
+            var u3 = CreateUser();
+            var u4 = CreateUser();
+            var u5 = CreateUser();
+
+            u1.Email = "admin@utah.edu";
+            u2.Email = "professor@utah.edu";
+            u3.Email = "u0000000@utah.edu";
+            u4.Email = "u0000001@utah.edu";
+            u5.Email = "u0000002@utah.edu";
+
+            u1.UserName = u1.Email;
+            u2.UserName = u2.Email;
+            u3.UserName = u3.Email;
+            u4.UserName = u4.Email;
+            u5.UserName = u5.Email;
+
+            u1.EmailConfirmed = true;
+            u2.EmailConfirmed = true;
+            u3.EmailConfirmed = true;
+            u4.EmailConfirmed = true;
+            u5.EmailConfirmed = true;
+
+            u1.Name = "Monkey D. Luffy";
+            u2.Name = "Jim";
+            u3.Name = "Shavly Lumirk";
+            u4.Name = "Nicholas";
+            u5.Name = "Alyse";
+
+            await Users.AddAsync(u1);
+            await Users.AddAsync(u2);
+            await Users.AddAsync(u3);
+            await Users.AddAsync(u4);
+            await Users.AddAsync(u5);
+
+            // Build Music
+            var u1 = CreateUser();
+            var u2 = CreateUser();
+            var u3 = CreateUser();
+            var u4 = CreateUser();
+            var u5 = CreateUser();
+
+            u1.Email = "admin@utah.edu";
+            u2.Email = "professor@utah.edu";
+            u3.Email = "u0000000@utah.edu";
+            u4.Email = "u0000001@utah.edu";
+            u5.Email = "u0000002@utah.edu";
+
+            u1.UserName = u1.Email;
+            u2.UserName = u2.Email;
+            u3.UserName = u3.Email;
+            u4.UserName = u4.Email;
+            u5.UserName = u5.Email;
+
+            u1.EmailConfirmed = true;
+            u2.EmailConfirmed = true;
+            u3.EmailConfirmed = true;
+            u4.EmailConfirmed = true;
+            u5.EmailConfirmed = true;
+
+            u1.Name = "Monkey D. Luffy";
+            u2.Name = "Jim";
+            u3.Name = "Shavly Lumirk";
+            u4.Name = "Nicholas";
+            u5.Name = "Alyse";
+
+            await Users.AddAsync(u1);
+            await Users.AddAsync(u2);
+            await Users.AddAsync(u3);
+            await Users.AddAsync(u4);
+            await Users.AddAsync(u5);
+
+            // Build Books
+            var u1 = CreateUser();
+            var u2 = CreateUser();
+            var u3 = CreateUser();
+            var u4 = CreateUser();
+            var u5 = CreateUser();
+
+            u1.Email = "admin@utah.edu";
+            u2.Email = "professor@utah.edu";
+            u3.Email = "u0000000@utah.edu";
+            u4.Email = "u0000001@utah.edu";
+            u5.Email = "u0000002@utah.edu";
+
+            u1.UserName = u1.Email;
+            u2.UserName = u2.Email;
+            u3.UserName = u3.Email;
+            u4.UserName = u4.Email;
+            u5.UserName = u5.Email;
+
+            u1.EmailConfirmed = true;
+            u2.EmailConfirmed = true;
+            u3.EmailConfirmed = true;
+            u4.EmailConfirmed = true;
+            u5.EmailConfirmed = true;
+
+            u1.Name = "Monkey D. Luffy";
+            u2.Name = "Jim";
+            u3.Name = "Shavly Lumirk";
+            u4.Name = "Nicholas";
+            u5.Name = "Alyse";
+
+            await Users.AddAsync(u1);
+            await Users.AddAsync(u2);
+            await Users.AddAsync(u3);
+            await Users.AddAsync(u4);
+            await Users.AddAsync(u5);
+
             await SaveChangesAsync();
         }
 
