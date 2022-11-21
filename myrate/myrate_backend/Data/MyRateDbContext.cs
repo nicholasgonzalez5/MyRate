@@ -107,41 +107,35 @@ namespace myrate_backend.Data
             await Users.AddAsync(u5);
 
             // Build TvShows
-            var u1 = CreateUser();
-            var u2 = CreateUser();
-            var u3 = CreateUser();
-            var u4 = CreateUser();
-            var u5 = CreateUser();
+            var tv1 = CreateTvShow();
+            var tv2 = CreateTvShow();
+            var tv3 = CreateTvShow();
+            var tv4 = CreateTvShow();
+            var tv5 = CreateTvShow();
 
-            u1.Email = "admin@utah.edu";
-            u2.Email = "professor@utah.edu";
-            u3.Email = "u0000000@utah.edu";
-            u4.Email = "u0000001@utah.edu";
-            u5.Email = "u0000002@utah.edu";
+            tv1.Title = "One Piece";
+            tv2.Title = "Naruto";
+            tv3.Title = "Bleach";
+            tv4.Title = "One Punch Man";
+            tv5.Title = "Black Clover";
 
-            u1.UserName = u1.Email;
-            u2.UserName = u2.Email;
-            u3.UserName = u3.Email;
-            u4.UserName = u4.Email;
-            u5.UserName = u5.Email;
+            tv1.ReleaseDate = "January 1, 1997";
+            tv2.ReleaseDate = "January 2, 1997";
+            tv3.ReleaseDate = "January 3, 1997";
+            tv4.ReleaseDate = "January 4, 1997";
+            tv5.ReleaseDate = "January 5, 1997";
 
-            u1.EmailConfirmed = true;
-            u2.EmailConfirmed = true;
-            u3.EmailConfirmed = true;
-            u4.EmailConfirmed = true;
-            u5.EmailConfirmed = true;
+            tv1.Genre = "Romance"; 
+            tv2.Genre = "Sci-Fi";
+            tv3.Genre = "Horror";
+            tv4.Genre = "Slice of Life";
+            tv5.Genre = "Comedy";
 
-            u1.Name = "Monkey D. Luffy";
-            u2.Name = "Jim";
-            u3.Name = "Shavly Lumirk";
-            u4.Name = "Nicholas";
-            u5.Name = "Alyse";
-
-            await Users.AddAsync(u1);
-            await Users.AddAsync(u2);
-            await Users.AddAsync(u3);
-            await Users.AddAsync(u4);
-            await Users.AddAsync(u5);
+            await TvShows.AddAsync(tv1);
+            await TvShows.AddAsync(tv2);
+            await TvShows.AddAsync(tv3);
+            await TvShows.AddAsync(tv5);
+            await TvShows.AddAsync(tv6);
 
             // Build Music
             var u1 = CreateUser();
@@ -181,41 +175,35 @@ namespace myrate_backend.Data
             await Users.AddAsync(u5);
 
             // Build Books
-            var u1 = CreateUser();
-            var u2 = CreateUser();
-            var u3 = CreateUser();
-            var u4 = CreateUser();
-            var u5 = CreateUser();
+            var b1 = CreateBook();
+            var b2 = CreateBook();
+            var b3 = CreateBook();
+            var b4 = CreateBook();
+            var b5 = CreateBook();
 
-            u1.Email = "admin@utah.edu";
-            u2.Email = "professor@utah.edu";
-            u3.Email = "u0000000@utah.edu";
-            u4.Email = "u0000001@utah.edu";
-            u5.Email = "u0000002@utah.edu";
+            b1.Title = "Book 1";
+            b2.Title = "Book 2";
+            b3.Title = "Book 3";
+            b4.Title = "Book 4";
+            b5.Title = "Book 5";
 
-            u1.UserName = u1.Email;
-            u2.UserName = u2.Email;
-            u3.UserName = u3.Email;
-            u4.UserName = u4.Email;
-            u5.UserName = u5.Email;
+            b1.ReleaseDate = "January 1, 1997";
+            b2.ReleaseDate = "January 2, 1997";
+            b3.ReleaseDate = "January 3, 1997";
+            b4.ReleaseDate = "January 4, 1997";
+            b5.ReleaseDate = "January 5, 1997";
 
-            u1.EmailConfirmed = true;
-            u2.EmailConfirmed = true;
-            u3.EmailConfirmed = true;
-            u4.EmailConfirmed = true;
-            u5.EmailConfirmed = true;
+            b1.Genre = "Romance";
+            b2.Genre = "Sci-Fi";
+            b3.Genre = "Horror";
+            b4.Genre = "Slice of Life";
+            b5.Genre = "Comedy";
 
-            u1.Name = "Monkey D. Luffy";
-            u2.Name = "Jim";
-            u3.Name = "Shavly Lumirk";
-            u4.Name = "Nicholas";
-            u5.Name = "Alyse";
-
-            await Users.AddAsync(u1);
-            await Users.AddAsync(u2);
-            await Users.AddAsync(u3);
-            await Users.AddAsync(u4);
-            await Users.AddAsync(u5);
+            await Books.AddAsync(b1);
+            await Books.AddAsync(b2);
+            await Books.AddAsync(b3);
+            await Books.AddAsync(b4);
+            await Books.AddAsync(b5);
 
             await SaveChangesAsync();
         }

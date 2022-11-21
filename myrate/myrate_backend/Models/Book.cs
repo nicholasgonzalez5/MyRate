@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 */
 namespace myrate_backend.Models
 {
-    public class Book
+    public class Book : Media
     {
         public int ID { get; set; }
         [Display(Name = "Author")]
