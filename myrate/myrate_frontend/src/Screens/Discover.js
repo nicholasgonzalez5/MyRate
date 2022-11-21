@@ -5,7 +5,7 @@ const Discover = () => {
     return (
         <>
             <Navbar />
-            <h3>Discover Landing Page</h3>
+            <h3>MyRate Discover Page</h3>
             <div>Trending</div>
             <div> Recommendations </div>
         </>
