@@ -6,10 +6,8 @@ const Discover = () => {
         <>
             <Navbar />
             <h3>Discover Landing Page</h3>
-            <div>
-                <h2> Trending </h2>
-                <h2> Recommendations </h2>
-            </div>
+            <div>Trending</div>
+            <div> Recommendations </div>
         </>
     );
 };
