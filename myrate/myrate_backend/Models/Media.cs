@@ -18,7 +18,7 @@ namespace myrate_backend.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public DateOnly? ReleaseDate { get; set; }
+        public string ReleaseDate { get; set; }
         public string? Genre { get; set; }
         // In future we will add more properties such as tags
     }

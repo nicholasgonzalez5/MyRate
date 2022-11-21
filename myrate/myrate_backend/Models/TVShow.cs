@@ -16,10 +16,10 @@
 namespace myrate_backend.Models
 {
     public class TVShow : Media
-    {
+    {        
         public string Director { get; set; }
         public string Summary { get; set; }
         // will add later, not to be implemeneted currently
-        public List<string>? Actors { get; set; }
+        public string? Actors { get; set; }
     }
 }

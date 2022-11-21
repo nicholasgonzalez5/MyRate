@@ -13,8 +13,9 @@
  * Model class for MyRate Users. Extends IdentitiyUser class.
  */
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace myrate_backend.Models
+namespace myrate_backend.Areas.Data
 {
     public class MyRateUser : IdentityUser
     {

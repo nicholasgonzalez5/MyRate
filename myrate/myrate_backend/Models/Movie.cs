@@ -20,6 +20,6 @@ namespace myrate_backend.Models
         public string Director { get; set; }
         public string Summary { get; set; }
         // will add later, not to be implemeneted currently
-        public List<string>? Actors { get; set; }
+        public string? Actors { get; set; }
     }
 }
