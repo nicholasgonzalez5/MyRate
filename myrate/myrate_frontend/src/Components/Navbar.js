@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import SearchBox from "./SearchBox";
 import "./Navbar.css";
 
@@ -9,16 +10,16 @@ const Navbar = () => {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#Home">Home <span class="sr-only"></span></a>
+                            <Link class="nav-link" to="/">Home <span class="sr-only"></span></Link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#Discover">Discover</a>
+                            <Link class="nav-link" to="/discover">Discover</Link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#Collections">Collections</a>
+                            <Link class="nav-link" to="/collections">Collections</Link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#MyStats">MyStats</a>
+                            <Link class="nav-link" to="/mystats">MyStats</Link>
                         </li>
                     </ul>
                 </div>
