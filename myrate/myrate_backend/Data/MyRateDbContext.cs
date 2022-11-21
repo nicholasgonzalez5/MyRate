@@ -70,41 +70,35 @@ namespace myrate_backend.Data
             await Users.AddAsync(u5);
 
             // Build Movies
-            var u1 = CreateUser();
-            var u2 = CreateUser();
-            var u3 = CreateUser();
-            var u4 = CreateUser();
-            var u5 = CreateUser();
+            var mo1 = CreateMovie();
+            var mo2 = CreateMovie();
+            var mo3 = CreateMovie();
+            var mo4 = CreateMovie();
+            var mo5 = CreateMovie();
 
-            u1.Email = "admin@utah.edu";
-            u2.Email = "professor@utah.edu";
-            u3.Email = "u0000000@utah.edu";
-            u4.Email = "u0000001@utah.edu";
-            u5.Email = "u0000002@utah.edu";
+            mo1.Title = "movie 1";
+            mo2.Title = "movie 2";
+            mo3.Title = "movie 3";
+            mo4.Title = "movie 4";
+            mo5.Title = "movie 5";
 
-            u1.UserName = u1.Email;
-            u2.UserName = u2.Email;
-            u3.UserName = u3.Email;
-            u4.UserName = u4.Email;
-            u5.UserName = u5.Email;
+            mo1.ReleaseDate = "January 1, 2018";
+            mo2.ReleaseDate = "February 2, 2019";
+            mo3.ReleaseDate = "March 3, 2020";
+            mo4.ReleaseDate = "April 4, 2021";
+            mo5.ReleaseDate = "May 5, 2022";
 
-            u1.EmailConfirmed = true;
-            u2.EmailConfirmed = true;
-            u3.EmailConfirmed = true;
-            u4.EmailConfirmed = true;
-            u5.EmailConfirmed = true;
+            mo1.Genre = "Romance";
+            mo2.Genre = "Comedy";
+            mo3.Genre = "Sci-Fi";
+            mo4.Genre = "Horror";
+            mo5.Genre = "Documentary";
 
-            u1.Name = "Monkey D. Luffy";
-            u2.Name = "Jim";
-            u3.Name = "Shavly Lumirk";
-            u4.Name = "Nicholas";
-            u5.Name = "Alyse";
-
-            await Users.AddAsync(u1);
-            await Users.AddAsync(u2);
-            await Users.AddAsync(u3);
-            await Users.AddAsync(u4);
-            await Users.AddAsync(u5);
+            await Movies.AddAsync(mo1);
+            await Movies.AddAsync(mo2);
+            await Movies.AddAsync(mo3);
+            await Movies.AddAsync(mo4);
+            await Movies.AddAsync(mo5);
 
             // Build TvShows
             var tv1 = CreateTvShow();
@@ -138,41 +132,35 @@ namespace myrate_backend.Data
             await TvShows.AddAsync(tv6);
 
             // Build Music
-            var u1 = CreateUser();
-            var u2 = CreateUser();
-            var u3 = CreateUser();
-            var u4 = CreateUser();
-            var u5 = CreateUser();
+            var mu1 = CreateMusic();
+            var mu2 = CreateMusic();
+            var mu3 = CreateMusic();
+            var mu4 = CreateMusic();
+            var mu5 = CreateMusic();
 
-            u1.Email = "admin@utah.edu";
-            u2.Email = "professor@utah.edu";
-            u3.Email = "u0000000@utah.edu";
-            u4.Email = "u0000001@utah.edu";
-            u5.Email = "u0000002@utah.edu";
+            mu1.Title = "Song 1";
+            mu2.Title = "Song 2";
+            mu3.Title = "Song 3";
+            mu4.Title = "Song 4";
+            mu5.Title = "Song 5";
 
-            u1.UserName = u1.Email;
-            u2.UserName = u2.Email;
-            u3.UserName = u3.Email;
-            u4.UserName = u4.Email;
-            u5.UserName = u5.Email;
+            mu1.ReleaseDate = "January 1, 2018";
+            mu2.ReleaseDate = "February 2, 2019";
+            mu3.ReleaseDate = "March 3, 2020";
+            mu4.ReleaseDate = "April 4, 2021";
+            mu5.ReleaseDate = "May 5, 2022";
 
-            u1.EmailConfirmed = true;
-            u2.EmailConfirmed = true;
-            u3.EmailConfirmed = true;
-            u4.EmailConfirmed = true;
-            u5.EmailConfirmed = true;
+            mu1.Genre = "Pop";
+            mu2.Genre = "Hard Metal";
+            mu3.Genre = "Rock";
+            mu4.Genre = "Classical";
+            mu5.Genre = "Country";
 
-            u1.Name = "Monkey D. Luffy";
-            u2.Name = "Jim";
-            u3.Name = "Shavly Lumirk";
-            u4.Name = "Nicholas";
-            u5.Name = "Alyse";
-
-            await Users.AddAsync(u1);
-            await Users.AddAsync(u2);
-            await Users.AddAsync(u3);
-            await Users.AddAsync(u4);
-            await Users.AddAsync(u5);
+            await Musics.AddAsync(mu1);
+            await Musics.AddAsync(mu2);
+            await Musics.AddAsync(mu3);
+            await Musics.AddAsync(mu4);
+            await Musics.AddAsync(mu5);
 
             // Build Books
             var b1 = CreateBook();
