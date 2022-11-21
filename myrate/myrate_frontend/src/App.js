@@ -1,6 +1,8 @@
 import React from 'react';
 import Landing from "./Screens/Landing";
 import Discover from "./Screens/Discover";
+import Collections from "./Screens/Collections";
+import MyStats from "./Screens/MyStats";
 import {
     BrowserRouter as Router,
     Routes,
