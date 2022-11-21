@@ -18,7 +18,6 @@ namespace myrate_backend.Models
 {
     public class Book : Media
     {
-        public int ID { get; set; }
         [Display(Name = "Author")]
         public string? Author { get; set; }
         [Display(Name = "Summary of Book")]

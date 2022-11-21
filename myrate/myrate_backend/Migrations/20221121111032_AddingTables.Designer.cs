@@ -12,7 +12,7 @@ using myrate_backend.Data;
 namespace myrate_backend.Migrations
 {
     [DbContext(typeof(MyRateDbContext))]
-    [Migration("20221121085524_Adding-Tables")]
+    [Migration("20221121111032_AddingTables")]
     partial class AddingTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,19 +82,30 @@ namespace myrate_backend.Migrations
 
             modelBuilder.Entity("myrate_backend.Models.Book", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReleaseDate")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Books");
                 });

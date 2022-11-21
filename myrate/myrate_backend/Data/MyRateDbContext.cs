@@ -25,7 +25,7 @@ namespace myrate_backend.Data
         public async Task SeedData()
         {
             // Check if already done
-            if (Users.Any())
+            if (Users.Any() && Books.Any() && Movies.Any() && TvShows.Any() && Musics.Any())
             {
                 return;
             }
@@ -94,6 +94,18 @@ namespace myrate_backend.Data
             mo4.Genre = "Horror";
             mo5.Genre = "Documentary";
 
+            mo1.Summary = "";
+            mo2.Summary = "";
+            mo3.Summary = "";
+            mo4.Summary = "";
+            mo5.Summary = "";
+
+            mo1.Director = "D1";
+            mo2.Director = "D2";
+            mo3.Director = "D3";
+            mo4.Director = "D4";
+            mo5.Director = "D5";
+
             await Movies.AddAsync(mo1);
             await Movies.AddAsync(mo2);
             await Movies.AddAsync(mo3);
@@ -125,11 +137,23 @@ namespace myrate_backend.Data
             tv4.Genre = "Slice of Life";
             tv5.Genre = "Comedy";
 
+            tv1.Director = "D1";
+            tv2.Director = "D2";
+            tv3.Director = "D3";
+            tv4.Director = "D4";
+            tv5.Director = "D5";
+
+            tv1.Summary = "";
+            tv2.Summary = "";
+            tv3.Summary = "";
+            tv4.Summary = "";
+            tv5.Summary = "";
+
             await TvShows.AddAsync(tv1);
             await TvShows.AddAsync(tv2);
             await TvShows.AddAsync(tv3);
+            await TvShows.AddAsync(tv4);
             await TvShows.AddAsync(tv5);
-            await TvShows.AddAsync(tv6);
 
             // Build Music
             var mu1 = CreateMusic();
@@ -186,6 +210,12 @@ namespace myrate_backend.Data
             b3.Genre = "Horror";
             b4.Genre = "Slice of Life";
             b5.Genre = "Comedy";
+
+            b1.Summary = "";
+            b2.Summary = "";
+            b3.Summary = "";
+            b4.Summary = "";
+            b5.Summary = "";
 
             await Books.AddAsync(b1);
             await Books.AddAsync(b2);
