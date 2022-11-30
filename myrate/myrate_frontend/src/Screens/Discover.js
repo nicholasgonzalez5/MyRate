@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../Components/Navbar";
+import TrendingBooks from "../Components/TrendingBooks";
+import "./Discover.css";
 
 const Discover = () => {
     return (
         <>
             <Navbar />
-            <h3>MyRate Discover Page</h3>
-            <div>Trending</div>
-            <div> Recommendations </div>
+            <h3 className="trendingBooksHeader">Trending Books</h3>
+            <TrendingBooks />
         </>
     );
 };
