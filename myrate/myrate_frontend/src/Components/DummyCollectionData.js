@@ -1,5 +1,6 @@
 import React from "react";
 import "./CollectionList.css";
+import "../Screens/Collections.css";
 
 function DummyCollectionData(props) {
     let data = [
@@ -25,6 +26,8 @@ function DummyCollectionData(props) {
     ];
 
     return (
+        <>
+            <h4 className="myCollectionsHeader">{props.name}</h4>
             <div class="scroll__wrap">
                 {data.map(d => (
                     <button class="scroll--element" id={d.name}>
@@ -32,6 +35,7 @@ function DummyCollectionData(props) {
                     </button>
                 ))}
             </div>
+        </>
     );
 };
 
