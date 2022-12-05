@@ -13,11 +13,11 @@
 .scroll--element {
     display: inline-block;
     width: 150px;
-    height: 150px;
+    height: 200px;
     border: 2px solid #222;
     background: #fff;
     font-size: 16px;
-    line-height: 150px;
+    line-height: 200px;
     text-align: center;
 }
 

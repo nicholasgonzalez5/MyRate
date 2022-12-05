@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import "./CollectionList.css";
+import DummyCollectionData from "./DummyCollectionData";
 
 const CollectionList = () => {
 
@@ -32,17 +33,27 @@ const CollectionList = () => {
         { name: "item25" }
     ];
 
+    const [detail, setDetail] = useState();
+
+    const handleClickCollection = e => {
+        setDetail(e.target.id);
+    };
+
 
     return (
+        <>
         <div class="wrap">
             <div class="scroll__wrap">
                 {collections.map(c => (
-                    <div class="scroll--element">
+                    <button class="scroll--element" id={c.name} onClick={handleClickCollection}>
                         {c.name}
-                    </div>
+                    </button>
                 ))}
             </div>
-        </div>
+            </div>
+            {detail && <DummyCollectionData name={detail} />}
+        </>
+        
     );
  
 };
