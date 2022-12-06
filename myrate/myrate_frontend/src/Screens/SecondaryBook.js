@@ -55,8 +55,19 @@ const SecondaryBook = () => {
 
             <form>
                 <div class="form-group" className="userReviewDiv">
-                    <label for="userReview" className="userReviewLabel">My Review For - {toTitleCase(bookTitle)}</label>
-                    <textarea class="form-control" id="userReview" rows="3"></textarea>
+                    <div class="form-group col-md-4">
+                        <label for="overallRating">Overall Rating*</label>
+                        <select id="overallRating" class="form-control">
+                            <option selected hidden/>
+                            <option>Poor</option>
+                            <option>Fair</option>
+                            <option>Average</option>
+                            <option>Good</option>
+                            <option>Excellent</option>
+                        </select>
+                    </div>
+                    <label for="userReview" className="userReviewLabel">Detailed Review For - {toTitleCase(bookTitle)}*</label>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!"></textarea>
                     <button type="submit" class="btn btn-primary" disabled>Post Review</button>
                 </div>
             </form>
