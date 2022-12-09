@@ -3,10 +3,33 @@ import Navbar from "../Components/Navbar";
 
 const Landing = () => {
     return (
-            <>
-            <Navbar />
-            <h3>MyRate Landing Page Stub</h3>
-            </>
+        <>
+        <Navbar />
+        <section>
+            <div>
+                <div>
+                    <div>
+                        <h1>
+                            Landing template for MyRate
+                        </h1>
+                        <div>
+                            <p>
+                                One platform for all forms of media
+                            </p>
+                            <div>
+                                    <button>
+                                        Get started
+                                    </button>
+                                    <button>
+                                        Discover
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </section>
+        </>
     );
 };
 
