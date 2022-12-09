@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 
 const Landing = () => {
@@ -20,9 +21,11 @@ const Landing = () => {
                                     <button>
                                         Get started
                                     </button>
-                                    <button>
+                                    <Link to="/Discover">
+                                        <button>  
                                         Discover
-                                    </button>
+                                        </button>
+                                    </Link>
                             </div>
                         </div>
                     </div>
