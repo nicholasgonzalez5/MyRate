@@ -10,15 +10,12 @@
  * are cited in my README file and in the appropriate method header.
  *
  * File Contents
- * Model class for MyRate Users. Extends IdentitiyUser class.
+ * Model class for Music Ratings. Extends Ratings base model.
  */
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-namespace myrate_backend.Areas.Data
+namespace myrate_backend.Models
 {
-    public class MyRateUser : IdentityUser
+    public class MusicRating
     {
-        public string Name { get; set; }
+        public Music ReviewMusic { get; set; }
     }
 }
