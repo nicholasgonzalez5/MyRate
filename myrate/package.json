@@ -1,8 +1,15 @@
 {
   "dependencies": {
+    "axios": "^1.2.1",
+    "browserify-zlib": "^0.2.0",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "node": "^19.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3"
+    "react-horizontal-scrolling-menu": "^3.2.3",
+    "react-router-dom": "^6.4.3",
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3"

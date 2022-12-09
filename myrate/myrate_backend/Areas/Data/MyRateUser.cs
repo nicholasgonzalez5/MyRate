@@ -14,11 +14,13 @@
  */
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using myrate_backend.Models;
 
 namespace myrate_backend.Areas.Data
 {
     public class MyRateUser : IdentityUser
     {
         public string Name { get; set; }
+        List<MediaCollection> MediaCollections { get; set; } = new List<MediaCollection>();
     }
 }

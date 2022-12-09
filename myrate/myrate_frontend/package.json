@@ -44,5 +44,10 @@
   "devDependencies": {
     "eslint-config-react-app": "^7.0.1",
     "jest-editor-support": "^30.2.1"
+  },
+  "browser": {
+    "http":  false,
+    "zlib": false,
+    "stream": false
   }
 }
