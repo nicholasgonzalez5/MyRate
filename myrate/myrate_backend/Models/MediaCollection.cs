@@ -1,8 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-/**
+﻿/**
 * Authors:   Alyse  Palsulich, Nicholas Gonzalez
-* Date:      11-16-2022
+* Date:      12-08-2022
 * Course:    CS 4500, University of Utah, School of Computing
 * Copyright: CS 4500 and Alyse Palsulich, Nicholas Gonzalez, Justin Springborn, and Rosemary Yoo - This work may not be copied for use in Academic Coursework.
 *
@@ -12,20 +10,21 @@ using System.ComponentModel.DataAnnotations;
 * are cited in my README file and in the appropriate method header.
 *
 * File Contents
-* Model class for Books. Extends Media class.
+* Model class for collections. Stores collection name, description, and lists of the media in collection.
 */
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
+
 namespace myrate_backend.Models
 {
-    public class Book : Media
+    public class MediaCollection
     {
-        [Display(Name = "Author")]
-        public string? Author { get; set; }
-        [Display(Name = "Summary of Book")]
-        public string? Summary { get; set; }
-        public string? Publisher { get; set; }
-        public string? ISBN_10 { get; set; }
-        public string? ISBN_13 { get; set; }
-        public List<Rating> Ratings { get; set; } = new List<Rating>();
-        // In future we will add more properties such as tags
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public List<Book> Books { get; set; } = new List<Book>();
+        public List<Music> Songs { get; set; } = new List<Music>();
+        public List<Movie> Movies { get; set; } = new List<Movie>();
+        public List<TVShow> TvShows { get; set; } = new List<TVShow>();
     }
 }

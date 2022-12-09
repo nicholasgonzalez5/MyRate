@@ -13,12 +13,15 @@
  * Model class for MyRate Users. Extends IdentitiyUser class.
  */
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using myrate_backend.Models;
 
 namespace myrate_backend.Areas.Data
 {
     public class MyRateUser : IdentityUser
     {
         public string Name { get; set; }
+        public List<MediaCollection> Collections { get; set; } = new List<MediaCollection>();
     }
 }
