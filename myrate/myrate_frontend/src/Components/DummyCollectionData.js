@@ -41,6 +41,7 @@ function DummyCollectionData(props) {
             { name: 'Barnes and Noble', url: 'https://www.anrdoezrs.net/click-7990613-11819508?u...w.barnesandnoble.com%2Fw%2F%3Fean%3D9781250145314' }
         ]
     }
+    // These datas are for filling in the pages and should be fetched from the db in the future
 
     if (props.name === "item1") {
         return (
