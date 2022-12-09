@@ -22,6 +22,10 @@ namespace myrate_backend.Models
         public string? Author { get; set; }
         [Display(Name = "Summary of Book")]
         public string? Summary { get; set; }
+        public string? Publisher { get; set; }
+        public string? ISBN_10 { get; set; }
+        public string? ISBN_13 { get; set; }
+        public List<Rating> Ratings { get; set; } = new List<Rating>();
         // In future we will add more properties such as tags
     }
 }

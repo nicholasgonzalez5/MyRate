@@ -92,6 +92,18 @@ namespace myrate_backend.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ISBN_10")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ISBN_13")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MediaCollectionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -105,7 +117,34 @@ namespace myrate_backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MediaCollectionId");
+
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.MediaCollection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MyRateUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MyRateUserId");
+
+                    b.ToTable("MediaCollection");
                 });
 
             modelBuilder.Entity("myrate_backend.Models.Movie", b =>
@@ -126,6 +165,9 @@ namespace myrate_backend.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("MediaCollectionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -139,6 +181,8 @@ namespace myrate_backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MediaCollectionId");
 
                     b.ToTable("Movies");
                 });
@@ -160,6 +204,9 @@ namespace myrate_backend.Migrations
                     b.Property<string>("Lyrics")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("MediaCollectionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Producer")
                         .HasColumnType("nvarchar(max)");
 
@@ -173,7 +220,39 @@ namespace myrate_backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MediaCollectionId");
+
                     b.ToTable("Musics");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Review")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("Stars")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Rating");
                 });
 
             modelBuilder.Entity("myrate_backend.Models.TVShow", b =>
@@ -194,6 +273,9 @@ namespace myrate_backend.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("MediaCollectionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -208,7 +290,80 @@ namespace myrate_backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MediaCollectionId");
+
                     b.ToTable("TvShows");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.Book", b =>
+                {
+                    b.HasOne("myrate_backend.Models.MediaCollection", null)
+                        .WithMany("Books")
+                        .HasForeignKey("MediaCollectionId");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.MediaCollection", b =>
+                {
+                    b.HasOne("myrate_backend.Areas.Data.MyRateUser", null)
+                        .WithMany("Collections")
+                        .HasForeignKey("MyRateUserId");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.Movie", b =>
+                {
+                    b.HasOne("myrate_backend.Models.MediaCollection", null)
+                        .WithMany("Movies")
+                        .HasForeignKey("MediaCollectionId");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.Music", b =>
+                {
+                    b.HasOne("myrate_backend.Models.MediaCollection", null)
+                        .WithMany("Songs")
+                        .HasForeignKey("MediaCollectionId");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.Rating", b =>
+                {
+                    b.HasOne("myrate_backend.Models.Book", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("BookId");
+
+                    b.HasOne("myrate_backend.Areas.Data.MyRateUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.TVShow", b =>
+                {
+                    b.HasOne("myrate_backend.Models.MediaCollection", null)
+                        .WithMany("TvShows")
+                        .HasForeignKey("MediaCollectionId");
+                });
+
+            modelBuilder.Entity("myrate_backend.Areas.Data.MyRateUser", b =>
+                {
+                    b.Navigation("Collections");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.Book", b =>
+                {
+                    b.Navigation("Ratings");
+                });
+
+            modelBuilder.Entity("myrate_backend.Models.MediaCollection", b =>
+                {
+                    b.Navigation("Books");
+
+                    b.Navigation("Movies");
+
+                    b.Navigation("Songs");
+
+                    b.Navigation("TvShows");
                 });
 #pragma warning restore 612, 618
         }
