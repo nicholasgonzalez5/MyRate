@@ -10,6 +10,7 @@
     margin-bottom: 5px;
 }
 
+/*Buttons currently removed, styling left for future use*/
 .purchaseButton {
     margin-bottom: 5px;
     border-color: green;
@@ -21,7 +22,8 @@
     background-color: white;
     overflow: auto;
     white-space: nowrap;
-    margin-top: 25px;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .trendingListDisplayName {

@@ -1,0 +1,46 @@
+.productDetailsDiv {
+    margin-left: 15px;
+    position: absolute;
+    top: 70px;
+    left: 250px;
+}
+
+.bookDiv {
+    margin-top: 25px;
+}
+
+.bookImageDiv {
+    margin-bottom: 20px;
+}
+
+.purchaseButton {
+    margin-bottom: 7px;
+    border-color: green;
+    background-color: green;
+    color: white;
+    border-radius: 4px;
+}
+
+.productDetailsHeader {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.userReviewDiv {
+    width: 55%;
+    padding: 0;
+    position: absolute;
+    top: 400px;
+    left: 265px;
+    margin-top: 15px;
+}
+
+.userReviewDiv .btn {
+    margin-top: 10px;
+}
+
+.userReviewDiv .userReviewLabel {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+ 
