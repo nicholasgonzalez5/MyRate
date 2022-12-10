@@ -2,11 +2,26 @@ import React from "react";
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
+import axios from "../../../node_modules/axios/index";
 
 const SecondaryBook = () => {
     const location = useLocation();
     const { bookDetails } = location.state;
     const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.book;
+    axios.post('/Media/SaveBook', {
+        title: bookTitle,
+        author: bookAuthor,
+        desc: description,
+        publisher: publisher,
+        ISBN10: isbn_10,
+        ISBN13: isbn_13 
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
     function toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) {
