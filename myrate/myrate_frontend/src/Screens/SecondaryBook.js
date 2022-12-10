@@ -2,13 +2,13 @@ import React from "react";
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
-import axios from "../../../node_modules/axios/index";
+import axios from "axios";
 
 const SecondaryBook = () => {
     const location = useLocation();
     const { bookDetails } = location.state;
     const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.book;
-    axios.post('/Media/SaveBook', {
+    axios.post('api/Media/SaveBook', {
         title: bookTitle,
         author: bookAuthor,
         desc: description,
