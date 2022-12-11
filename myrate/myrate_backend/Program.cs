@@ -29,8 +29,7 @@ builder.Services.AddCors(options =>
     {
         corsbuilder.AllowAnyOrigin()
         .AllowAnyHeader()
-        .AllowAnyMethod()
-        .WithOrigins("http://localhost:3000");
+        .AllowAnyMethod();
     });
 });
 var app = builder.Build();
@@ -57,13 +56,19 @@ else
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthorization();
 
-app.UseRouting();
+
 app.UseCors("AllowAllOrigins");
 
 app.MapDefaultControllerRoute();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+app.UseDeveloperExceptionPage();
 
 app.Run();

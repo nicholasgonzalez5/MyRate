@@ -8,19 +8,21 @@ const SecondaryBook = () => {
     const location = useLocation();
     const { bookDetails } = location.state;
     const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.book;
-    axios.post('api/Media/SaveBook', {
+    var data = {
         title: bookTitle,
         author: bookAuthor,
         desc: description,
         publisher: publisher,
         ISBN10: isbn_10,
-        ISBN13: isbn_13 
-    })
+        ISBN13: isbn_13
+    };
+    axios.post('http://localhost:5001/api/media/savebook/', data)
         .then(function (response) {
             console.log(response);
         })
         .catch(function (error) {
-            console.log(error);
+            console.log(data);
+            console.log(error.response.data);
         });
 
     function toTitleCase(str) {

@@ -6,8 +6,7 @@ using myrate_backend.Models;
 namespace myrate_backend.Controllers
 {
     [EnableCors("AllowAllOrigins")]
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/[controller]/[action]/")]
     public class MediaController : Controller
     {
         private MyRateDbContext _context;
@@ -18,8 +17,7 @@ namespace myrate_backend.Controllers
 
         
         [HttpPost]
-        [Route("/SaveBook")]
-        public async Task<IActionResult> SaveBook([FromBody] string title, string author, string desc, string publisher, string ISBN10, string ISBN13)
+        public async Task<ActionResult> SaveBook([FromBody] string title, string author, string desc, string publisher, string ISBN10, string ISBN13)
         {
             // first check if the book is already in db
             foreach (Book b in _context.Books)
@@ -37,6 +35,7 @@ namespace myrate_backend.Controllers
             newBook.Publisher = publisher;
             newBook.ISBN_10 = ISBN10;
             newBook.ISBN_13 = ISBN13;
+            newBook.ReleaseDate = "";
             _context.Add(newBook);
             await _context.SaveChangesAsync();
             return Ok(new { success = true });
