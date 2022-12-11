@@ -16,6 +16,10 @@ const SecondaryBook = () => {
         ISBN10: isbn_10,
         ISBN13: isbn_13
     };
+    const headers = {
+        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept': '*/*'
+    }
     axios.post('http://localhost:5001/api/media/savebook/', data)
         .then(function (response) {
             console.log(response);
