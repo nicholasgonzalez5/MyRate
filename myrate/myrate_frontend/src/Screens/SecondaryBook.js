@@ -1,32 +1,76 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
-import axios from "../../../node_modules/axios/index";
+import axios from "axios";
 
 const SecondaryBook = () => {
+    const [rate, setRate] = useState();
+    const [review, setReview] = useState();
+
     const location = useLocation();
     const { bookDetails } = location.state;
     const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.book;
-    axios.post('/Media/SaveBook', {
+    var data = {
         title: bookTitle,
         author: bookAuthor,
         desc: description,
         publisher: publisher,
         ISBN10: isbn_10,
-        ISBN13: isbn_13 
-    })
+        ISBN13: isbn_13
+    };
+    axios.post('http://localhost:5001/api/media/savebook/', data)
         .then(function (response) {
-            console.log(response);
+            //console.log(response);
         })
         .catch(function (error) {
-            console.log(error);
+            //console.log(data);
+            //console.log(error.response.data);
         });
 
     function toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
+    }
+
+    const handleChangeSelect = (e) => {
+        switch (e.target.value) {
+            case 'Poor': setRate(1);
+                break;
+            case 'Fair': setRate(2);
+                break;
+            case 'Average': setRate(3);
+                break;
+            case 'Good': setRate(4);
+                break;
+            case 'Excellent': setRate(5);
+                break;
+            default: break;
+        }
+    }
+
+    const handleTextChange = (e) => {
+        setReview(e.target.value);
+
+    }
+
+    const submitReview = (e) => {
+        e.preventDefault();
+        const reviewData = {
+            stars: rate,
+            review: review
+        } 
+        axios.post('http://localhost:5001/api/rating/savereview/', reviewData)
+            .then(function (response) {
+                //console.log(response);
+            })
+            .catch(function (error) {
+                //console.log(data);
+                console.log(error.response.data);
+            });
+
+        //TODO: add this rating to the list of ratings for this book
     }
 
     return (
@@ -72,7 +116,7 @@ const SecondaryBook = () => {
                 <div class="form-group" className="userReviewDiv">
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
-                        <select id="overallRating" class="form-control">
+                        <select id="overallRating" class="form-control" onChange={handleChangeSelect}>
                             <option selected hidden/>
                             <option>Poor</option>
                             <option>Fair</option>
@@ -82,8 +126,8 @@ const SecondaryBook = () => {
                         </select>
                     </div>
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {toTitleCase(bookTitle)}*</label>
-                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!"></textarea>
-                    <button type="submit" class="btn btn-primary" disabled>Post Review</button>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange}></textarea>
+                    <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>
         </>

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 // Required as final query parameter to authorize GET request
 const NYT_API_KEY = 'api-key=cLdOpoHOGl43aVB1xShNdt3oLHbGxixL';
 
-axios.defaults.baseURL = 'https://api.nytimes.com/svc/books/v3/lists/';
+//axios.defaults.baseURL = 'https://api.nytimes.com/svc/books/v3/lists/';
 
 const useAxiosNYT = ({ url, method, body = null, headers = null }) => {
     const [response, setResponse] = useState(null);
@@ -12,7 +12,7 @@ const useAxiosNYT = ({ url, method, body = null, headers = null }) => {
     const [loading, setloading] = useState(true);
 
     const fetchData = () => {
-        axios[method](`${url}?${NYT_API_KEY}`, JSON.parse(headers), JSON.parse(body))
+        axios[method]('https://api.nytimes.com/svc/books/v3/lists/'+`${url}?${NYT_API_KEY}`, JSON.parse(headers), JSON.parse(body))
             .then((res) => {
                 setResponse(res.data);
             })

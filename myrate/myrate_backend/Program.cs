@@ -23,6 +23,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", corsbuilder =>
+    {
+        corsbuilder.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -47,10 +56,19 @@ else
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthorization();
+
+
+app.UseCors("AllowAllOrigins");
 
 app.MapDefaultControllerRoute();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+app.UseDeveloperExceptionPage();
 
 app.Run();
