@@ -42,13 +42,13 @@ namespace myrate_backend.Controllers
         public async Task<ActionResult> SaveBook([FromBody] BookDetails details)
         {
             // first check if the book is already in db
-            //foreach (Book b in _context.Books)
-            //{
-            //    if(b.Title.Equals(title) && b.Author.Equals(author))
-            //    {
-            //        return Ok(new { success = true });
-            //    }
-            //}
+            foreach (Book b in _context.Books)
+            {
+                if (b.Title.Equals(details.title) && (String.IsNullOrEmpty(b.Author) || b.Author.Equals(details.author)))
+                {
+                    return Ok(new { success = true });
+                }
+            }
             // otherwise add book to db
             Book newBook = Activator.CreateInstance<Book>(); ;
             newBook.Title = details.title;
