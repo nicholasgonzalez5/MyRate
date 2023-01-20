@@ -13,5 +13,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\Hooks\" />
+    <Folder Include="src\API\" />
   </ItemGroup>
 </Project>
