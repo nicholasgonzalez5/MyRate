@@ -4,6 +4,8 @@ import Discover from "./Screens/Discover";
 import Collections from "./Screens/Collections";
 import MyStats from "./Screens/MyStats";
 import SecondaryBook from "./Screens/SecondaryBook";
+import SecondaryMovie from "./Screens/SecondaryMovie";
+import SecondaryTV from "./Screens/SecondaryTV";
 import {
     BrowserRouter as Router,
     Routes,
@@ -84,6 +86,8 @@ const App = () => {
                 <Route path="/collections" element={<Collections />} />
                 <Route path="/mystats" element={<MyStats />} />
                 <Route path="/secondary-book-page" element={<SecondaryBook />} />
+                <Route path="/secondary-movie-page" element={<SecondaryMovie />} />
+                <Route path="/secondary-tv-page" element={<SecondaryTV />} />
             </Routes>
         </Router>
     );

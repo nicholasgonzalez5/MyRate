@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import TrendingMovies from "../Components/TrendingMovies"
+import TrendingTV from "../Components/TrendingTV"
+import './Landing.css'
 
 const Landing = () => {
+
     return (
         <>
         <Navbar />
@@ -10,13 +14,10 @@ const Landing = () => {
             <div>
                 <div>
                     <div>
-                        <h1>
-                            Landing template for MyRate
-                        </h1>
                         <div>
-                            <p>
-                                One platform for all forms of media
-                            </p>
+                            <h1 className="header">
+                                One Platform, All Media
+                            </h1>
                             <div>
                                     <button>
                                         Get started
@@ -32,6 +33,8 @@ const Landing = () => {
                 </div>
             </div>
             </section>
+            < TrendingMovies timeFrame={"day"} movieCount={10} />
+            < TrendingTV timeFrame={"day"} tvCount={10} />
         </>
     );
 };

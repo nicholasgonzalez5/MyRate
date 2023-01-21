@@ -1,0 +1,19 @@
+.horizontalScroll {
+    background-color: white;
+    overflow: auto;
+    white-space: nowrap;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.bookDiv {
+    margin-top: 25px;
+}
+
+.moviePosterDiv {
+    margin-bottom: 20px;
+}
+
+.disclaimerTMBD {
+    font-style: italic;
+}
