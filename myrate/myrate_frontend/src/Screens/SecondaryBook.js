@@ -11,23 +11,41 @@ const SecondaryBook = () => {
     const location = useLocation();
     const { bookDetails } = location.state;
     const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.book;
-    var data = {
-        title: bookTitle,
-        author: bookAuthor,
-        desc: description,
+    const newBook = {
+        image: image,
+        bookTitle: bookTitle,
+        bookAuthor: bookAuthor,
         publisher: publisher,
-        ISBN10: isbn_10,
-        ISBN13: isbn_13
+        isbn_10: isbn_10,
+        isbn_13: isbn_13,
+        description: description,
+        purchaseLinks: purchaseLinks,
     };
-    axios.post('http://localhost:5001/api/media/savebook/', data)
+   
+    
+    fetch("http://localhost:5000/book/add", {
+     method: "POST",
+          headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify(newBook),
+   })
+   .catch(error => {
+     window.alert(error);
+     return;
+   });
+  
+  /* 
+    axios.post('http://localhost:5000/book/add', JSON.stringify(bookDetails.book))
         .then(function (response) {
-            //console.log(response);
+            console.log("post method worked");
+            console.log(response);
         })
         .catch(function (error) {
-            //console.log(data);
-            //console.log(error.response.data);
+            console.log(bookDetails.book);
+            console.log(error.response.data);
         });
-
+*/
     function toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
