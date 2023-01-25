@@ -8,6 +8,26 @@ const SecondaryTV = () => {
     const { tvDetails } = location.state;
     const { name, overview, poster_path, first_air_date } = tvDetails['tv'];
 
+    // Saves movie to database
+    const newTVShow = {
+        name: name,
+        overview: overview,
+        poster_path: poster_path,
+        first_air_date: first_air_date,
+    };
+
+    fetch("http://localhost:5000/tvshow/add", {
+     method: "POST",
+          headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify(newTVShow),
+   })
+   .catch(error => {
+     window.alert(error);
+     return;
+   });
+
     // Base URL that needs to be pre-pended to 'poster_path'
     const prePosterPath = "https://image.tmdb.org/t/p/original";
 

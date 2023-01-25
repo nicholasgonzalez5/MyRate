@@ -7,6 +7,24 @@ const SecondaryMovie = () => {
     const location = useLocation();
     const { movieDetails } = location.state;
     const { title, overview, poster_path, release_date } = movieDetails['movie'];
+    const newMovie = {
+        title: title,
+        overview: overview,
+        poster_path: poster_path,
+        release_date: release_date,
+    };
+
+    fetch("http://localhost:5000/movie/add", {
+     method: "POST",
+          headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify(newMovie),
+   })
+   .catch(error => {
+     window.alert(error);
+     return;
+   });
 
     // Base URL that needs to be pre-pended to 'poster_path'
     const prePosterPath = "https://image.tmdb.org/t/p/original";
