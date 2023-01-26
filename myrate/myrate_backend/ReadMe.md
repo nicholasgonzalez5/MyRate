@@ -1,10 +1,17 @@
-﻿```
-Authors:     Alyse Palsulich, Nicholas Gonzalez, Justin Springborn, and Rosemary Yoo
-Date:       11-16-2022
-Course:     CS 4500, University of Utah, School of Computing
-Commit Tag: Release1
-Copyright:  CS 4500 and Alyse Palsulich, Nicholas Gonzalez, Justin Springborn, and Rosemary Yoo - This work may not be copied for use in Academic Coursework.
-```
-# Overview of MyRate Backend Functionality 
+# Backend setup
 
-The backend of MyRate currently contains models for all of our planned media as well as the rating system and MyRate users.
+In order to use/run the backend it is first necessary to have a MongoDB Atlas account (create here: https://cloud.mongodb.com/) and install node.js (install latest version here:  https://nodejs.org/en/)
+
+# How to start server
+
+### `node server.js`
+
+This command starts the server. If it is setup properly and started you should see:
+Server is running on port: 5000
+Successfully connected to MongoDB.
+
+# Helpful Resources
+
+### `https://www.mongodb.com/languages/mern-stack-tutorial`
+
+This tutorial was used to initially setup backend and connect to front end.

@@ -11,23 +11,57 @@ const SecondaryBook = () => {
     const location = useLocation();
     const { bookDetails } = location.state;
     const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.book;
-    var data = {
-        title: bookTitle,
-        author: bookAuthor,
-        desc: description,
+    const newBook = {
+        image: image,
+        bookTitle: bookTitle,
+        bookAuthor: bookAuthor,
         publisher: publisher,
-        ISBN10: isbn_10,
-        ISBN13: isbn_13
+        isbn_10: isbn_10,
+        isbn_13: isbn_13,
+        description: description,
+        purchaseLinks: purchaseLinks,
     };
-    axios.post('http://localhost:5001/api/media/savebook/', data)
-        .then(function (response) {
-            //console.log(response);
-        })
-        .catch(function (error) {
-            //console.log(data);
-            //console.log(error.response.data);
-        });
 
+    // store book's ID for creating ratings/reviews
+    let dbBookId = 0;
+
+    // 
+    useEffect(() => {
+        axios.get(`http://localhost:5000/book/findbook`, {
+            params: {
+                bookTitle: (newBook.bookTitle),
+                bookAuthor: (newBook.bookAuthor),
+            },
+        }).then((response) => {
+          console.log(response.data);
+          const book = ((response.data));
+          if (!book) {
+            console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} and author ${JSON.stringify(newBook.bookAuthor)} not found`);
+            console.log("adding book");
+              fetch("http://localhost:5000/book/add", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newBook),
+                })
+                .catch(error => {
+                    window.alert(error);
+                    return;
+                });
+          }
+          else
+          {
+            console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
+            dbBookId = book.id;
+          }
+        })
+        .catch((response) => {
+            console.log("error with axios: " + response);
+        });
+      }, []);
+
+   
     function toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
