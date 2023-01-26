@@ -61,76 +61,7 @@ const SecondaryBook = () => {
         });
       }, []);
 
-    /*
-    fetch(`http://localhost:5000/book/findbook/${newBook.bookTitle}`)
-    .then( (response) => {
-        console.log("in then");
-        if(!response.ok) {
-            console.log(`An error has occurred: ${response.statusText}`);
-        }
-        console.log("response: " + response);
-    const book = (JSON.stringify(response));
-    console.log("book: " + book);
-      if (!book) {
-        console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} not found`);
-        console.log("adding book");
-          fetch("http://localhost:5000/book/add", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newBook),
-            })
-            .catch(error => {
-                window.alert(error);
-                return;
-            });
-      }
-      else
-      {
-        console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} was found`);
-      }
-    })
-    .catch(function (error) {
-        console.log("in error");
-        console.log(error.response);
-    });
-
-    /*
-    console.log(response);
    
-  
-      const book = response.data;
-      console.log(book);
-      if (!book) {
-        console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} not found`);
-        //navigate("/");
-        //return;
-      }
-      fetch("http://localhost:5000/book/add", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newBook),
-        })
-        .catch(error => {
-            window.alert(error);
-            return;
-        });
-        
-  
-  /* 
-    axios.post('http://localhost:5000/book/add', JSON.stringify(bookDetails.book))
-        .then(function (response) {
-            console.log("post method worked");
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(bookDetails.book);
-            console.log(error.response.data);
-        });
-*/
     function toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
