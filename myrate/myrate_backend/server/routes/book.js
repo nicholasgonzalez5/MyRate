@@ -40,10 +40,14 @@ bookRoutes.route("/book/:id").get(function (req, res) {
 bookRoutes.route("/book/findbook/:bookTitle").get(async function (req, res) {
   let db_connect = dbo.getDb();
   let books = db_connect.collection("books");
-  const query = {bookTitle: 'THE INHERITANCE GAMES'};
-  const book = await books.findOne();
+  console.log(req.params.bookTitle.substring(1, req.params.bookTitle.length-1));
+  let q = req.params.bookTitle;
+  console.log(req.params.bookTitle);
+  const query = {bookTitle: q};
+  const book = await books.findOne(query);
   console.log(book);
-  res = book;
+  res.json(book);
+  //console.log(res);
   /*
   let myquery = { bookTitle: req.params.bookTitle };
   constdb_connect
