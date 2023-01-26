@@ -21,33 +21,104 @@ const SecondaryBook = () => {
         description: description,
         purchaseLinks: purchaseLinks,
     };
-   
-    const response = fetch(`http://localhost:5000/book/findbook/${JSON.stringify(newBook.bookTitle)}`);
 
-    if (!response.ok) {
-        const message = `An error has occurred: ${response.statusText}`;
-        //window.alert(message);
-        //return;
+    // store book's ID for creating ratings/reviews
+    let dbBookId = 0;
+
+    // 
+    useEffect(() => {
+        axios.get(`http://localhost:5000/book/findbook`, {
+            params: {
+                bookTitle: (newBook.bookTitle),
+                bookAuthor: (newBook.bookAuthor),
+            },
+        }).then((response) => {
+          console.log(response.data);
+          const book = ((response.data));
+          if (!book) {
+            console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} and author ${JSON.stringify(newBook.bookAuthor)} not found`);
+            console.log("adding book");
+              fetch("http://localhost:5000/book/add", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newBook),
+                })
+                .catch(error => {
+                    window.alert(error);
+                    return;
+                });
+          }
+          else
+          {
+            console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
+            dbBookId = book.id;
+          }
+        })
+        .catch((response) => {
+            console.log("error with axios: " + response);
+        });
+      }, []);
+
+    /*
+    fetch(`http://localhost:5000/book/findbook/${newBook.bookTitle}`)
+    .then( (response) => {
+        console.log("in then");
+        if(!response.ok) {
+            console.log(`An error has occurred: ${response.statusText}`);
+        }
+        console.log("response: " + response);
+    const book = (JSON.stringify(response));
+    console.log("book: " + book);
+      if (!book) {
+        console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} not found`);
+        console.log("adding book");
+          fetch("http://localhost:5000/book/add", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newBook),
+            })
+            .catch(error => {
+                window.alert(error);
+                return;
+            });
       }
+      else
+      {
+        console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} was found`);
+      }
+    })
+    .catch(function (error) {
+        console.log("in error");
+        console.log(error.response);
+    });
+
+    /*
+    console.log(response);
+   
   
-      const record = response.data;
-      if (!record) {
-        window.alert(`Book with title ${JSON.stringify(newBook.bookTitle)} not found`);
+      const book = response.data;
+      console.log(book);
+      if (!book) {
+        console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} not found`);
         //navigate("/");
         //return;
       }
-
-    fetch("http://localhost:5000/book/add", {
-     method: "POST",
+      fetch("http://localhost:5000/book/add", {
+          method: "POST",
           headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(newBook),
-   })
-   .catch(error => {
-     window.alert(error);
-     return;
-   });
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newBook),
+        })
+        .catch(error => {
+            window.alert(error);
+            return;
+        });
+        
   
   /* 
     axios.post('http://localhost:5000/book/add', JSON.stringify(bookDetails.book))

@@ -1,6 +1,7 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
+import axios from "axios";
 
 const SecondaryTV = () => {
 
@@ -16,17 +17,45 @@ const SecondaryTV = () => {
         first_air_date: first_air_date,
     };
 
-    fetch("http://localhost:5000/tvshow/add", {
-     method: "POST",
-          headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(newTVShow),
-   })
-   .catch(error => {
-     window.alert(error);
-     return;
-   });
+    // store movie's ID for creating ratings/reviews
+    let dbTVId = 0;
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/tvshow/findtvshow`, {
+            params: {
+                name: (newTVShow.name),
+                first_air_date: (newTVShow.first_air_date),
+            },
+        }).then((response) => {
+          console.log(response.data);
+          const tvshow = ((response.data));
+          if (!tvshow) {
+            console.log(`TV Show with name ${JSON.stringify(newTVShow.name)} and air date ${JSON.stringify(newTVShow.first_air_date)} not found`);
+            console.log("adding TV Show");
+            fetch("http://localhost:5000/tvshow/add", {
+              method: "POST",
+                   headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newTVShow),
+            })
+            .catch(error => {
+              window.alert(error);
+              return;
+            });
+          }
+          else
+          {
+            console.log(`TV Show with name ${JSON.stringify(newTVShow.name)} aired on ${JSON.stringify(newTVShow.first_air_date)} with id ${JSON.stringify(tvshow._id)} was found`);
+            dbTVId = tvshow.id;
+          }
+        })
+        .catch((response) => {
+            console.log("error with axios: " + response);
+        });
+      }, []);
+
+   
 
     // Base URL that needs to be pre-pended to 'poster_path'
     const prePosterPath = "https://image.tmdb.org/t/p/original";

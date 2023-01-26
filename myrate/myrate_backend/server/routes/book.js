@@ -24,8 +24,9 @@ bookRoutes.route("/book").get(function (req, res) {
    });
 });
  
+
 // This section will help you get a single book by id
-bookRoutes.route("/book/:id").get(function (req, res) {
+bookRoutes.route("/book/getbookid:id").get(function (req, res) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect
@@ -36,33 +37,20 @@ bookRoutes.route("/book/:id").get(function (req, res) {
    });
 });
 
-// This section will help you get a single book by id
-bookRoutes.route("/book/findbook/:bookTitle").get(async function (req, res) {
+
+// This section will help you get a single book by title and author
+bookRoutes.route("/book/findbook").get(function (req, res) {
   let db_connect = dbo.getDb();
-  let books = db_connect.collection("books");
-  console.log(req.params.bookTitle.substring(1, req.params.bookTitle.length-1));
-  let q = req.params.bookTitle;
-  console.log(req.params.bookTitle);
-  const query = {bookTitle: q};
-  const book = await books.findOne(query);
-  console.log(book);
-  res.json(book);
-  //console.log(res);
-  /*
-  let myquery = { bookTitle: req.params.bookTitle };
-  constdb_connect
-    .collection("books")
-    .find({bookTitle: req.params.bookTitle})
-    .toArray(function (err, result) {
-      if (err) 
-      {
-        console.log(err);
-        throw err;
-      }
-      console.log(JSON.stringify(result));
-      res.json(result);
-    });
-    */
+  let title = req.query.bookTitle;
+  let author = req.query.bookAuthor;
+  const query = {bookTitle: title, bookAuthor: author};
+  const book = db_connect.collection("books").findOne(query, function (err, result) {
+    if (err) {
+      console.log("error in get book by title and author: " + err);
+      throw err;
+    }
+    res.json(result);
+  });
  });
 
  
