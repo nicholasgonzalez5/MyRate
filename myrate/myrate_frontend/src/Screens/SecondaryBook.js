@@ -22,7 +22,21 @@ const SecondaryBook = () => {
         purchaseLinks: purchaseLinks,
     };
    
-    
+    const response = fetch(`http://localhost:5000/book/findbook/${JSON.stringify(newBook.bookTitle)}`);
+
+    if (!response.ok) {
+        const message = `An error has occurred: ${response.statusText}`;
+        //window.alert(message);
+        //return;
+      }
+  
+      const record = response.data;
+      if (!record) {
+        window.alert(`Book with title ${JSON.stringify(newBook.bookTitle)} not found`);
+        //navigate("/");
+        //return;
+      }
+
     fetch("http://localhost:5000/book/add", {
      method: "POST",
           headers: {

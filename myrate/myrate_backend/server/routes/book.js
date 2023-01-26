@@ -35,6 +35,32 @@ bookRoutes.route("/book/:id").get(function (req, res) {
      res.json(result);
    });
 });
+
+// This section will help you get a single book by id
+bookRoutes.route("/book/findbook/:bookTitle").get(async function (req, res) {
+  let db_connect = dbo.getDb();
+  let books = db_connect.collection("books");
+  const query = {bookTitle: 'THE INHERITANCE GAMES'};
+  const book = await books.findOne();
+  console.log(book);
+  res = book;
+  /*
+  let myquery = { bookTitle: req.params.bookTitle };
+  constdb_connect
+    .collection("books")
+    .find({bookTitle: req.params.bookTitle})
+    .toArray(function (err, result) {
+      if (err) 
+      {
+        console.log(err);
+        throw err;
+      }
+      console.log(JSON.stringify(result));
+      res.json(result);
+    });
+    */
+ });
+
  
 // This section will help you create a new book.
 bookRoutes.route("/book/add").post(function (req, response) {
