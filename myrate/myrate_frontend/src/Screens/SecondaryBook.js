@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
 import axios from "axios";
 
+let dbBookId = 0;
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
@@ -23,7 +24,7 @@ const SecondaryBook = () => {
     };
 
     // store book's ID for creating ratings/reviews
-    let dbBookId = 0;
+  
 
     // 
     useEffect(() => {
@@ -33,7 +34,6 @@ const SecondaryBook = () => {
                 bookAuthor: (newBook.bookAuthor),
             },
         }).then((response) => {
-          console.log(response.data);
           const book = ((response.data));
           if (!book) {
             console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} and author ${JSON.stringify(newBook.bookAuthor)} not found`);
@@ -46,7 +46,7 @@ const SecondaryBook = () => {
                     body: JSON.stringify(newBook),
                 })
                 .catch(error => {
-                    window.alert(error);
+                    console.log(error);
                     return;
                 });
           }
@@ -89,21 +89,30 @@ const SecondaryBook = () => {
 
     }
 
+   
+
     const submitReview = (e) => {
         e.preventDefault();
+        
+        axios.get(`http://localhost:5000/book/findbook`, {
+            params: {
+                bookTitle: (newBook.bookTitle),
+                bookAuthor: (newBook.bookAuthor),
+            },
+        }).then (response => {
+            // gets id to store for review
+            dbBookId = response.data._id;
+            console.log("id for rating: " + response.data._id);
+        }).catch (response => {
+            console.log(response);
+        })
+        
         const reviewData = {
             stars: rate,
-            review: review
+            review: review,
+            media_type: "books",
+            media_id: dbBookId
         } 
-        axios.post('http://localhost:5001/api/rating/savereview/', reviewData)
-            .then(function (response) {
-                //console.log(response);
-            })
-            .catch(function (error) {
-                //console.log(data);
-                console.log(error.response.data);
-            });
-
         //TODO: add this rating to the list of ratings for this book
     }
 
