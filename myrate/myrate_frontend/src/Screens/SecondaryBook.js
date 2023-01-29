@@ -28,7 +28,7 @@ const SecondaryBook = () => {
 
 
     // 
-    useEffect(() => {
+    //useEffect(() => {
         axios.get(`http://localhost:5000/book/findbook`, {
             params: {
                 bookTitle: (newBook.bookTitle),
@@ -70,14 +70,13 @@ const SecondaryBook = () => {
                 }).catch((response) => {
                     console.log("Error finding ratings: " + response);
                 })
-                ratingsList.foreach(element => console.log(element));
 
             }
         })
             .catch((response) => {
                 console.log("error with axios: " + response);
             });
-    }, []);
+    //}, []);
 
 
     function toTitleCase(str) {
