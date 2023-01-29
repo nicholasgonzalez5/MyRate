@@ -28,7 +28,7 @@ const SecondaryBook = () => {
 
 
     // 
-    //useEffect(() => {
+    useEffect(() => {
         axios.get(`http://localhost:5000/book/findbook`, {
             params: {
                 bookTitle: (newBook.bookTitle),
@@ -67,6 +67,10 @@ const SecondaryBook = () => {
                 .then(response => {
                     ratingsList = (response.data);
                     console.log(response.data);
+                    // set current rating and review to the first value of this list
+                    // In the future, set it to current user's rating and review
+                    setRate(ratingsList[0].stars);
+                    setReview(ratingsList[0].review);
                 }).catch((response) => {
                     console.log("Error finding ratings: " + response);
                 })
@@ -76,7 +80,7 @@ const SecondaryBook = () => {
             .catch((response) => {
                 console.log("error with axios: " + response);
             });
-    //}, []);
+    }, []);
 
 
     function toTitleCase(str) {
@@ -191,17 +195,17 @@ const SecondaryBook = () => {
                 <div class="form-group" className="userReviewDiv">
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
-                        <select id="overallRating" class="form-control" onChange={handleChangeSelect}>
+                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate}>
                             <option selected hidden />
-                            <option>Poor</option>
-                            <option>Fair</option>
-                            <option>Average</option>
-                            <option>Good</option>
-                            <option>Excellent</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Average</option>
+                            <option value="4">Good</option>
+                            <option value="5">Excellent</option>
                         </select>
                     </div>
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {toTitleCase(bookTitle)}*</label>
-                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange}></textarea>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>
