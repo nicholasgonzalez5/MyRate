@@ -7,7 +7,7 @@ import "./TrendingTV.css";
 const TrendingTV = ({ timeFrame, tvCount }) => {
     const { response, loading, error } = useAxiosTMDB({
         method: 'get',
-        url: `tv/${timeFrame}`,
+        url: `trending/tv/${timeFrame}`,
         sortByPopularity: true,
         responseLength: tvCount,
     });
@@ -25,12 +25,13 @@ const TrendingTV = ({ timeFrame, tvCount }) => {
                     {trendingObj.map(tv => (
                         <div className="bookDiv">
                             <div className="tvPosterDiv">
-                                <Link to="/secondary-tv-page" state={{ tvDetails: { tv } }}>
-                                    {<img src={`${prePosterPath}${tv['poster_path']}`} height="275" width="175" />}
+                                <Link to={`/secondary-tv-page/${tv['id']}`} state={{ tvDetails: { tv } } }>
+                                    {<img src={`${prePosterPath}${tv['poster_path']}`} height="255" width="155" />}
                                 </Link>
                             </div>
                         </div>
                     ))}
+                    <p className="disclaimerTMDB">{disclaimer}</p>
                 </div>
             );
         }
@@ -41,9 +42,10 @@ const TrendingTV = ({ timeFrame, tvCount }) => {
 
     return (
         <>
-            <h3>TV Trending Today</h3>
-            {renderSliderList(response)}
-            <p className="disclaimerTMBD">{disclaimer}</p>
+            <div className="trendingTVDiv">
+                <h3>TV Trending Today</h3>
+                {renderSliderList(response)}
+            </div>
         </>
     );
 

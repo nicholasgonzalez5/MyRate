@@ -2,12 +2,15 @@ import { React, useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import axios from "axios";
+import useAxiosTMDB from "../Hooks/useAxiosTMDB";
+import RelatedTitlesSliderList from "../Components/RelatedTitlesSliderList";
+import ReviewForm from "../Components/ReviewForm";
 
 const SecondaryMovie = () => {
 
     const location = useLocation();
     const { movieDetails } = location.state;
-    const { title, overview, poster_path, release_date } = movieDetails['movie'];
+    const { title, overview, poster_path, release_date, id } = movieDetails['movie'];
     const newMovie = {
         title: title,
         overview: overview,
@@ -63,15 +66,43 @@ const SecondaryMovie = () => {
 
     //console.log(movieDetails);
 
+    const { response, loading, error } = useAxiosTMDB({
+        method: 'get',
+        url: `movie/${id}/similar`,
+        sortByPopularity: true,
+    });
+
+    useEffect(() => {
+        const element = document.getElementById('navbarID');
+        element.scrollIntoView({ behavior: "smooth" });
+    }, [movieDetails]);
+
     return (
         <>
             <Navbar />
-            <h2>Place Holder For Seconday Movie Page</h2>
-            <img src={`${prePosterPath}${poster_path}`} height="275" width="175" />
-            <p>Title: {title}</p>
-            <p>Release Date: {release_date}</p>
-            <p>Overview: {overview}</p>
-            <p className="disclaimerTMBD">{disclaimer}</p>
+
+            <div className="bookDiv">
+                <div className="bookImageDiv">
+                    <img src={`${prePosterPath}${poster_path}`} height="275" width="175" />
+                </div>
+            </div>
+            <div className="productDetailsDiv">
+                <h5 className="productDetailsHeader">Product Details</h5>
+                <hr class="solid" />
+                <div className="titleInfoDiv">
+                    <p><strong>Title: </strong>{title}</p>
+                </div>
+                <div className="releaseDateInfoDiv">
+                    <p><strong>Release Date: </strong>{release_date}</p>
+                </div>
+                <div className="overviewInfoDiv">
+                    <p><strong>Overview: </strong>{overview}</p>
+                </div>
+                <hr class="solid" />
+            </div>
+
+            <ReviewForm title={title} />
+            <RelatedTitlesSliderList response={response} loading={loading} error={error} isMovie={true} />
         </>
     );
 };

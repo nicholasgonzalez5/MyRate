@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react';
 // Required as final query parameter to authorize GET request
 const TMDB_API_KEY = 'api_key=44a9a2cde95eface8cfceffc13305aaa';
 
-axios.defaults.baseURL = 'https://api.themoviedb.org/3/trending/'
+axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
 
 const useAxiosTMDB = ({ url, method, body = null, headers = null, sortByPopularity = false, responseLength = 20 }) => {
     const [response, setResponse] = useState(null);

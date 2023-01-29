@@ -88,8 +88,8 @@ const App = () => {
                 <Route path="/collections" element={<Collections />} />
                 <Route path="/mystats" element={<MyStats />} />
                 <Route path="/secondary-book-page" element={<SecondaryBook />} />
-                <Route path="/secondary-movie-page" element={<SecondaryMovie />} />
-                <Route path="/secondary-tv-page" element={<SecondaryTV />} />
+                <Route path="/secondary-movie-page/:id" element={<SecondaryMovie />} />
+                <Route path="/secondary-tv-page/:id" element={<SecondaryTV />} />
             </Routes>
         </Router>
     );

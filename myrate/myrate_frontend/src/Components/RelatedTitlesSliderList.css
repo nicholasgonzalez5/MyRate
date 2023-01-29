@@ -1,0 +1,14 @@
+.relatedTitlesSliderListDiv {
+    padding-top: 55px;
+    padding-bottom: 55px;
+}
+
+.relatedTitlesSliderListDiv h5 {
+    padding-left: 15px;
+    font-size: 25px;
+}
+
+.disclaimerTMDB {
+    font-style: italic;
+    font-size: 14px;
+}
