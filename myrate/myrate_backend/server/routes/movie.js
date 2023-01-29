@@ -25,7 +25,7 @@ movieRoutes.route("/movie").get(function (req, res) {
 });
  
 // This section will help you get a single movie by id
-movieRoutes.route("/movie/:id").get(function (req, res) {
+movieRoutes.route("/movie/getmoviebyid:id").get(function (req, res) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect
@@ -35,6 +35,21 @@ movieRoutes.route("/movie/:id").get(function (req, res) {
      res.json(result);
    });
 });
+
+// This section will help you get a single movie by title and release date
+movieRoutes.route("/movie/findmovie").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let _title = req.query.title;
+  let release = req.query.release_date;
+  const query = {title: _title, release_date: release};
+  const book = db_connect.collection("movies").findOne(query, function (err, result) {
+    if (err) {
+      console.log("error in get movie by title and release date: " + err);
+      throw err;
+    }
+    res.json(result);
+  });
+ });
  
 // This section will help you create a new movie.
 movieRoutes.route("/movie/add").post(function (req, response) {

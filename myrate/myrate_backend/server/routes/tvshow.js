@@ -25,7 +25,7 @@ tvshowRoutes.route("/tvshow").get(function (req, res) {
 });
  
 // This section will help you get a single tvshow by id
-tvshowRoutes.route("/tvshow/:id").get(function (req, res) {
+tvshowRoutes.route("/tvshow/gettvshowbyid:id").get(function (req, res) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect
@@ -36,6 +36,21 @@ tvshowRoutes.route("/tvshow/:id").get(function (req, res) {
    });
 });
  
+// This section will help you get a single book by title and author
+tvshowRoutes.route("/tvshow/findtvshow").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let _name = req.query.name;
+  let release = req.query.first_air_date;
+  const query = {name: _name, first_air_date: release};
+  const book = db_connect.collection("tvshows").findOne(query, function (err, result) {
+    if (err) {
+      console.log("error in get tv show by name and first release: " + err);
+      throw err;
+    }
+    res.json(result);
+  });
+ });
+
 // This section will help you create a new tvshow.
 tvshowRoutes.route("/tvshow/add").post(function (req, response) {
  let db_connect = dbo.getDb();

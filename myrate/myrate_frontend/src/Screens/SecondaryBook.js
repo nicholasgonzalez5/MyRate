@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
 import axios from "axios";
 
+let dbBookId = 0;
+let ratingsList = null;
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
@@ -21,31 +23,66 @@ const SecondaryBook = () => {
         description: description,
         purchaseLinks: purchaseLinks,
     };
-   
-    
-    fetch("http://localhost:5000/book/add", {
-     method: "POST",
-          headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(newBook),
-   })
-   .catch(error => {
-     window.alert(error);
-     return;
-   });
-  
-  /* 
-    axios.post('http://localhost:5000/book/add', JSON.stringify(bookDetails.book))
-        .then(function (response) {
-            console.log("post method worked");
-            console.log(response);
+
+    // store book's ID for creating ratings/reviews
+
+
+    // 
+    useEffect(() => {
+        axios.get(`http://localhost:5000/book/findbook`, {
+            params: {
+                bookTitle: (newBook.bookTitle),
+                bookAuthor: (newBook.bookAuthor),
+            },
+        }).then((response) => {
+            const book = ((response.data));
+            if (!book) {
+                console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} and author ${JSON.stringify(newBook.bookAuthor)} not found`);
+                console.log("adding book");
+                fetch("http://localhost:5000/book/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newBook),
+                })
+                    .then(res => {
+                        console.log("response from add: " + res);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        return;
+                    });
+            }
+            else {
+                console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
+                dbBookId = book._id;
+
+                axios.get(`http://localhost:5000/rating/findrating`, {
+                    params: {
+                        media_type: "books",
+                        media_id: dbBookId,
+                    },
+                })
+                .then(response => {
+                    ratingsList = (response.data);
+                    console.log(response.data);
+                    // set current rating and review to the first value of this list
+                    // In the future, set it to current user's rating and review
+                    setRate(ratingsList[0].stars);
+                    setReview(ratingsList[0].review);
+                }).catch((response) => {
+                    console.log("Error finding ratings: " + response);
+                })
+
+            }
         })
-        .catch(function (error) {
-            console.log(bookDetails.book);
-            console.log(error.response.data);
-        });
-*/
+            .catch((response) => {
+                console.log("error with axios: " + response);
+            });
+    }, []);
+
+
     function toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -73,24 +110,48 @@ const SecondaryBook = () => {
 
     }
 
+
     const submitReview = (e) => {
         e.preventDefault();
-        const reviewData = {
-            stars: rate,
-            review: review
-        } 
-        axios.post('http://localhost:5001/api/rating/savereview/', reviewData)
-            .then(function (response) {
-                //console.log(response);
+
+        // find the book's id to store in review 
+        axios.get(`http://localhost:5000/book/findbook`, {
+            params: {
+                bookTitle: (newBook.bookTitle),
+                bookAuthor: (newBook.bookAuthor),
+            },
+        }).then(response => {
+            // create review
+            const reviewData = {
+                stars: rate,
+                review: review,
+                media_type: "books",
+                media_id: dbBookId
+            }
+            // adds rating to database
+            axios.post(`http://localhost:5000/rating/add`, reviewData
+            ).then(response => {
+                console.log("Posted rating");
+            }).catch(response => {
+                console.log("Error saving rating: " + response);
             })
-            .catch(function (error) {
-                //console.log(data);
-                console.log(error.response.data);
-            });
+        }).catch(response => {
+            console.log(response);
+        })
 
-        //TODO: add this rating to the list of ratings for this book
     }
-
+    /*
+    // get list of ratings for this book
+    ratingsList = axios.get(`http://localhost:5000/rating/findrating`, {
+            params: {
+                media_type: "books",
+                media_id: dbBookId,
+            },
+        }).catch((response) => {
+            console.log("Error finding ratings: " + response);
+        })
+    ratingsList.foreach(element => console.log(element));
+*/
     return (
         <>
             <Navbar />
@@ -134,17 +195,17 @@ const SecondaryBook = () => {
                 <div class="form-group" className="userReviewDiv">
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
-                        <select id="overallRating" class="form-control" onChange={handleChangeSelect}>
-                            <option selected hidden/>
-                            <option>Poor</option>
-                            <option>Fair</option>
-                            <option>Average</option>
-                            <option>Good</option>
-                            <option>Excellent</option>
+                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate}>
+                            <option selected hidden />
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Average</option>
+                            <option value="4">Good</option>
+                            <option value="5">Excellent</option>
                         </select>
                     </div>
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {toTitleCase(bookTitle)}*</label>
-                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange}></textarea>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>

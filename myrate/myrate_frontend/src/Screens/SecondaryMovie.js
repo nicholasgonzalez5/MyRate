@@ -1,6 +1,7 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
+import axios from "axios";
 
 const SecondaryMovie = () => {
 
@@ -14,7 +15,23 @@ const SecondaryMovie = () => {
         release_date: release_date,
     };
 
-    fetch("http://localhost:5000/movie/add", {
+        // store movie's ID for creating ratings/reviews
+    let dbMovieId = 0;
+    let ratingsList = null;
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/movie/findmovie`, {
+            params: {
+                title: (newMovie.title),
+                release_date: (newMovie.release_date),
+            },
+        }).then((response) => {
+          console.log(response.data);
+          const movie = ((response.data));
+          if (!movie) {
+            console.log(`Movie with title ${JSON.stringify(newMovie.title)} and release date ${JSON.stringify(newMovie.release_date)} not found`);
+            console.log("adding movie");
+                  fetch("http://localhost:5000/movie/add", {
      method: "POST",
           headers: {
        "Content-Type": "application/json",
@@ -25,6 +42,31 @@ const SecondaryMovie = () => {
      window.alert(error);
      return;
    });
+          }
+          else
+          {
+            console.log(`Movie with title ${JSON.stringify(newMovie.title)} released on ${JSON.stringify(newMovie.release_date)} with id ${JSON.stringify(movie._id)} was found`);
+            dbMovieId = movie._id;
+          }
+        })
+        .catch((response) => {
+            console.log("error with axios: " + response);
+        });
+        axios.get(`http://localhost:5000/rating/findrating`, {
+                    params: {
+                        media_type: "movie",
+                        media_id: dbMovieId,
+                    },
+                })
+                .then(response => {
+                    ratingsList = (response.data);
+                    console.log(response.data);
+                }).catch((response) => {
+                    console.log("Error finding ratings: " + response);
+                })
+      }, []);
+
+
 
     // Base URL that needs to be pre-pended to 'poster_path'
     const prePosterPath = "https://image.tmdb.org/t/p/original";
