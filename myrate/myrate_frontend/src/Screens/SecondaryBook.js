@@ -94,26 +94,30 @@ const SecondaryBook = () => {
     const submitReview = (e) => {
         e.preventDefault();
         
+        // find the book's id to store in review 
         axios.get(`http://localhost:5000/book/findbook`, {
             params: {
                 bookTitle: (newBook.bookTitle),
                 bookAuthor: (newBook.bookAuthor),
             },
         }).then (response => {
-            // gets id to store for review
-            dbBookId = response.data._id;
-            console.log("id for rating: " + response.data._id);
+            // create review
+            const reviewData = {
+                stars: rate,
+                review: review,
+                media_type: "books",
+                media_id: dbBookId
+            } 
+            // adds rating to database
+            axios.post(`http://localhost:5000/rating/add`, reviewData
+            ).then(response => {
+                console.log("Posted rating");
+            }).catch(response => {
+                console.log("Error saving rating: " + response);
+            })
         }).catch (response => {
             console.log(response);
         })
-        
-        const reviewData = {
-            stars: rate,
-            review: review,
-            media_type: "books",
-            media_id: dbBookId
-        } 
-        //TODO: add this rating to the list of ratings for this book
     }
 
     return (

@@ -60,11 +60,12 @@ ratingRoutes.route("/rating/add").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myobj = {
     stars: req.body.stars,
-    description: req.body.description,
-    media_type: media_type,
-    media_id: media_id
+    review: req.body.review,
+    media_type: req.body.media_type,
+    media_id: req.body.media_id
     //user_id: user_id,
  };
+ console.log(myobj);
  db_connect.collection("ratings").insertOne(myobj, function (err, res) {
    if (err) throw err;
    response.json(res);
@@ -79,8 +80,8 @@ ratingRoutes.route("/update/:id").post(function (req, response) {
    $set: {
     stars: req.body.stars,
     review: req.body.review,
-    media_type: media_type,
-    media_id: media_id
+    media_type: req.body.media_type,
+    media_id: req.body.media_id
     //user_id: user_id,
    },
  };
