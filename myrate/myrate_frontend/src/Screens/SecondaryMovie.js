@@ -17,6 +17,7 @@ const SecondaryMovie = () => {
 
         // store movie's ID for creating ratings/reviews
     let dbMovieId = 0;
+    let ratingsList = null;
 
     useEffect(() => {
         axios.get(`http://localhost:5000/movie/findmovie`, {
@@ -45,12 +46,24 @@ const SecondaryMovie = () => {
           else
           {
             console.log(`Movie with title ${JSON.stringify(newMovie.title)} released on ${JSON.stringify(newMovie.release_date)} with id ${JSON.stringify(movie._id)} was found`);
-            dbMovieId = movie.id;
+            dbMovieId = movie._id;
           }
         })
         .catch((response) => {
             console.log("error with axios: " + response);
         });
+        axios.get(`http://localhost:5000/rating/findrating`, {
+                    params: {
+                        media_type: "movie",
+                        media_id: dbMovieId,
+                    },
+                })
+                .then(response => {
+                    ratingsList = (response.data);
+                    console.log(response.data);
+                }).catch((response) => {
+                    console.log("Error finding ratings: " + response);
+                })
       }, []);
 
 

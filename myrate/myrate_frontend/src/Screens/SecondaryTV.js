@@ -19,6 +19,7 @@ const SecondaryTV = () => {
 
     // store movie's ID for creating ratings/reviews
     let dbTVId = 0;
+    let ratingsList = null;
 
     useEffect(() => {
         axios.get(`http://localhost:5000/tvshow/findtvshow`, {
@@ -47,7 +48,19 @@ const SecondaryTV = () => {
           else
           {
             console.log(`TV Show with name ${JSON.stringify(newTVShow.name)} aired on ${JSON.stringify(newTVShow.first_air_date)} with id ${JSON.stringify(tvshow._id)} was found`);
-            dbTVId = tvshow.id;
+            dbTVId = tvshow._id;
+            axios.get(`http://localhost:5000/rating/findrating`, {
+                    params: {
+                        media_type: "tvshow",
+                        media_id: dbTVId,
+                    },
+                })
+                .then(response => {
+                    ratingsList = (response.data);
+                    console.log(response.data);
+                }).catch((response) => {
+                    console.log("Error finding ratings: " + response);
+                })
           }
         })
         .catch((response) => {
