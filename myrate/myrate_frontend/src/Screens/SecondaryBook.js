@@ -5,6 +5,7 @@ import "./SecondaryBook.css";
 import axios from "axios";
 
 let dbBookId = 0;
+let ratingsList = null;
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
@@ -24,7 +25,7 @@ const SecondaryBook = () => {
     };
 
     // store book's ID for creating ratings/reviews
-  
+
 
     // 
     useEffect(() => {
@@ -34,34 +35,51 @@ const SecondaryBook = () => {
                 bookAuthor: (newBook.bookAuthor),
             },
         }).then((response) => {
-          const book = ((response.data));
-          if (!book) {
-            console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} and author ${JSON.stringify(newBook.bookAuthor)} not found`);
-            console.log("adding book");
-              fetch("http://localhost:5000/book/add", {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json",
+            const book = ((response.data));
+            if (!book) {
+                console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} and author ${JSON.stringify(newBook.bookAuthor)} not found`);
+                console.log("adding book");
+                fetch("http://localhost:5000/book/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify(newBook),
                 })
-                .catch(error => {
-                    console.log(error);
-                    return;
-                });
-          }
-          else
-          {
-            console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
-            dbBookId = book.id;
-          }
-        })
-        .catch((response) => {
-            console.log("error with axios: " + response);
-        });
-      }, []);
+                    .then(res => {
+                        console.log("response from add: " + res);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        return;
+                    });
+            }
+            else {
+                console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
+                dbBookId = book._id;
 
-   
+                axios.get(`http://localhost:5000/rating/findrating`, {
+                    params: {
+                        media_type: "books",
+                        media_id: dbBookId,
+                    },
+                })
+                .then(response => {
+                    ratingsList = (response.data);
+                    console.log(response.data);
+                }).catch((response) => {
+                    console.log("Error finding ratings: " + response);
+                })
+                ratingsList.foreach(element => console.log(element));
+
+            }
+        })
+            .catch((response) => {
+                console.log("error with axios: " + response);
+            });
+    }, []);
+
+
     function toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -89,25 +107,24 @@ const SecondaryBook = () => {
 
     }
 
-   
 
     const submitReview = (e) => {
         e.preventDefault();
-        
+
         // find the book's id to store in review 
         axios.get(`http://localhost:5000/book/findbook`, {
             params: {
                 bookTitle: (newBook.bookTitle),
                 bookAuthor: (newBook.bookAuthor),
             },
-        }).then (response => {
+        }).then(response => {
             // create review
             const reviewData = {
                 stars: rate,
                 review: review,
                 media_type: "books",
                 media_id: dbBookId
-            } 
+            }
             // adds rating to database
             axios.post(`http://localhost:5000/rating/add`, reviewData
             ).then(response => {
@@ -115,11 +132,23 @@ const SecondaryBook = () => {
             }).catch(response => {
                 console.log("Error saving rating: " + response);
             })
-        }).catch (response => {
+        }).catch(response => {
             console.log(response);
         })
-    }
 
+    }
+    /*
+    // get list of ratings for this book
+    ratingsList = axios.get(`http://localhost:5000/rating/findrating`, {
+            params: {
+                media_type: "books",
+                media_id: dbBookId,
+            },
+        }).catch((response) => {
+            console.log("Error finding ratings: " + response);
+        })
+    ratingsList.foreach(element => console.log(element));
+*/
     return (
         <>
             <Navbar />
@@ -164,7 +193,7 @@ const SecondaryBook = () => {
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
                         <select id="overallRating" class="form-control" onChange={handleChangeSelect}>
-                            <option selected hidden/>
+                            <option selected hidden />
                             <option>Poor</option>
                             <option>Fair</option>
                             <option>Average</option>

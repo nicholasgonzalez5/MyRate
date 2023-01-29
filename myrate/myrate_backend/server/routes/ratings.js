@@ -41,18 +41,16 @@ ratingRoutes.route("/rating/getratingid:id").get(function (req, res) {
 // This section will help you get a single rating by media id
 ratingRoutes.route("/rating/findrating").get(function (req, res) {
   let db_connect = dbo.getDb();
-  let media = req.query.media_type;
   let mid = req.query.media_id;
-  let collect = null;
-  const query = {media_id: mid};
-  const rating = db_connect.collection(media).find(query, function (err, result) {
-    if (err) {
-      console.log("error in get rating by media id: " + err);
-      throw err;
-    }
-    res.json(result);
-  });
- });
+  const query = {media_id: ObjectId(mid)};
+  db_connect
+    .collection("ratings")
+    .find({media_id: mid})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
 
  
 // This section will help you create a new rating.
