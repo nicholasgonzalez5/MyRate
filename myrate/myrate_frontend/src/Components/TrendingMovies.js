@@ -7,7 +7,7 @@ import "./TrendingMovies.css";
 const TrendingMovies = ({timeFrame, movieCount }) => {
     const { response, loading, error } = useAxiosTMDB({
         method: 'get',
-        url: `movie/${timeFrame}`,
+        url: `trending/movie/${timeFrame}`,
         sortByPopularity: true,
         responseLength: movieCount,
     });
@@ -25,12 +25,13 @@ const TrendingMovies = ({timeFrame, movieCount }) => {
                     {trendingObj.map(movie => (
                         <div className="bookDiv">
                             <div className="moviePosterDiv">
-                                <Link to="/secondary-movie-page" state={{ movieDetails: { movie } }}>
-                                    {<img src={`${prePosterPath}${movie['poster_path']}`} height="275" width="175" />}
+                                <Link to={`/secondary-movie-page/${movie['id']}`} state={{ movieDetails: { movie } }}>
+                                    {<img src={`${prePosterPath}${movie['poster_path']}`} height="255" width="155" />}
                                 </Link>
                             </div>
                         </div>
                     ))}
+                    <p className="disclaimerTMDB">{disclaimer}</p>
                 </div>
             );
         }
@@ -41,9 +42,10 @@ const TrendingMovies = ({timeFrame, movieCount }) => {
 
     return (
         <>
-            <h3>Movies Trending Today</h3>
-            {renderSliderList(response)} 
-            <p className="disclaimerTMBD">{ disclaimer }</p>
+            <div className="trendingMovieDiv">
+                <h3>Movies Trending Today</h3>
+                {renderSliderList(response)} 
+            </div>
         </>
     );
 

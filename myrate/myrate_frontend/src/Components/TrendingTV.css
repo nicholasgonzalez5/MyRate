@@ -14,6 +14,12 @@
     margin-bottom: 20px;
 }
 
-.disclaimerTMBD {
-    font-style: italic;
+.trendingTVDiv {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
+
+    .trendingTVDiv h3 {
+        font-size: 25px;
+        padding-left: 15px;
+    }

@@ -1,0 +1,16 @@
+.reviewDiv {
+    width: 60%;
+    height: 100%;
+    padding: 0;
+    margin-top: -40px;
+    margin-left: 265px;
+}
+
+.reviewDiv .btn {
+    margin-top: 10px;
+}
+
+.reviewDiv .userReviewLabel {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
