@@ -19,8 +19,9 @@ const CollectionList = () => {
     // Fetch collection data of this user from the backend
 
     useEffect(() => {
-        axios.get('http://localhost:5001/api/collections/getcollections/')
+        axios.get(`http://localhost:5000/collection`)
             .then(function (response) {
+                console.log("response", response);
                 // setCollections with data in the response
             });
     }, []);
@@ -37,7 +38,7 @@ const CollectionList = () => {
                 ))}
             </div>
             </div>
-            {detail && <CollectionItems title={title} items={items} />}
+            {items && <CollectionItems title={title} items={items} />}
         </>
         
     );
