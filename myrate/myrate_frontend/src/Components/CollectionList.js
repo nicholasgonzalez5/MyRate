@@ -23,9 +23,11 @@ const CollectionList = () => {
             .then(function (response) {
                 console.log("response", response);
                 // setCollections with data in the response
+                setCollections(response.data);
             });
     }, []);
 
+    // TODO: Display the first item in each collection as the cover
 
     return (
         <>
