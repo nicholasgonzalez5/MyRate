@@ -7,7 +7,8 @@ import CollectionItems from "./CollectionItems";
 const CollectionList = () => {
 
     let [collections, setCollections] = useState([]);
-    let [items, setItems] = useState([]);
+    let [items, setItems] = useState();
+    let [selectedItems, setSelectedItems] = useState();
 
     const [title, setTitle] = useState();
 
@@ -19,27 +20,7 @@ const CollectionList = () => {
         })
         console.log(selected);
         setTitle(selected.title);
-        //setItems with this collection's media list
-        if(selected.books.length !== 0) {
-            // fetch and add to items
-            selected.books.map(b => {
-                setTimeout(() => {
-                    console.log(b);
-                    axios.get(`http://localhost:5000/book/getbookid/${b}`).then((response) => {
-                        setItems([...items, response.data]);
-                    }
-                    );
-                }, 1000);
-
-            })
-
-        }
-        if(selected.movies.length !== 0) {
-            
-        }
-        if(selected.tvshows.length !== 0) {
-            
-        }
+        setSelectedItems(items[currId]);
         
     };
 
@@ -48,15 +29,26 @@ const CollectionList = () => {
     useEffect(() => {
         axios.get(`http://localhost:5000/collection/getmedia`)
             .then(function (response) {
-                console.log("response", response);
                 // setCollections with data in the response
-                //setCollections(response.data);
+                setCollections(response.data);
+                let itemList = {};
+                console.log(response.data);
+                response.data.map(d => {
+                    itemList[d._id] = []
+                    d.book_list?.map(b => {
+                        itemList[d._id].push(b);
+                    });
+                    d.movie_list?.map(m => {
+                        itemList[d._id].push(m);
+                    });
+                    d.tvshow_list?.map(t => {
+                        itemList[d._id].push(t);
+                    });
+                });
+                setItems(itemList);
+
             });
     }, []);
-
-    useEffect(() => {
-        console.log("fetched");
-    }, [items]);
 
     // TODO: Display the first item in each collection as the cover
 
@@ -71,7 +63,7 @@ const CollectionList = () => {
                 ))}
             </div>
             </div>
-            {items && <CollectionItems title={title} items={items} />}
+            {selectedItems && <CollectionItems title={title} items={selectedItems} />}
         </>
         
     );

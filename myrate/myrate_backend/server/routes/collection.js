@@ -126,7 +126,7 @@ collectionRoutes.route("/collection/getmedia").get(function (req, res) {
                     from: 'tvshows',
                     localField: 'tvshows',
                     foreignField: '_id',
-                    as: 'tvsho_list'
+                    as: 'tvshow_list'
                 }
             }
 
