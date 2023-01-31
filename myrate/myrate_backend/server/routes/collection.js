@@ -99,5 +99,41 @@ collectionRoutes.route("/:id").delete((req, response) => {
    response.json(obj);
  });
 });
- 
+
+collectionRoutes.route("/collection/getmedia").get(function (req, res) {
+    let db_connect = dbo.getDb("media");
+    db_connect
+        .collection("collections")
+        .aggregate([
+            {
+                $lookup: {
+                    from: 'books',
+                    localField: 'books',
+                    foreignField: '_id',
+                    as: 'book_list'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'movies',
+                    localField: 'movies',
+                    foreignField: '_id',
+                    as: 'movie_list'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'tvshows',
+                    localField: 'tvshows',
+                    foreignField: '_id',
+                    as: 'tvsho_list'
+                }
+            }
+
+    ])
+        .toArray(function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+});
 module.exports = collectionRoutes;
