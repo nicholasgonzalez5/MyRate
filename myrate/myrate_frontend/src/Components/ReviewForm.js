@@ -1,12 +1,15 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import "./ReviewForm.css";
 import axios from "axios";
 
 const ReviewForm = (props) => {
-    console.log("media id", props.mediaId);
-    const [rate, setRate] = useState(props.currRate);
-    const [review, setReview] = useState(props.currReview);
     const mediaId = props.mediaId;
+
+    const rate = props.currRate;
+    const review = props.currReview;
+
+    const [newRate, setNewRate] = useState(props.currRate);
+    const [newReview, setNewReview] = useState(props.currReview);
 
     const submitReview = (e) => {
         e.preventDefault();
@@ -20,8 +23,8 @@ const ReviewForm = (props) => {
         }).then(response => {
             // create review
             const reviewData = {
-                stars: rate,
-                review: review,
+                stars: newRate,
+                review: newReview,
                 media_type: "movies",
                 media_id: mediaId
             }
@@ -39,12 +42,12 @@ const ReviewForm = (props) => {
     }
 
     const handleTextChange = (e) => {
-        setReview(e.target.value);
+        setNewReview(e.target.value);
 
     }
 
     const handleChangeSelect = (e) => {
-        setRate(e.target.value);
+        setNewRate(e.target.value);
         }
     
 
