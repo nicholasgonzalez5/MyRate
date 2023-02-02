@@ -1,57 +1,69 @@
 import React, { useState, useEffect } from "react";
 import ScrollMenu from 'react-horizontal-scrolling-menu'
+import axios from 'axios';
 import "./CollectionList.css";
-import DummyCollectionData from "./DummyCollectionData";
+import CollectionItems from "./CollectionItems";
 
 const CollectionList = () => {
 
-    let collections = [
-        { name: "item1" },
-        { name: "item2" },
-        { name: "item3" },
-        { name: "item4" },
-        { name: "item5" },
-        { name: "item6" },
-        { name: "item7" },
-        { name: "item8" },
-        { name: "item9" },
-        { name: "item10" },
-        { name: "item11" },
-        { name: "item12" },
-        { name: "item13" },
-        { name: "item14" },
-        { name: "item15" },
-        { name: "item16" },
-        { name: "item17" },
-        { name: "item18" },
-        { name: "item19" },
-        { name: "item20" },
-        { name: "item21" },
-        { name: "item22" },
-        { name: "item23" },
-        { name: "item24" },
-        { name: "item25" }
-    ];
+    let [collections, setCollections] = useState([]);
+    let [items, setItems] = useState();
+    let [selectedItems, setSelectedItems] = useState();
 
-    const [detail, setDetail] = useState();
+    const [title, setTitle] = useState();
 
     const handleClickCollection = e => {
-        setDetail(e.target.id);
+        let currId = e.target.id;
+        let selected = null;
+        collections.map(c => {
+            if(c._id === currId) selected = c;
+        })
+        console.log(selected);
+        setTitle(selected.title);
+        setSelectedItems(items[currId]);
+        
     };
 
+    // Fetch collection data of this user from the backend
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/collection/getmedia`)
+            .then(function (response) {
+                // setCollections with data in the response
+                setCollections(response.data);
+                let itemList = {};
+                console.log(response.data);
+                response.data.map(d => {
+                    itemList[d._id] = []
+                    d.book_list?.map(b => {
+                        itemList[d._id].push(b);
+                    });
+                    d.movie_list?.map(m => {
+                        itemList[d._id].push(m);
+                    });
+                    d.tvshow_list?.map(t => {
+                        itemList[d._id].push(t);
+                    });
+                });
+                setItems(itemList);
+
+            });
+    }, []);
+
+    // TODO: Display the first item in each collection as the cover
 
     return (
         <>
         <div class="wrap">
             <div class="scroll__wrap">
                 {collections.map(c => (
-                    <button class="scroll--element" id={c.name} onClick={handleClickCollection}>
-                        {c.name}
+                    <button class="scroll--element" id={c._id} onClick={handleClickCollection}>
+                        {c.title}
                     </button>
                 ))}
             </div>
             </div>
-            {detail && <DummyCollectionData name={detail} />}
+            {selectedItems && <CollectionItems title={title} items={selectedItems} />}
         </>
         
     );

@@ -9,6 +9,7 @@ app.use(require("./routes/book"));
 app.use(require("./routes/movie"));
 app.use(require("./routes/tvshow"));
 app.use(require("./routes/ratings"));
+app.use(require("./routes/collection"));
 // get driver connection
 const dbo = require("./db/conn");
  
