@@ -57,7 +57,7 @@ movieRoutes.route("/movie/add").post(function (req, response) {
  let myobj = {
    title: req.body.title,
    overview: req.body.overview,
-   poster_path: req.body.poster_path,
+   image: req.body.poster_path,
    release_date: req.body.release_date,
  };
  db_connect.collection("movies").insertOne(myobj, function (err, res) {
