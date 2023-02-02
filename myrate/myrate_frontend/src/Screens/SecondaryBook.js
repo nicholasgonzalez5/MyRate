@@ -91,19 +91,8 @@ const SecondaryBook = () => {
     }
 
     const handleChangeSelect = (e) => {
-        switch (e.target.value) {
-            case 'Poor': setRate(1);
-                break;
-            case 'Fair': setRate(2);
-                break;
-            case 'Average': setRate(3);
-                break;
-            case 'Good': setRate(4);
-                break;
-            case 'Excellent': setRate(5);
-                break;
-            default: break;
-        }
+        console.log(e.target.value);
+        setRate(e.target.value);
     }
 
     const handleTextChange = (e) => {
@@ -114,6 +103,7 @@ const SecondaryBook = () => {
 
     const submitReview = (e) => {
         e.preventDefault();
+        console.log("rate: ", rate);
 
         // find the book's id to store in review 
         axios.get(`http://localhost:5000/book/findbook`, {
