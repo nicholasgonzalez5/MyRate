@@ -123,7 +123,7 @@ const SecondaryMovie = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId}  />
+            <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
             <RelatedTitlesSliderList response={response} loading={loading} error={error} isMovie={true} />
         </>
     );

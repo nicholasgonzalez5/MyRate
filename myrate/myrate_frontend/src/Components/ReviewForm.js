@@ -11,10 +11,8 @@ const ReviewForm = (props) => {
     const [newRate, setNewRate] = useState(props.currRate);
     const [newReview, setNewReview] = useState(props.currReview);
 
-    const submitReview = (e) => {
-        e.preventDefault();
-
-        // find the book's id to store in review 
+    const movieReview = () => {
+        // find the movie's id to store in review 
         axios.get(`http://localhost:5000/movie/findmovie`, {
             params: {
                 title: (props.media.title),
@@ -38,6 +36,46 @@ const ReviewForm = (props) => {
         }).catch(response => {
             console.log(response);
         })
+    }
+
+    const tvshowReview = () => {
+        // find the show's id to store in review 
+        axios.get(`http://localhost:5000/tvshow/findtvshow`, {
+            params: {
+                name: (props.media.name),
+                first_air_date: (props.media.first_air_date),
+            },
+        }).then(response => {
+            // create review
+            const reviewData = {
+                stars: newRate,
+                review: newReview,
+                media_type: "tvshows",
+                media_id: mediaId
+            }
+            // adds rating to database
+            axios.post(`http://localhost:5000/rating/add`, reviewData
+            ).then(response => {
+                console.log("Posted rating");
+            }).catch(response => {
+                console.log("Error saving rating: " + response);
+            })
+        }).catch(response => {
+            console.log(response);
+        })
+
+    }
+
+    const submitReview = (e) => {
+        e.preventDefault();
+
+        if (props.mediaType === "movie") {
+            movieReview();
+        }
+        else if (props.mediaType === "tvshow") {
+            tvshowReview();
+        }
+
 
     }
 
