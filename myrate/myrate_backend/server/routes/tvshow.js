@@ -42,7 +42,7 @@ tvshowRoutes.route("/tvshow/findtvshow").get(function (req, res) {
   let _name = req.query.name;
   let release = req.query.first_air_date;
   const query = {name: _name, first_air_date: release};
-  const book = db_connect.collection("tvshows").findOne(query, function (err, result) {
+  const tvshow = db_connect.collection("tvshows").findOne(query, function (err, result) {
     if (err) {
       console.log("error in get tv show by name and first release: " + err);
       throw err;

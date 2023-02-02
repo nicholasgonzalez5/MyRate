@@ -8,6 +8,10 @@ import ReviewForm from "../Components/ReviewForm";
 
 const SecondaryTV = () => {
 
+    const [rate, setRate] = useState();
+    const [review, setReview] = useState();
+    const [mediaId, setMediaId] = useState();
+
     const location = useLocation();
     const { tvDetails } = location.state;
     const { name, overview, poster_path, first_air_date, id } = tvDetails['tv'];
@@ -52,6 +56,7 @@ const SecondaryTV = () => {
           {
             console.log(`TV Show with name ${JSON.stringify(newTVShow.name)} aired on ${JSON.stringify(newTVShow.first_air_date)} with id ${JSON.stringify(tvshow._id)} was found`);
             dbTVId = tvshow._id;
+            setMediaId(dbTVId);
             axios.get(`http://localhost:5000/rating/findrating`, {
                     params: {
                         media_type: "tvshow",
@@ -61,6 +66,10 @@ const SecondaryTV = () => {
                 .then(response => {
                     ratingsList = (response.data);
                     console.log(response.data);
+                // set current rating and review to the first value of this list
+                // In the future, set it to current user's rating and review
+                setRate(ratingsList[0]?.stars);
+                setReview(ratingsList[0]?.review);
                 }).catch((response) => {
                     console.log("Error finding ratings: " + response);
                 })
@@ -114,7 +123,7 @@ const SecondaryTV = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={name} />
+            <ReviewForm title={name} currRate={rate} currReview={review} media={newTVShow} mediaId={mediaId} mediaType={"tvshow"} />
             <RelatedTitlesSliderList response={response} loading={loading} error={error} isMovie={false} />
         </>
     );

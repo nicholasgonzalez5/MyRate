@@ -8,6 +8,10 @@ import ReviewForm from "../Components/ReviewForm";
 
 const SecondaryMovie = () => {
 
+    const [rate, setRate] = useState();
+    const [review, setReview] = useState();
+    const [mediaId, setMediaId] = useState();
+
     const location = useLocation();
     const { movieDetails } = location.state;
     const { title, overview, poster_path, release_date, id } = movieDetails['movie'];
@@ -34,39 +38,43 @@ const SecondaryMovie = () => {
           if (!movie) {
             console.log(`Movie with title ${JSON.stringify(newMovie.title)} and release date ${JSON.stringify(newMovie.release_date)} not found`);
             console.log("adding movie");
-                  fetch("http://localhost:5000/movie/add", {
-     method: "POST",
-          headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(newMovie),
-   })
-   .catch(error => {
-     window.alert(error);
-     return;
-   });
-          }
-          else
-          {
+            fetch("http://localhost:5000/movie/add", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+            body: JSON.stringify(newMovie),
+            })
+            .catch(error => {
+                window.alert(error);
+                return;
+            });
+          } else {
             console.log(`Movie with title ${JSON.stringify(newMovie.title)} released on ${JSON.stringify(newMovie.release_date)} with id ${JSON.stringify(movie._id)} was found`);
             dbMovieId = movie._id;
+            setMediaId(movie._id);
+
+            axios.get(`http://localhost:5000/rating/findrating`, {
+                params: {
+                    media_type: "movies",
+                    media_id: dbMovieId,
+                },
+            })
+            .then(response => {
+                ratingsList = (response.data);
+                console.log("findrating result", response.data);
+                // set current rating and review to the first value of this list
+                // In the future, set it to current user's rating and review
+                setRate(ratingsList[0]?.stars);
+                setReview(ratingsList[0]?.review);
+            }).catch((response) => {
+                console.log("Error finding ratings: " + response);
+            })
           }
         })
         .catch((response) => {
             console.log("error with axios: " + response);
         });
-        axios.get(`http://localhost:5000/rating/findrating`, {
-                    params: {
-                        media_type: "movie",
-                        media_id: dbMovieId,
-                    },
-                })
-                .then(response => {
-                    ratingsList = (response.data);
-                    console.log(response.data);
-                }).catch((response) => {
-                    console.log("Error finding ratings: " + response);
-                })
       }, []);
 
 
@@ -78,6 +86,7 @@ const SecondaryMovie = () => {
     const disclaimer = "This product uses the TMDB API but is not endorsed or certified by TMDB.";
 
     //console.log(movieDetails);
+
 
     const { response, loading, error } = useAxiosTMDB({
         method: 'get',
@@ -114,7 +123,7 @@ const SecondaryMovie = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={title} />
+            <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
             <RelatedTitlesSliderList response={response} loading={loading} error={error} isMovie={true} />
         </>
     );
