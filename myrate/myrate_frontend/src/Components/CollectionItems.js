@@ -5,6 +5,7 @@ import "../Screens/Collections.css";
 import "./TrendingBooks.css";
 
 function CollectionItems(props) {
+    console.log(props.items);
     return (
         <>
             <h4 className="myCollectionsHeader">{props.title}</h4>

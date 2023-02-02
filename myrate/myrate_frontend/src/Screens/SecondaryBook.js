@@ -12,7 +12,8 @@ const SecondaryBook = () => {
 
     const location = useLocation();
     const { bookDetails } = location.state;
-    const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.book;
+    console.log(bookDetails.i);
+    const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.i;
     const newBook = {
         image: image,
         bookTitle: bookTitle,
