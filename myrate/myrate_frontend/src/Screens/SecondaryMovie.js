@@ -10,6 +10,7 @@ const SecondaryMovie = () => {
 
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
+    const [mediaId, setMediaId] = useState();
 
     const location = useLocation();
     const { movieDetails } = location.state;
@@ -51,7 +52,7 @@ const SecondaryMovie = () => {
           } else {
             console.log(`Movie with title ${JSON.stringify(newMovie.title)} released on ${JSON.stringify(newMovie.release_date)} with id ${JSON.stringify(movie._id)} was found`);
             dbMovieId = movie._id;
-            console.log("id is", dbMovieId);
+            setMediaId(movie._id);
 
             axios.get(`http://localhost:5000/rating/findrating`, {
                 params: {
@@ -122,7 +123,7 @@ const SecondaryMovie = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={dbMovieId}  />
+            <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId}  />
             <RelatedTitlesSliderList response={response} loading={loading} error={error} isMovie={true} />
         </>
     );

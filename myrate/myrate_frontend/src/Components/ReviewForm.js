@@ -3,10 +3,7 @@ import "./ReviewForm.css";
 import axios from "axios";
 
 const ReviewForm = (props) => {
-
-    console.log(props.currReview);
-    console.log(props.currRate);
-
+    console.log("media id", props.mediaId);
     const [rate, setRate] = useState(props.currRate);
     const [review, setReview] = useState(props.currReview);
     const mediaId = props.mediaId;
