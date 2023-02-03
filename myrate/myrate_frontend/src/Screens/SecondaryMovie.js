@@ -87,7 +87,6 @@ const SecondaryMovie = () => {
 
     //console.log(movieDetails);
 
-
     const { response, loading, error } = useAxiosTMDB({
         method: 'get',
         url: `movie/${id}/similar`,
