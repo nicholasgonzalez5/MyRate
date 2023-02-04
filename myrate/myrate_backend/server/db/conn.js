@@ -34,10 +34,11 @@ module.exports = {
 function SeedReviews(media, type) {
   const ratingscollection = client.db("media").collection("ratings");
   let ratingData = [];
-  if (ratingscollection.find({ "media_id": media._id }) != null) {
+  if (ratingscollection.findOne({ "media_id": media._id }).media == type) {
+    console.log("returned");
     return;
   }
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 5; i++) {
     let newRating = {
       stars: faker.datatype.number({
         'min': 1,
