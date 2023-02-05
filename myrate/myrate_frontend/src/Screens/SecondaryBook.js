@@ -4,8 +4,7 @@ import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
 import axios from "axios";
 
-let dbBookId = 0;
-let ratingsList = null;
+
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
@@ -13,7 +12,7 @@ const SecondaryBook = () => {
     const location = useLocation();
     const { bookDetails } = location.state;
     console.log(bookDetails.i);
-    const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails.i;
+    const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails['book'];
     const newBook = {
         image: image,
         bookTitle: bookTitle,
@@ -26,8 +25,8 @@ const SecondaryBook = () => {
     };
 
     // store book's ID for creating ratings/reviews
-
-
+    let dbBookId = 0;
+    let ratingsList = null;
     // 
     useEffect(() => {
         axios.get(`http://localhost:5000/book/findbook`, {
@@ -36,6 +35,7 @@ const SecondaryBook = () => {
                 bookAuthor: (newBook.bookAuthor),
             },
         }).then((response) => {
+            console.log(response.data);
             const book = ((response.data));
             if (!book) {
                 console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} and author ${JSON.stringify(newBook.bookAuthor)} not found`);
@@ -52,7 +52,7 @@ const SecondaryBook = () => {
                     })
                     .catch(error => {
                         console.log(error);
-                        return;
+                        //return;
                     });
             }
             else {
@@ -70,8 +70,8 @@ const SecondaryBook = () => {
                     console.log(response.data);
                     // set current rating and review to the first value of this list
                     // In the future, set it to current user's rating and review
-                    setRate(ratingsList[0].stars);
-                    setReview(ratingsList[0].review);
+                    setRate(ratingsList[0]?.stars);
+                    setReview(ratingsList[0]?.review);
                 }).catch((response) => {
                     console.log("Error finding ratings: " + response);
                 })
@@ -99,7 +99,6 @@ const SecondaryBook = () => {
         setReview(e.target.value);
 
     }
-
 
     const submitReview = (e) => {
         e.preventDefault();
