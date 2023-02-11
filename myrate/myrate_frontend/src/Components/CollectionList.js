@@ -34,15 +34,15 @@ const CollectionList = () => {
                 let itemList = {};
                 console.log(response.data);
                 response.data.map(d => {
-                    itemList[d._id] = []
+                    itemList[d._id] = {"books": [], "movies": [], "tvshows": []}
                     d.book_list?.map(b => {
-                        itemList[d._id].push(b);
+                        itemList[d._id]["books"].push(b);
                     });
                     d.movie_list?.map(m => {
-                        itemList[d._id].push(m);
+                        itemList[d._id]["movies"].push(m);
                     });
                     d.tvshow_list?.map(t => {
-                        itemList[d._id].push(t);
+                        itemList[d._id]["tvshows"].push(t);
                     });
                 });
                 setItems(itemList);
