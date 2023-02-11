@@ -1,9 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchBox from "./SearchBox";
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogout } from '../store';
 import "./Navbar.css";
 
 const Navbar = () => {
+    var dispatch = useDispatch();
+    const userProfile = useSelector((state) => { return state.userProfile; });
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        const userLogoutPayload = {
+            firstName: null,
+            lastName: null,
+            email: null,
+            username: null,
+            password: null,
+        };
+        dispatch(userLogout(userLogoutPayload)); 
+    };
+
+    const renderUserWidget = () => {
+        if (userProfile.username) {
+            return (
+                <button className="navbarLoginButton" onClick={handleLogout}>Logout {userProfile.username}</button>
+            );
+        }
+        else {
+            return (
+                <Link class="nav-link" to="/login">
+                    <button className="navbarLoginButton">Log In</button>
+                </Link>
+            );
+        }
+    };
     return (
         <div id="navbarID">
             <nav class="navbar navbar-expand navbar-light bg-light">
@@ -23,7 +53,7 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </div>
-                <SearchBox />
+                {renderUserWidget()}
             </nav>
         </div>
     );

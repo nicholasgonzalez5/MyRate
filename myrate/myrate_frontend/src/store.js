@@ -12,10 +12,31 @@ let trendingBooks = createSlice({
 
 export let { updateTrendingBooks } = trendingBooks.actions;
 
+const userProfile = createSlice({
+    name: 'userProfile',
+    initialState: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        username: null,
+        password: null,
+    },
+    reducers: {
+        userLogin(state, action) {
+            return action.payload;
+        },
+        userLogout(state, action) {
+            return action.payload
+        },
+    }
+});
+
+export let { userLogin, userLogout } = userProfile.actions;
+
 export default configureStore({
     reducer: {
 
-        trendingBooks: trendingBooks.reducer
-
+        trendingBooks: trendingBooks.reducer,
+        userProfile: userProfile.reducer,
     }
 });
