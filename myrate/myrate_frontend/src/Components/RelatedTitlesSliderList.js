@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./RelatedTitlesSliderList.css";
 
 const RelatedTitlesSliderList = ({ response, loading, error, isMovie }) => {
-
     // Base URL that needs to be pre-pended to 'poster_path'
     const prePosterPath = "https://image.tmdb.org/t/p/original";
 

@@ -14,7 +14,7 @@ const SecondaryMovie = () => {
 
     const location = useLocation();
     const { movieDetails } = location.state;
-    const { title, overview, poster_path, release_date, id } = movieDetails['movie'];
+    const { title, overview, poster_path, release_date, _id } = movieDetails['movie'];
     const newMovie = {
         title: title,
         overview: overview,
@@ -89,7 +89,7 @@ const SecondaryMovie = () => {
 
     const { response, loading, error } = useAxiosTMDB({
         method: 'get',
-        url: `movie/${id}/similar`,
+        url: `movie/${_id}/similar`,
         sortByPopularity: true,
     });
 

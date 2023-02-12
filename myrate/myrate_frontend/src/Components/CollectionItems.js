@@ -5,6 +5,7 @@ import "../Screens/Collections.css";
 import "./TrendingBooks.css";
 
 function Items(props) {
+    const prePosterPath = "https://image.tmdb.org/t/p/original";
     if (props.k === "books") {
         return (
             <>
@@ -23,14 +24,15 @@ function Items(props) {
         );
     }
     if (props.k === "movies") {
+        console.log("movie", props.v)
         return (
             <>
                 {
                     props.v.map(movie => (
                     <div className="bookDiv">
                     <div className="moviePosterDiv">
-                    <Link to={`/secondary-movie-page/${movie['id']}`} state={{ movieDetails: { movie } }}>
-                        {<img src={movie.image} height="255" width="155" />}
+                    <Link to={`/secondary-movie-page/${movie._id}`} state={{ movieDetails: { movie } }}>
+                        {<img src={`${prePosterPath}${movie.poster_path}`} height="255" width="155" />}
                     </Link>
                     </div>
                 </div>
