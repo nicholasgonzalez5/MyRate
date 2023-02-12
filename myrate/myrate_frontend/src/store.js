@@ -1,5 +1,21 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore, createSlice, combineReducers } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage';
 
+/*
+* DEVELOPER NOTES:
+*
+* Redux and Redux-Persist are being used in conjunction to save application state.
+* Follow the cookie-cutter pattern in this file to create additional pieces of state.
+* IMPORTANT: All reducers MUST be wrapped into the rootReducer.
+*/
+
+
+/*
+* Reducer: NYT Trending Book
+* Description: Save NYT API Response
+* Exports: updateTrendingBooks 
+*/
 let trendingBooks = createSlice({
     name: 'trendingBooks',
     initialState: [],
@@ -12,6 +28,12 @@ let trendingBooks = createSlice({
 
 export let { updateTrendingBooks } = trendingBooks.actions;
 
+
+/*
+* Reducer: User Profile
+* Description: Save User Profile Data from Mongo
+* Exports: userLogin, userLogout 
+*/
 const userProfile = createSlice({
     name: 'userProfile',
     initialState: {
@@ -33,10 +55,24 @@ const userProfile = createSlice({
 
 export let { userLogin, userLogout } = userProfile.actions;
 
-export default configureStore({
-    reducer: {
 
-        trendingBooks: trendingBooks.reducer,
-        userProfile: userProfile.reducer,
-    }
+/*
+* Root Reducer & Persisted Reducer Setup Work
+*/
+const rootReducer = combineReducers({ 
+    trendingBooks: trendingBooks.reducer,
+    userProfile: userProfile.reducer,
 });
+
+const persistConfig = {
+    key: 'root',
+    storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export const store = configureStore({
+    reducer: persistedReducer
+});
+
+export const persistor = persistStore(store)
