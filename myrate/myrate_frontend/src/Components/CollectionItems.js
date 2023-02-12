@@ -49,8 +49,8 @@ function Items(props) {
                     props.v.map(tvshow => (
                         <div className="bookDiv">
                             <div className="tvPosterDiv">
-                                <Link to={`/secondary-tv-page/${tvshow['id']}`} state={{ tvDetails: { tvshow } } }>
-                                    {<img src={tvshow.image} height="255" width="155" />}
+                                <Link to={`/secondary-tv-page/${tvshow._id}`} state={{ tvDetails: { tvshow } } }>
+                                    {<img src={`${prePosterPath}${tvshow.poster_path}`} height="255" width="155" />}
                                 </Link>
                             </div>
                         </div>

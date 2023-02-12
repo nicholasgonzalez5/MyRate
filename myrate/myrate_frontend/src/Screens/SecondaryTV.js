@@ -14,7 +14,7 @@ const SecondaryTV = () => {
 
     const location = useLocation();
     const { tvDetails } = location.state;
-    const { name, overview, poster_path, first_air_date, id } = tvDetails['tv'];
+    const { name, overview, poster_path, first_air_date, _id } = tvDetails['tvshow'];
 
     // Saves movie to database
     const newTVShow = {
@@ -90,7 +90,7 @@ const SecondaryTV = () => {
 
     const { response, loading, error } = useAxiosTMDB({
         method: 'get',
-        url: `tv/${id}/similar`,
+        url: `tv/${_id}/similar`,
         sortByPopularity: true,
     });
 
