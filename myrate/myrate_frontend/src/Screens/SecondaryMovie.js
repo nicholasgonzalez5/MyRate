@@ -5,13 +5,14 @@ import axios from "axios";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import RelatedTitlesSliderList from "../Components/RelatedTitlesSliderList";
 import ReviewForm from "../Components/ReviewForm";
+import CollectionModal from "../Components/Modals/CollectionModal"
 
 const SecondaryMovie = () => {
 
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
-    const [apiId, setApiId] = useState(); 
+    const [modalOpen, setModalOpen] = useState(false); 
 
     const location = useLocation();
     const { movieDetails } = location.state;
@@ -24,6 +25,13 @@ const SecondaryMovie = () => {
         release_date: release_date,
         api_id: movieDetails['movie'].id,
     };
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
         // store movie's ID for creating ratings/reviews
     let dbMovieId = 0;
@@ -65,7 +73,6 @@ const SecondaryMovie = () => {
 
                 
                 setMediaId(movie._id);
-                setApiId(movie.api_id);
 
                 axios.get(`http://localhost:5000/rating/findrating`, {
                 params: {
@@ -90,7 +97,6 @@ const SecondaryMovie = () => {
             dbMovieId = movie._id;
             
             setMediaId(movie._id);
-            setApiId(movie.api_id);
 
             axios.get(`http://localhost:5000/rating/findrating`, {
                 params: {
@@ -137,6 +143,10 @@ const SecondaryMovie = () => {
             <div className="bookDiv">
                 <div className="bookImageDiv">
                     <img src={`${prePosterPath}${poster_path}`} height="275" width="175" />
+                </div>
+                <div className="purchaseLinkDiv">
+                    <button className="purchaseButton" onClick={openModal}>Add to collection</button>
+                    <CollectionModal open={modalOpen} close={closeModal} header="Modal heading"></CollectionModal>
                 </div>
             </div>
             <div className="productDetailsDiv">
