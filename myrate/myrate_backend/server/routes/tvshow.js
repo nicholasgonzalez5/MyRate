@@ -27,7 +27,7 @@ tvshowRoutes.route("/tvshow").get(function (req, res) {
 // This section will help you get a single tvshow by id
 tvshowRoutes.route("/tvshow/gettvshowbyid:id").get(function (req, res) {
  let db_connect = dbo.getDb();
- let myquery = { _id: ObjectId(req.params.id) };
+ let myquery = { id: ObjectId(req.params.id) };
  db_connect
    .collection("tvshows")
    .findOne(myquery, function (err, result) {
@@ -59,6 +59,7 @@ tvshowRoutes.route("/tvshow/add").post(function (req, response) {
     overview: req.body.overview,
     poster_path: req.body.poster_path,
     first_air_date: req.body.first_air_date,
+    api_id: req.body.api_id,
  };
  db_connect.collection("tvshows").insertOne(myobj, function (err, res) {
    if (err) throw err;
@@ -69,13 +70,14 @@ tvshowRoutes.route("/tvshow/add").post(function (req, response) {
 // This section will help you update a tvshow by id.
 tvshowRoutes.route("/update/:id").post(function (req, response) {
  let db_connect = dbo.getDb();
- let myquery = { _id: ObjectId(req.params.id) };
+ let myquery = { id: ObjectId(req.params.id) };
  let newvalues = {
    $set: {
     name: req.body.name,
     overview: req.body.overview,
     poster_path: req.body.poster_path,
     first_air_date: req.body.first_air_date,
+    api_id: req.body.api_id,
    },
  };
  db_connect
@@ -90,7 +92,7 @@ tvshowRoutes.route("/update/:id").post(function (req, response) {
 // This section will help you delete a tvshow
 tvshowRoutes.route("/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
- let myquery = { _id: ObjectId(req.params.id) };
+ let myquery = { id: ObjectId(req.params.id) };
  db_connect.collection("tvshows").deleteOne(myquery, function (err, obj) {
    if (err) throw err;
    console.log("1 document deleted");

@@ -27,7 +27,7 @@ movieRoutes.route("/movie").get(function (req, res) {
 // This section will help you get a single movie by id
 movieRoutes.route("/movie/getmoviebyid:id").get(function (req, res) {
  let db_connect = dbo.getDb();
- let myquery = { _id: ObjectId(req.params.id) };
+ let myquery = { id: ObjectId(req.params.id) };
  db_connect
    .collection("movies")
    .findOne(myquery, function (err, result) {
@@ -57,8 +57,9 @@ movieRoutes.route("/movie/add").post(function (req, response) {
  let myobj = {
    title: req.body.title,
    overview: req.body.overview,
-   image: req.body.poster_path,
+   poster_path: req.body.poster_path,
    release_date: req.body.release_date,
+   api_id: req.body.api_id,
  };
  db_connect.collection("movies").insertOne(myobj, function (err, res) {
    if (err) throw err;
@@ -69,13 +70,14 @@ movieRoutes.route("/movie/add").post(function (req, response) {
 // This section will help you update a movie by id.
 movieRoutes.route("/update/:id").post(function (req, response) {
  let db_connect = dbo.getDb();
- let myquery = { _id: ObjectId(req.params.id) };
+ let myquery = { id: ObjectId(req.params.id) };
  let newvalues = {
    $set: {
     title: req.body.title,
     overview: req.body.overview,
     poster_path: req.body.poster_path,
     release_date: req.body.release_date,
+    api_id: req.body.api_id,
    },
  };
  db_connect
@@ -90,7 +92,7 @@ movieRoutes.route("/update/:id").post(function (req, response) {
 // This section will help you delete a movie
 movieRoutes.route("/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
- let myquery = { _id: ObjectId(req.params.id) };
+ let myquery = { id: ObjectId(req.params.id) };
  db_connect.collection("movies").deleteOne(myquery, function (err, obj) {
    if (err) throw err;
    console.log("1 document deleted");

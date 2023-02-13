@@ -22,11 +22,11 @@ const TrendingTV = ({ timeFrame, tvCount }) => {
         if (!loading) {
             return (
                 <div className="horizontalScroll">
-                    {trendingObj.map(tv => (
+                    {trendingObj.map(tvshow => (
                         <div className="bookDiv">
                             <div className="tvPosterDiv">
-                                <Link to={`/secondary-tv-page/${tv['id']}`} state={{ tvDetails: { tv } } }>
-                                    {<img src={`${prePosterPath}${tv['poster_path']}`} height="255" width="155" />}
+                                <Link to={`/secondary-tv-page/${tvshow['id']}`} state={{ tvDetails: { tvshow } } }>
+                                    {<img src={`${prePosterPath}${tvshow['poster_path']}`} height="255" width="155" />}
                                 </Link>
                             </div>
                         </div>

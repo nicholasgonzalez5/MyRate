@@ -11,10 +11,11 @@ const SecondaryTV = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
+    const [apiId, setApiId] = useState(); 
 
     const location = useLocation();
     const { tvDetails } = location.state;
-    const { name, overview, poster_path, first_air_date, id } = tvDetails['tv'];
+    const { name, overview, poster_path, first_air_date, _id } = tvDetails['tvshow'];
 
     // Saves movie to database
     const newTVShow = {
@@ -22,6 +23,7 @@ const SecondaryTV = () => {
         overview: overview,
         poster_path: poster_path,
         first_air_date: first_air_date,
+        api_id: tvDetails['tvshow'].id,
     };
 
     // store movie's ID for creating ratings/reviews
@@ -51,11 +53,42 @@ const SecondaryTV = () => {
               window.alert(error);
               return;
             });
+
+            axios.get(`http://localhost:5000/tvshow/findtvshow`, {
+            params: {
+                name: (newTVShow.name),
+                first_air_date: (newTVShow.first_air_date),
+            },
+        }).then((response) => {
+            const tvshow = ((response.data));
+            dbTVId = tvshow._id;
+            setApiId(tvshow.api_id);
+            setMediaId(tvshow._id);
+
+            axios.get(`http://localhost:5000/rating/findrating`, {
+                params: {
+                    media_type: "tvshow",
+                    media_id: dbTVId,
+                },
+        })
+        .then(response => {
+            ratingsList = (response.data);
+            console.log(response.data);
+        // set current rating and review to the first value of this list
+        // In the future, set it to current user's rating and review
+        setRate(ratingsList[0]?.stars);
+        setReview(ratingsList[0]?.review);
+        }).catch((response) => {
+            console.log("Error finding ratings: " + response);
+        })
+
+        })
           }
           else
           {
             console.log(`TV Show with name ${JSON.stringify(newTVShow.name)} aired on ${JSON.stringify(newTVShow.first_air_date)} with id ${JSON.stringify(tvshow._id)} was found`);
             dbTVId = tvshow._id;
+            setApiId(tvshow.api_id);
             setMediaId(dbTVId);
             axios.get(`http://localhost:5000/rating/findrating`, {
                     params: {
@@ -88,11 +121,6 @@ const SecondaryTV = () => {
 
     //console.log(tvDetails);
 
-    const { response, loading, error } = useAxiosTMDB({
-        method: 'get',
-        url: `tv/${id}/similar`,
-        sortByPopularity: true,
-    });
 
     useEffect(() => {
         const element = document.getElementById('navbarID');
@@ -124,7 +152,7 @@ const SecondaryTV = () => {
             </div>
 
             <ReviewForm title={name} currRate={rate} currReview={review} media={newTVShow} mediaId={mediaId} mediaType={"tvshow"} />
-            <RelatedTitlesSliderList response={response} loading={loading} error={error} isMovie={false} />
+            {/* <RelatedTitlesSliderList apiId={apiId} isMovie={false} /> */}
         </>
     );
 };
