@@ -111,20 +111,40 @@ const SecondaryBook = () => {
                 bookAuthor: (newBook.bookAuthor),
             },
         }).then(response => {
-            // create review
-            const reviewData = {
-                stars: rate,
-                review: review,
-                media_type: "books",
-                media_id: mediaId
-            }
-            // adds rating to database
-            axios.post(`http://localhost:5000/rating/add`, reviewData
-            ).then(response => {
-                console.log("Posted rating");
-            }).catch(response => {
-                console.log("Error saving rating: " + response);
+            const b = ((response.data));
+            // check if review exists
+            axios.get(`http://localhost:5000/rating/findrating`, {
+                params: {
+                    media_id: b._id,
+                },
+            }).then((response) => {
+                const currReview = ((response.data[0]));
+
+                // create review
+                const reviewData = {
+                    stars: rate,
+                    review: review,
+                    media_type: "books",
+                    media_id: mediaId
+                }
+                if(!currReview) {
+                    // adds rating to database
+                    axios.post(`http://localhost:5000/rating/add`, reviewData
+                    ).then(response => {
+                        console.log("Posted rating");
+                    }).catch(response => {
+                        console.log("Error saving rating: " + response);
+                    })
+                }
+                else {
+                    //update rating
+                    axios.post(`http://localhost:5000/rating/update/${currReview._id}`, reviewData
+                    ).then(response => {
+                    console.log("Updated rating");
+                })
+                }
             })
+            
         }).catch(response => {
             console.log(response);
         })
