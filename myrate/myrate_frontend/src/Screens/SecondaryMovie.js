@@ -11,15 +11,18 @@ const SecondaryMovie = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
+    const [apiId, setApiId] = useState(); 
 
     const location = useLocation();
     const { movieDetails } = location.state;
     const { title, overview, poster_path, release_date, _id } = movieDetails['movie'];
+
     const newMovie = {
         title: title,
         overview: overview,
         poster_path: poster_path,
         release_date: release_date,
+        api_id: movieDetails['movie'].id,
     };
 
         // store movie's ID for creating ratings/reviews
@@ -49,10 +52,44 @@ const SecondaryMovie = () => {
                 window.alert(error);
                 return;
             });
+            // get the registered movie 
+            axios.get(`http://localhost:5000/movie/findmovie`, {
+                params: {
+                    title: (newMovie.title),
+                    release_date: (newMovie.release_date),
+                },
+            }).then((response) => {
+                const movie = ((response.data));
+                console.log("added movie:", movie);
+                dbMovieId = movie._id;
+
+                setApiId(movie.api_id);
+                setMediaId(movie._id);
+
+                axios.get(`http://localhost:5000/rating/findrating`, {
+                params: {
+                    media_type: "movies",
+                    media_id: dbMovieId,
+                },
+            })
+            .then(response => {
+                ratingsList = (response.data);
+                console.log("findrating result", response.data);
+                // set current rating and review to the first value of this list
+                // In the future, set it to current user's rating and review
+                setRate(ratingsList[0]?.stars);
+                setReview(ratingsList[0]?.review);
+            }).catch((response) => {
+                console.log("Error finding ratings: " + response);
+            })
+                
+            })
           } else {
             console.log(`Movie with title ${JSON.stringify(newMovie.title)} released on ${JSON.stringify(newMovie.release_date)} with id ${JSON.stringify(movie._id)} was found`);
             dbMovieId = movie._id;
+            setApiId(movie.api_id);
             setMediaId(movie._id);
+            
 
             axios.get(`http://localhost:5000/rating/findrating`, {
                 params: {
@@ -87,12 +124,6 @@ const SecondaryMovie = () => {
 
     //console.log(movieDetails);
 
-    const { response, loading, error } = useAxiosTMDB({
-        method: 'get',
-        url: `movie/${_id}/similar`,
-        sortByPopularity: true,
-    });
-
     useEffect(() => {
         const element = document.getElementById('navbarID');
         element.scrollIntoView({ behavior: "smooth" });
@@ -123,7 +154,7 @@ const SecondaryMovie = () => {
             </div>
 
             <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
-            <RelatedTitlesSliderList response={response} loading={loading} error={error} isMovie={true} />
+            <RelatedTitlesSliderList apiId={505642} isMovie={true} />
         </>
     );
 };
