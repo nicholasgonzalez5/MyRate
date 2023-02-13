@@ -4,8 +4,10 @@ import "./RelatedTitlesSliderList.css";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 
 const RelatedTitlesSliderList = (props) => {
+    const path = props.apiId;
     // Base URL that needs to be pre-pended to 'poster_path'
     const prePosterPath = "https://image.tmdb.org/t/p/original";
+    console.log("slider", props.apiId);
 
     // Disclaimer that needs to be included when using TMDB API data
     const disclaimer = "This product uses the TMDB API but is not endorsed or certified by TMDB.";
@@ -13,7 +15,7 @@ const RelatedTitlesSliderList = (props) => {
 
     const { response, loading, error } = useAxiosTMDB({
         method: 'get',
-        url: `movie/${props.apiId}/similar`,
+        url: `movie/${path}/similar`,
         sortByPopularity: true,
     });
     const renderMovieSliderList = (trendingObj) => {

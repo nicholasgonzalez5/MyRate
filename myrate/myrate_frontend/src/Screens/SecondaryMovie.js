@@ -63,8 +63,9 @@ const SecondaryMovie = () => {
                 console.log("added movie:", movie);
                 dbMovieId = movie._id;
 
-                setApiId(movie.api_id);
+                
                 setMediaId(movie._id);
+                setApiId(movie.api_id);
 
                 axios.get(`http://localhost:5000/rating/findrating`, {
                 params: {
@@ -87,9 +88,9 @@ const SecondaryMovie = () => {
           } else {
             console.log(`Movie with title ${JSON.stringify(newMovie.title)} released on ${JSON.stringify(newMovie.release_date)} with id ${JSON.stringify(movie._id)} was found`);
             dbMovieId = movie._id;
-            setApiId(movie.api_id);
-            setMediaId(movie._id);
             
+            setMediaId(movie._id);
+            setApiId(movie.api_id);
 
             axios.get(`http://localhost:5000/rating/findrating`, {
                 params: {
@@ -154,7 +155,7 @@ const SecondaryMovie = () => {
             </div>
 
             <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
-            <RelatedTitlesSliderList apiId={505642} isMovie={true} />
+            {/* <RelatedTitlesSliderList apiId={apiId} isMovie={true} /> */}
         </>
     );
 };
