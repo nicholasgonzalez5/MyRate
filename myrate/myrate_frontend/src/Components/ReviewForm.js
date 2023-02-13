@@ -11,6 +11,11 @@ const ReviewForm = (props) => {
     const [newRate, setNewRate] = useState(props.currRate);
     const [newReview, setNewReview] = useState(props.currReview);
 
+    useEffect(() => {
+        setNewRate(props.currRate);
+        setNewReview(props.currReview);
+    },[rate, review])
+
     const movieReview = () => {
         // find the movie's id to store in review 
         axios.get(`http://localhost:5000/movie/findmovie`, {
@@ -138,7 +143,7 @@ const ReviewForm = (props) => {
                 <div class="form-group" className="reviewDiv">
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
-                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate}>
+                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={newRate}>
                             <option selected hidden />
                             <option value={1}>Poor</option>
                             <option value={2}>Fair</option>
@@ -148,7 +153,7 @@ const ReviewForm = (props) => {
                         </select>
                     </div>
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {props.title}*</label>
-                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} defaultValue={review}></textarea>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} defaultValue={newReview}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>
