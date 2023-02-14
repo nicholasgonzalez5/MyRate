@@ -11,6 +11,11 @@ const ReviewForm = (props) => {
     const [newRate, setNewRate] = useState(props.currRate);
     const [newReview, setNewReview] = useState(props.currReview);
 
+    useEffect(() => {
+        setNewRate(props.currRate);
+        setNewReview(props.currReview);
+    },[rate, review])
+
     const movieReview = () => {
         // find the movie's id to store in review 
         axios.get(`http://localhost:5000/movie/findmovie`, {
@@ -18,21 +23,43 @@ const ReviewForm = (props) => {
                 title: (props.media.title),
                 release_date: (props.media.release_date),
             },
-        }).then(response => {
-            // create review
-            const reviewData = {
-                stars: newRate,
-                review: newReview,
-                media_type: "movies",
-                media_id: mediaId
-            }
-            // adds rating to database
-            axios.post(`http://localhost:5000/rating/add`, reviewData
-            ).then(response => {
-                console.log("Posted rating");
-            }).catch(response => {
-                console.log("Error saving rating: " + response);
+        }).then((response) => {
+            // check if review already exists
+            const movie = ((response.data));
+            axios.get(`http://localhost:5000/rating/findrating`, {
+                params: {
+                    media_id: movie._id,
+                },
+            }).then((response) => {
+                const review = ((response.data[0]));
+                console.log(review);
+                // create review
+                const reviewData = {
+                    stars: newRate,
+                    review: newReview,
+                    media_type: "movies",
+                    media_id: mediaId
+                }
+                if(!review) {
+                // adds rating to database
+                axios.post(`http://localhost:5000/rating/add`, reviewData
+                ).then(response => {
+                    console.log("Posted rating");
+                }).catch(response => {
+                    console.log("Error saving rating: " + response);
+                })
+                }
+                else {
+                    //update rating
+                    axios.post(`http://localhost:5000/rating/update/${review._id}`, reviewData
+                    ).then(response => {
+                    console.log("Updated rating");
+                }).catch(response => {
+                    console.log("Error saving rating: " + response);
+                })
+                }
             })
+
         }).catch(response => {
             console.log(response);
         })
@@ -45,21 +72,42 @@ const ReviewForm = (props) => {
                 name: (props.media.name),
                 first_air_date: (props.media.first_air_date),
             },
-        }).then(response => {
-            // create review
-            const reviewData = {
-                stars: newRate,
-                review: newReview,
-                media_type: "tvshows",
-                media_id: mediaId
-            }
-            // adds rating to database
-            axios.post(`http://localhost:5000/rating/add`, reviewData
-            ).then(response => {
-                console.log("Posted rating");
-            }).catch(response => {
-                console.log("Error saving rating: " + response);
-            })
+        }).then((response) => {
+            // check if review already exists
+            const tvshow = ((response.data));
+            axios.get(`http://localhost:5000/rating/findrating`, {
+                params: {
+                    media_id: tvshow._id,
+                },
+            }).then((response) => {
+                const review = ((response.data[0]));
+                console.log(review);
+                // create review
+                const reviewData = {
+                    stars: newRate,
+                    review: newReview,
+                    media_type: "tvshows",
+                    media_id: mediaId,
+                }
+                if(!review) {
+                    // adds rating to database
+                    axios.post(`http://localhost:5000/rating/add`, reviewData
+                    ).then(response => {
+                        console.log("Posted rating");
+                    }).catch(response => {
+                        console.log("Error saving rating: " + response);
+                    })
+                    }
+                    else {
+                        //update rating
+                        axios.post(`http://localhost:5000/rating/update/${review._id}`, reviewData
+                        ).then(response => {
+                        console.log("Updated rating");
+                    }).catch(response => {
+                        console.log("Error saving rating: " + response);
+                    })
+                    }
+                })
         }).catch(response => {
             console.log(response);
         })
@@ -95,7 +143,7 @@ const ReviewForm = (props) => {
                 <div class="form-group" className="reviewDiv">
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
-                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate}>
+                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={newRate}>
                             <option selected hidden />
                             <option value={1}>Poor</option>
                             <option value={2}>Fair</option>
@@ -105,7 +153,7 @@ const ReviewForm = (props) => {
                         </select>
                     </div>
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {props.title}*</label>
-                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review}></textarea>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} defaultValue={newReview}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>

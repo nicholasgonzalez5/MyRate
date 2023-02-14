@@ -71,7 +71,7 @@ ratingRoutes.route("/rating/add").post(function (req, response) {
 });
  
 // This section will help you update a rating by id.
-ratingRoutes.route("/update/:id").post(function (req, response) {
+ratingRoutes.route("/rating/update/:id").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  let newvalues = {

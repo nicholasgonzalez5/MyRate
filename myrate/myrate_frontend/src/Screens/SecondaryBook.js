@@ -8,6 +8,7 @@ import axios from "axios";
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
+    const [mediaId, setMediaId] = useState();
 
     const location = useLocation();
     const { bookDetails } = location.state;
@@ -25,7 +26,6 @@ const SecondaryBook = () => {
     };
 
     // store book's ID for creating ratings/reviews
-    let dbBookId = 0;
     let ratingsList = null;
     // 
     useEffect(() => {
@@ -57,12 +57,12 @@ const SecondaryBook = () => {
             }
             else {
                 console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
-                dbBookId = book._id;
+                setMediaId(book._id);
 
                 axios.get(`http://localhost:5000/rating/findrating`, {
                     params: {
                         media_type: "books",
-                        media_id: dbBookId,
+                        media_id: book._id,
                     },
                 })
                 .then(response => {
@@ -111,20 +111,40 @@ const SecondaryBook = () => {
                 bookAuthor: (newBook.bookAuthor),
             },
         }).then(response => {
-            // create review
-            const reviewData = {
-                stars: rate,
-                review: review,
-                media_type: "books",
-                media_id: dbBookId
-            }
-            // adds rating to database
-            axios.post(`http://localhost:5000/rating/add`, reviewData
-            ).then(response => {
-                console.log("Posted rating");
-            }).catch(response => {
-                console.log("Error saving rating: " + response);
+            const b = ((response.data));
+            // check if review exists
+            axios.get(`http://localhost:5000/rating/findrating`, {
+                params: {
+                    media_id: b._id,
+                },
+            }).then((response) => {
+                const currReview = ((response.data[0]));
+
+                // create review
+                const reviewData = {
+                    stars: rate,
+                    review: review,
+                    media_type: "books",
+                    media_id: mediaId
+                }
+                if(!currReview) {
+                    // adds rating to database
+                    axios.post(`http://localhost:5000/rating/add`, reviewData
+                    ).then(response => {
+                        console.log("Posted rating");
+                    }).catch(response => {
+                        console.log("Error saving rating: " + response);
+                    })
+                }
+                else {
+                    //update rating
+                    axios.post(`http://localhost:5000/rating/update/${currReview._id}`, reviewData
+                    ).then(response => {
+                    console.log("Updated rating");
+                })
+                }
             })
+            
         }).catch(response => {
             console.log(response);
         })
