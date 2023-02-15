@@ -1,6 +1,7 @@
 import { configureStore, createSlice, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage';
+//import storage from 'redux-persist/lib/storage';
+import localforage from 'localforage';
 
 /*
 * DEVELOPER NOTES:
@@ -66,7 +67,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
     key: 'root',
-    storage,
+    storage: localforage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
