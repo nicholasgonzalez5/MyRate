@@ -21,18 +21,18 @@ const useAxiosGoogleBooks = ({ url, method, body = null, headers = null, sortByP
 
     const fetchData = () => {
         axios[method](`${url}?${GOOGLE_API_KEY}`, JSON.parse(headers), JSON.parse(body))
-            .then((res) => {
-                if (sortByPopularity)
-                    setResponse(sortResponseByPopularity(res.data, false).splice(0, responseLength));
-                else
-                    setResponse(res.data);
-            })
-            .catch((err) => {
-                setError(err);
-            })
-            .finally(() => {
-                setloading(false);
-            });
+        .then((res) => {
+            if (sortByPopularity)
+                setResponse(sortResponseByPopularity(res.data['results'], false).splice(0, responseLength));
+            else
+                setResponse(res.data['results'].splice(0, responseLength));
+        })
+        .catch((err) => {
+            setError(err);
+        })
+        .finally(() => {
+            setloading(false);
+        });
     };
 
     function sortResponseByPopularity(arr, asc = true) {
