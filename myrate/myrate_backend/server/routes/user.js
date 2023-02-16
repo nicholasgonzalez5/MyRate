@@ -37,6 +37,28 @@ userRoutes.route("/user/getuserid/:id").get(function (req, res) {
    });
 });
 
+/*
+* Returns userCredentials object in result.data if username exists in system.
+* Otherwise result is set to null.
+*/
+userRoutes.route("/user/finduser/:username").get(function (req, res) {
+  let db_connect = dbo.getDb("media");
+  const query = {username : req.params.username};
+  db_connect.collection("users").findOne(query, function (err, result) {
+    if (err) {
+      res.status(500);
+      res.json(null);
+    }
+    else if (result == null) {
+      res.status(200);
+      res.json(null);
+    }
+    else {
+      res.status(200);
+      res.json(result);
+    }
+  });
+});
 
 // This section will help you get a single user by username and password
 userRoutes.route("/user/finduser").get(function (req, res) {

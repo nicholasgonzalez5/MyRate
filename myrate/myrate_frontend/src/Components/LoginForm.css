@@ -1,0 +1,23 @@
+.loginFormDiv {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.loginFormDiv input {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 25%;
+    line-height: 25px;
+}
+
+.loginFormDiv button {
+    background-color: rgb(160, 194, 224);
+    width: 25%;
+}
+
+#invalidLoginText {
+    color: red;
+    margin-top: 10px;
+}

@@ -7,6 +7,8 @@ import SecondaryBook from "./Screens/SecondaryBook";
 import SecondaryMovie from "./Screens/SecondaryMovie";
 import SecondaryTV from "./Screens/SecondaryTV";
 import Profile from "./Screens/Profile";
+import LoginScreen from "./Screens/LoginScreen";
+
 import {
     BrowserRouter as Router,
     Routes,
@@ -90,6 +92,7 @@ const App = () => {
                 <Route path="/secondary-book-page" element={<SecondaryBook />} />
                 <Route path="/secondary-movie-page/:id" element={<SecondaryMovie />} />
                 <Route path="/secondary-tv-page/:id" element={<SecondaryTV />} />
+                <Route path="/login" element={<LoginScreen />} />
             </Routes>
         </Router>
     );
