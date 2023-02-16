@@ -27,7 +27,7 @@ module.exports = {
       // The drop() command destroys all data from a collection.
         // Make sure you run it against proper database and collection.
         try {
-          collection.drop();
+          //collection.drop();
 
         }
         catch (err)
@@ -35,27 +35,34 @@ module.exports = {
 
         }
 
-        // make a bunch of time series data
-        let userData = [];
 
-        for (let i = 0; i < 5000; i++) {
-            const firstName = faker.name.firstName();
-            const lastName = faker.name.lastName();
-            let newUser = {
-                firstName,
-                lastName,
-                day_joined: faker.date.past(),
-                email: faker.internet.email(firstName, lastName),
-                username: faker.name.firstName() + faker.random.word() + faker.random.alphaNumeric(),
-                password: faker.internet.password(),
-            };
-
-            userData.push(newUser);
+        if(collection.countDocuments == 0)
+        {
+          // make a bunch of time series data
+          let userData = [];
+  
+          for (let i = 0; i < 5000; i++) {
+              const firstName = faker.name.firstName();
+              const lastName = faker.name.lastName();
+              let newUser = {
+                  firstName,
+                  lastName,
+                  day_joined: faker.date.past(),
+                  email: faker.internet.email(firstName, lastName),
+                  username: faker.name.firstName() + faker.random.word() + faker.random.alphaNumeric(),
+                  password: faker.internet.password(),
+              };
+  
+              userData.push(newUser);
+          }
+          collection.insertMany(userData);
+  
+          console.log("User Database seeded");
+        }  
+        else
+        {
+          console.log("Users are already in database. Did not seed.");
         }
-        collection.insertMany(userData);
-
-        console.log("User Database seeded");
-
 
       return callback(err);
     });
