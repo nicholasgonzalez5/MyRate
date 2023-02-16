@@ -29,7 +29,7 @@ const LoginForm = () => {
             let response = await axios.get(`http://localhost:5000/user/finduser/${username}`);
 
             if (response.data == null) {
-                //console.log(`Could not find user with username ${username} in system`);
+                setLoginError(true);
             }
             else {
                 const userCredentials = {
