@@ -3,6 +3,7 @@ import useAxiosGoogleBooks from "../Hooks/useAxiosGoogleBooks";
 import { Link } from "react-router-dom";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import "./TrendingMovies.css";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 
 const SearchBox = (timeFrame, count) => {
@@ -35,10 +36,25 @@ const SearchBox = (timeFrame, count) => {
     */
 
     const renderSliderList = () => {
-        if(response)
-        {
-            <p>response['items']</p>
-            console.log("IN RENDER SLIDER: " + JSON.stringify(response['items'][4][2]));
+        if (response) {
+            var res = response.items;
+            var text = "";
+
+            for (let i = 0; i < res.length; i++) {
+                console.log(res[i].volumeInfo.title + "<br>");
+                text += res[i].volumeInfo.title + "<br>";
+                return (
+                    <div>
+                        {
+                            (res.map(book => (
+                                <Dropdown.Item>{book.volumeInfo.title}</Dropdown.Item>
+
+                            )))
+                        }
+                    </div>
+                )
+            }
+
         }
     }
 
@@ -54,10 +70,12 @@ const SearchBox = (timeFrame, count) => {
                     <div class="col-md-4">
                         <button type="button" class="btn btn-primary" onClick={() => renderSliderList(searchEntry)}>Search</button>
                     </div>
-                    <dive>
-                        <h3>Search Results</h3>
-                        {renderSliderList()}
-                    </dive>
+                    <div>
+                        <Dropdown.Menu show>
+                            <Dropdown.Header>Search Results</Dropdown.Header>
+                            {renderSliderList()}
+                        </Dropdown.Menu>
+                    </div>
                 </div>
             </div>
 

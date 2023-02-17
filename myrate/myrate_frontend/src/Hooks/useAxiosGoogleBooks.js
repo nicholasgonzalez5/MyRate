@@ -21,9 +21,9 @@ const useAxiosGoogleBooks = ({ searchterms, method, body = null, headers = null,
     const fetchData = () => {
         axios[method]('https://www.googleapis.com/books/v1/volumes?q='+`${searchterms}:keyes&${GOOGLE_API_KEY}`, JSON.parse(headers), JSON.parse(body))
         .then((res) => {
-            console.log('https://www.googleapis.com/books/v1/volumes?q='+`${searchterms}:keyes&${GOOGLE_API_KEY}`);
-            console.log("--------------------------");
-            console.log(JSON.stringify(res.data));
+            //console.log('https://www.googleapis.com/books/v1/volumes?q='+`${searchterms}:keyes&${GOOGLE_API_KEY}`);
+            //console.log("--------------------------");
+            //console.log(JSON.stringify(res.data));
             setResponse(res.data);
         })
         .catch((err) => {
@@ -31,7 +31,7 @@ const useAxiosGoogleBooks = ({ searchterms, method, body = null, headers = null,
             setError(err);
         })
         .finally(() => {
-            console.log("IN finally");
+            //console.log("IN finally");
             setloading(false);
         });
     };
