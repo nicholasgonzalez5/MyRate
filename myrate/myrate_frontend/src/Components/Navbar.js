@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../store';
+import SearchBox from "./SearchBox";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -51,7 +52,13 @@ const Navbar = () => {
                         <li class="nav-item">
                             <Link class="nav-link" to="/mystats">MyStats</Link>
                         </li>
+                        <li class="nav-item">
+                            < SearchBox />
+                        </li>
                     </ul>
+                </div>
+                <div class="collapse navbar-collapse">
+
                 </div>
                 {renderUserWidget()}
             </nav>
