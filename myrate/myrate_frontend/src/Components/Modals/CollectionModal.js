@@ -5,7 +5,23 @@ import '../css/collectionModal.css';
 const CollectionCheckbox = (props) => {
 
   const removeFromCollection = () => {
+    const newMovies = c.movies.filter((m) => m !== props.mediaId);
+    const collectionData = {
+      title: c.title,
+      description: c.description,
+      books: c.books,
+      movies: newMovies,
+      tvshows: c.tvshows
+    }
 
+    axios.post(`http://localhost:5000/collection/update/${c._id}`, collectionData
+    ).then(response => {
+      console.log(collectionData);
+      console.log("Updated collection");
+  }).catch(response => {
+    console.log(collectionData);
+      console.log("Error updating collection: " + response);
+  })
   }
 
   const addToCollection = () => {
