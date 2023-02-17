@@ -15,12 +15,18 @@ module.exports = {
       if (db) {
         _db = db.db("media");
         console.log("Successfully connected to MongoDB.");
-
-        // seed ratings for media
-        var savedBooks = _db.collection("books").find().forEach(i => SeedReviews(i, "books"));
-        var savedMovies = _db.collection("movies").find().forEach(i => SeedReviews(i, "movies"));
-        var savedTVShows = _db.collection("tvshows").find().forEach(i => SeedReviews(i, "tvshows"));
-        console.log("Seeded ratings");
+        if(_db.collection("books").countDocuments()==0 || _db.collection("movies").countDocuments()==0 || _db.collection("tvshows").countDocuments()==0)
+        {
+          // seed ratings for media
+          var savedBooks = _db.collection("books").find().forEach(i => SeedReviews(i, "books"));
+          var savedMovies = _db.collection("movies").find().forEach(i => SeedReviews(i, "movies"));
+          var savedTVShows = _db.collection("tvshows").find().forEach(i => SeedReviews(i, "tvshows"));
+          console.log("Seeded ratings");
+        }
+        else
+        {
+          console.log("Ratings already in database. Did not seed.");
+        }
       }
       
       const collection = client.db("media").collection("users");
