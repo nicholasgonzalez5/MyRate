@@ -146,7 +146,7 @@ const SecondaryMovie = () => {
                 </div>
                 <div className="purchaseLinkDiv">
                     <button className="purchaseButton" onClick={openModal}>Add to collection</button>
-                    <CollectionModal open={modalOpen} close={closeModal} header="Modal heading" mediaType={"movie"} mediaId={mediaId}></CollectionModal>
+                    <CollectionModal open={modalOpen} close={closeModal} header="Your collections" mediaType={"movie"} mediaId={mediaId}></CollectionModal>
                 </div>
             </div>
             <div className="productDetailsDiv">

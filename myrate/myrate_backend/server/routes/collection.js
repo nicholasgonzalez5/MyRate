@@ -69,15 +69,21 @@ collectionRoutes.route("/collection/add").post(function (req, response) {
 });
  
 // This section will help you update a collection by id.
-collectionRoutes.route("/update/:id").post(function (req, response) {
+collectionRoutes.route("/collection/update/:id").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
+
+ let bookIds = req.body.books.map(b => ObjectId(b));
+ let movieIds = req.body.movies.map(m => ObjectId(m));
+ let tvshowIds = req.body.tvshows.map(t => ObjectId(t));
+
  let newvalues = {
    $set: {
-    collectionTitle: req.body.collectionTitle,
-    collectionOwner: req.body.collectionOwner,
-    media: req.body.media,
-    owner_id: req.body.owner_id,
+    title: req.body.title,
+    description: req.body.description,
+    books: bookIds,
+    movies: movieIds,
+    tvshows: tvshowIds,
    },
  };
  db_connect
