@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import "./LoginForm.css";
 import { userLogin } from '../store';
 import axios from 'axios';
 
 const LoginForm = () => {
     var dispatch = useDispatch();
-    const userProfile = useSelector((state) => { return state.userProfile; });
+    //const userProfile = useSelector((state) => { return state.userProfile; });
 
     const[username, setUsername] = useState("");
     const[password, setPassword] = useState("");
     const[loginError, setLoginError] = useState(false)
+    const [incompleteForm, setIncompleteForm] = useState(false);
 
     const handleNameChange = (e) => {
         e.preventDefault();
@@ -24,8 +26,14 @@ const LoginForm = () => {
 
     const loginOnSubmit = async (e) => {
         e.preventDefault();
+        if (username === "" || password === "") {
+            setLoginError(false);
+            setIncompleteForm(true);
+            return;
+        }
 
         try {
+            setIncompleteForm(false);
             let response = await axios.get(`http://localhost:5000/user/finduser/${username}`);
 
             if (response.data == null) {
@@ -54,32 +62,6 @@ const LoginForm = () => {
         }
     };
 
-    /*
-    * TODO NOTES:
-    * When implementing user sign-up functionality:
-    *   (response.data == null) --> username does not exist in system and CAN be used
-    *   (response.data != null) --> username already exists in system and cannot be used
-    */
-    const findUsername = async (e) => {
-        e.preventDefault();
-
-        try {
-            let response = await axios.get(`http://localhost:5000/user/finduser/${username}`);
-
-            if (response.data == null) {
-                // Proceed to create new user profile for the provided credentials
-                //console.log(`Could not find user with username ${username} in system`);
-            }
-            else {
-                // Prompt the user for a different username, as theirs is already being used
-                //console.log(response.data);
-            }
-        }
-        catch(err){
-            console.log("Internal Server Error at userRoutes/user/finduser/:username");
-        }
-    };
-
     return (
         <>
             <div class="loginFormDiv">
@@ -88,9 +70,13 @@ const LoginForm = () => {
                     <input placeholder="Username" type="text" id="username" value={username} onChange={handleNameChange}></input>
                     <input placeholder="Password" type="password" id="password" value={password} onChange={handlePasswordChange}></input>
                     <button onClick={loginOnSubmit}>Login</button>
+                    <p id="incompleteFormError" hidden={!incompleteForm}>Please Complete All Form Fields</p>
                     <p id="invalidLoginText" hidden={!loginError}>Cannot find an account that matches the provided credentials</p>
                 </form>
             </div>
+            <Link class="nav-link" to="/signup">
+                <p id="createAccountLink">Create New Account</p>
+            </Link>
         </>
     );
 };
