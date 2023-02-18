@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import "./TrendingMovies.css";
 import Dropdown from 'react-bootstrap/Dropdown';
+import "./SearchBox.css";
 
 
 const SearchBox = (timeFrame, count) => {
@@ -52,13 +53,17 @@ const SearchBox = (timeFrame, count) => {
             {
                 for (let i = 0; i < res.length; i++) {
                     console.log("res: " + res[i]);
-                    console.log(res[i].title + "<br>");
+                    console.log(res[i].title);
+                    console.log(res[i].author_name);
                     return (
                         <div>
                             {
                                 (res.map(book => (
-                                    <Dropdown.Item>{book.title}</Dropdown.Item>
-    
+                                    <Dropdown.Item>
+                                        <p>{book.title} by {book.author_name} (Book)</p>
+                                        <Dropdown.Divider />
+                                    </Dropdown.Item>
+                                    
                                 )))
                             }
                         </div>
@@ -79,11 +84,14 @@ const SearchBox = (timeFrame, count) => {
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary" onClick={}>Search</button>
+                        <button type="button" class="btn btn-primary" >Search</button>
                     </div>
                     <div>
                         <Dropdown.Menu show = {showDrop? true : false}>
                             {renderSliderList(response)}
+                            <Dropdown.Item className="dropdownlink" href="/search-page">
+                                View More Results
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </div>
                 </div>
