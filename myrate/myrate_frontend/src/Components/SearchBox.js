@@ -9,10 +9,16 @@ import Dropdown from 'react-bootstrap/Dropdown';
 const SearchBox = (timeFrame, count) => {
 
     const [searchEntry, setSearchEntry] = useState("");
+    const [showDrop, setShowDrop] = useState(false);
+
     const changed = (e) => {
         console.log(e.target.value);
         e.preventDefault();
         setSearchEntry(e.target.value);
+        if(searchEntry.length <= 1)
+            setShowDrop(false);
+        else
+            setShowDrop(true);
     };
 
     const submitSearch = (val) => {
@@ -23,7 +29,8 @@ const SearchBox = (timeFrame, count) => {
     const { response, loading, error } = useAxiosGoogleBooks({
         method: 'get',
         searchterms: searchEntry,
-        responseLength: 3,
+        specify_type : 'q',
+        responseLength: 10,
     });
 
     /*
@@ -35,24 +42,28 @@ const SearchBox = (timeFrame, count) => {
     });
     */
 
-    const renderSliderList = () => {
-        if (response) {
-            var res = response.items;
+    const renderSliderList = (res) => {
+        if (!loading) {
+            //var res = res.docs;
             var text = "";
-
-            for (let i = 0; i < res.length; i++) {
-                console.log(res[i].volumeInfo.title + "<br>");
-                text += res[i].volumeInfo.title + "<br>";
-                return (
-                    <div>
-                        {
-                            (res.map(book => (
-                                <Dropdown.Item>{book.volumeInfo.title}</Dropdown.Item>
-
-                            )))
-                        }
-                    </div>
-                )
+            res = res.docs;
+            console.log("before if: " + JSON.stringify(res[0]));
+            if(res != undefined)
+            {
+                for (let i = 0; i < res.length; i++) {
+                    console.log("res: " + res[i]);
+                    console.log(res[i].title + "<br>");
+                    return (
+                        <div>
+                            {
+                                (res.map(book => (
+                                    <Dropdown.Item>{book.title}</Dropdown.Item>
+    
+                                )))
+                            }
+                        </div>
+                    )
+                }
             }
 
         }
@@ -68,12 +79,11 @@ const SearchBox = (timeFrame, count) => {
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary" onClick={() => renderSliderList(searchEntry)}>Search</button>
+                        <button type="button" class="btn btn-primary" onClick={}>Search</button>
                     </div>
                     <div>
-                        <Dropdown.Menu show>
-                            <Dropdown.Header>Search Results</Dropdown.Header>
-                            {renderSliderList()}
+                        <Dropdown.Menu show = {showDrop? true : false}>
+                            {renderSliderList(response)}
                         </Dropdown.Menu>
                     </div>
                 </div>
@@ -84,3 +94,4 @@ const SearchBox = (timeFrame, count) => {
 };
 
 export default SearchBox;
+
