@@ -3,3 +3,7 @@
     text-align: center;
     color:cadetblue;
 }
+
+.dropdown {
+    max:20px;
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useAxiosGoogleBooks from "../Hooks/useAxiosGoogleBooks";
+import useAxiosLibraryBooks from "../Hooks/useAxiosLibraryBooks";
 import { Link } from "react-router-dom";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import "./TrendingMovies.css";
@@ -10,7 +11,9 @@ import "./SearchBox.css";
 const SearchBox = (timeFrame, count) => {
 
     const [searchEntry, setSearchEntry] = useState("");
+    const [searchKey, setSearchKey] = useState("");
     const [showDrop, setShowDrop] = useState(false);
+    const [bookDetails, setBookDetails] = useState("");
 
     const changed = (e) => {
         console.log(e.target.value);
@@ -22,11 +25,6 @@ const SearchBox = (timeFrame, count) => {
             setShowDrop(true);
     };
 
-    const submitSearch = (val) => {
-        response = val;
-
-    }
-
     const { response, loading, error } = useAxiosGoogleBooks({
         method: 'get',
         searchterms: searchEntry,
@@ -34,33 +32,38 @@ const SearchBox = (timeFrame, count) => {
         responseLength: 10,
     });
 
-    /*
-    const { movieresponse, movieloading, movieerror } = useAxiosTMDB({
+    const { responseb, loadingb, errorb } = useAxiosLibraryBooks({
         method: 'get',
-        url: `trending/movie/${timeFrame}`,
-        sortByPopularity: true,
-        responseLength: count,
+        key: searchKey,
     });
-    */
+
+    async function findBook (inputKey) {
+        setSearchKey(inputKey);
+        console.log("beresponse: " + responseb);
+        secondfindbook();     
+
+    }
+    
+    function secondfindbook() {
+        if(!loadingb)
+        {
+            console.log("resb: " + JSON.stringify(responseb));
+        }
+    }
 
     const renderSliderList = (res) => {
         if (!loading) {
-            //var res = res.docs;
             var text = "";
             res = res.docs;
-            console.log("before if: " + JSON.stringify(res[0]));
-            if(res != undefined)
+            if(res !== undefined)
             {
                 for (let i = 0; i < res.length; i++) {
-                    console.log("res: " + res[i]);
-                    console.log(res[i].title);
-                    console.log(res[i].author_name);
                     return (
                         <div>
                             {
                                 (res.map(book => (
-                                    <Dropdown.Item>
-                                        <p>{book.title} by {book.author_name} (Book)</p>
+                                    <Dropdown.Item onClick={() => findBook(book.key)}>
+                                        <p >{book.title} by {book.author_name} (Book)</p>
                                         <Dropdown.Divider />
                                     </Dropdown.Item>
                                     
@@ -89,7 +92,7 @@ const SearchBox = (timeFrame, count) => {
                     <div>
                         <Dropdown.Menu show = {showDrop? true : false}>
                             {renderSliderList(response)}
-                            <Dropdown.Item className="dropdownlink" href="/search-page">
+                            <Dropdown.Item className="dropdownlink" href="/search-page" state={{searchEntry}}>
                                 View More Results
                             </Dropdown.Item>
                         </Dropdown.Menu>
