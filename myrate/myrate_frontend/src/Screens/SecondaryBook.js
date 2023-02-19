@@ -12,7 +12,7 @@ const SecondaryBook = () => {
 
     const location = useLocation();
     const { bookDetails } = location.state;
-    console.log(bookDetails.i);
+    console.log("secondarybook: " + JSON.stringify(bookDetails['book']));//.i);
     const { image, bookTitle, bookAuthor, publisher, isbn_10, isbn_13, description, purchaseLinks } = bookDetails['book'];
     const newBook = {
         image: image,

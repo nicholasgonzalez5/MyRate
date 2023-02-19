@@ -6,6 +6,7 @@ import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import "./TrendingMovies.css";
 import Dropdown from 'react-bootstrap/Dropdown';
 import "./SearchBox.css";
+import { useNavigate } from 'react-router-dom';
 
 
 const SearchBox = (timeFrame, count) => {
@@ -13,7 +14,11 @@ const SearchBox = (timeFrame, count) => {
     const [searchEntry, setSearchEntry] = useState("");
     const [searchKey, setSearchKey] = useState("");
     const [showDrop, setShowDrop] = useState(false);
-    const [bookDetails, setBookDetails] = useState("");
+    var pub;
+    var isbn_10_input;
+    var isbn_13_input;
+    var amazon;
+    const navigate = useNavigate();
 
     const changed = (e) => {
         console.log(e.target.value);
@@ -37,17 +42,28 @@ const SearchBox = (timeFrame, count) => {
         key: searchKey,
     });
 
-    async function findBook (inputKey) {
+    async function findBook (inputKey, author, pub) {
         setSearchKey(inputKey);
         console.log("beresponse: " + responseb);
-        secondfindbook();     
+        secondfindbook(author, pub);     
 
     }
     
-    function secondfindbook() {
+    function secondfindbook(author) {
         if(!loadingb)
         {
-            console.log("resb: " + JSON.stringify(responseb));
+            var image = "https://covers.openlibrary.org/b/ID/" + responseb.covers[0] + "-M.jpg";
+            var bookTitle = responseb.title;
+            var bookAuthor = author;
+            var publisher = response.publisher;
+            var description = response.description;
+            var amazonlink = "amazon.com/db/" + amazon;
+
+            const bookDetails = {book : {image: image, bookTitle: bookTitle, bookAuthor: bookAuthor, publisher: pub, isbn_10: isbn_10_input, isbn_13: isbn_13_input, description: description, purchaseLinks: [{name: "Amazon" }, {link: amazonlink}]}}
+            
+            console.log("details: " + JSON.stringify(bookDetails));
+            
+            navigate('/secondary-book-page', { state : {bookDetails}}, { replace: true } );
         }
     }
 
@@ -58,11 +74,22 @@ const SearchBox = (timeFrame, count) => {
             if(res !== undefined)
             {
                 for (let i = 0; i < res.length; i++) {
+                    pub = res[i].publisher[0];
+                    // will need to change probably
+                    try {
+                        isbn_10_input = res[i].isbn[0];
+                        isbn_13_input = res[i].isbn[1];
+                        amazon = res[i].id_amazon[0];
+                    }
+                    catch 
+                    {
+
+                    }
                     return (
                         <div>
                             {
                                 (res.map(book => (
-                                    <Dropdown.Item onClick={() => findBook(book.key)}>
+                                    <Dropdown.Item onClick={() => findBook(book.key, book.author_name)}>
                                         <p >{book.title} by {book.author_name} (Book)</p>
                                         <Dropdown.Divider />
                                     </Dropdown.Item>

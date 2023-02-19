@@ -2,10 +2,10 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useLocation } from 'react-router-dom'
 
-function BookCard() {
+function BookCard(bookDetails) {
     console.log("in book card");
     const location = useLocation();
-    const { bookDetails } = location.state;
+    //const { bookDetails } = location.state;
     console.log(bookDetails.i);
     const { image, bookTitle, bookAuthor, publisher, publicationdate, secondarybooklink, collectionslink } = bookDetails;
 
