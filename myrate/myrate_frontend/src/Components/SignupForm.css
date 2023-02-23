@@ -1,0 +1,19 @@
+.loginFormContentDiv {
+    display: block;
+}
+
+#incompleteFormError {
+    color: red;
+    margin-top: 10px;
+}
+
+#duplicateUsernameError {
+    color: red;
+    margin-top: 10px;
+}
+
+.signupbox input {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    line-height: 25px;
+}
