@@ -34,6 +34,16 @@ const CollectionCheckbox = (props) => {
       tvshows: newTVShows
     }
   }
+  else if (props.mediaType === "book") {
+    const newBooks = c.books.filter((b) => b !== props.mediaId);
+    collectionData = {
+      title: c.title,
+      description: c.description,
+      books: newBooks,
+      movies: c.movies,
+      tvshows: c.tvshows
+    }
+  }
 
     axios.post(`http://localhost:5000/collection/update/${c._id}`, collectionData
     ).then(response => {
@@ -71,6 +81,16 @@ const CollectionCheckbox = (props) => {
       books: c.books,
       movies: c.movies,
       tvshows: newTVShows
+    }
+  }
+  else if (props.mediaType === "book") {
+    const newBooks = [...c.books, props.mediaId]
+    collectionData = {
+      title: c.title,
+      description: c.description,
+      books: newBooks,
+      movies: c.movies,
+      tvshows: c.tvshows
     }
   }
     axios.post(`http://localhost:5000/collection/update/${c._id}`, collectionData
@@ -115,7 +135,38 @@ const CollectionCheckbox = (props) => {
     }
   }
 
-  if(props.mediaType==="tvshow") {
+  else if(props.mediaType==="book") {
+    if(c.books.indexOf(props.mediaId) > -1) {
+      // tvshow is already in this collection
+      return (
+        <div>
+        <label>
+          <input
+            type="checkbox"
+            defaultChecked={true}
+            onChange={removeFromCollection}
+          />
+          {c.title}
+        </label>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>
+        <label>
+          <input
+            type="checkbox"
+            defaultChecked={false}
+            onChange={addToCollection}
+          />
+          {c.title}
+        </label>
+        </div>
+      )
+    }
+  }
+  else if(props.mediaType==="tvshow") {
     if(c.tvshows.indexOf(props.mediaId) > -1) {
       // tvshow is already in this collection
       return (
