@@ -5,13 +5,14 @@ import axios from "axios";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import RelatedTitlesSliderList from "../Components/RelatedTitlesSliderList";
 import ReviewForm from "../Components/ReviewForm";
+import CollectionModal from "../Components/Modals/CollectionModal"
 
 const SecondaryTV = () => {
 
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
-    const [apiId, setApiId] = useState(); 
+    const [modalOpen, setModalOpen] = useState(false); 
 
     const location = useLocation();
     const { tvDetails } = location.state;
@@ -25,6 +26,14 @@ const SecondaryTV = () => {
         first_air_date: first_air_date,
         api_id: tvDetails['tvshow'].id,
     };
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+
 
     // store movie's ID for creating ratings/reviews
     let dbTVId = 0;
@@ -62,7 +71,6 @@ const SecondaryTV = () => {
         }).then((response) => {
             const tvshow = ((response.data));
             dbTVId = tvshow._id;
-            setApiId(tvshow.api_id);
             setMediaId(tvshow._id);
 
             axios.get(`http://localhost:5000/rating/findrating`, {
@@ -88,7 +96,6 @@ const SecondaryTV = () => {
           {
             console.log(`TV Show with name ${JSON.stringify(newTVShow.name)} aired on ${JSON.stringify(newTVShow.first_air_date)} with id ${JSON.stringify(tvshow._id)} was found`);
             dbTVId = tvshow._id;
-            setApiId(tvshow.api_id);
             setMediaId(dbTVId);
             axios.get(`http://localhost:5000/rating/findrating`, {
                     params: {
@@ -134,6 +141,10 @@ const SecondaryTV = () => {
             <div className="bookDiv">
                 <div className="bookImageDiv">
                     <img src={`${prePosterPath}${poster_path}`} height="275" width="175" />
+                </div>
+                <div className="purchaseLinkDiv">
+                    <button className="purchaseButton" onClick={openModal}>Add to collection</button>
+                    <CollectionModal open={modalOpen} close={closeModal} header="Your collections" mediaType={"tvshow"} mediaId={mediaId}></CollectionModal>
                 </div>
             </div>
             <div className="productDetailsDiv">

@@ -3,12 +3,14 @@ import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
 import axios from "axios";
+import CollectionModal from "../Components/Modals/CollectionModal"
 
 
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
+    const [modalOpen, setModalOpen] = useState(false); 
 
     const location = useLocation();
     const { bookDetails } = location.state;
@@ -24,6 +26,13 @@ const SecondaryBook = () => {
         description: description,
         purchaseLinks: purchaseLinks,
     };
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
     // store book's ID for creating ratings/reviews
     let ratingsList = null;
@@ -176,6 +185,10 @@ const SecondaryBook = () => {
                         </a>
                     </div>
                 ))}
+                <div className="purchaseLinkDiv">
+                    <button className="purchaseButton" onClick={openModal}>Add to collection</button>
+                    <CollectionModal open={modalOpen} close={closeModal} header="Your collections" mediaType={"book"} mediaId={mediaId}></CollectionModal>
+                </div>
             </div>
             <div className="productDetailsDiv">
                 <h5 className="productDetailsHeader">Product Details</h5>

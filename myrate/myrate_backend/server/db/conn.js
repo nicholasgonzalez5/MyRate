@@ -24,20 +24,21 @@ module.exports = {
       }
       
       const collection = client.db("media").collection("users");
-      // The drop() command destroys all data from a collection.
-        // Make sure you run it against proper database and collection.
-        try {
-          //collection.drop();
+      
+      if(collection.countDocuments() == 0)
+      {
 
-        }
-        catch (err)
-        {
-
-        }
-
-
-        if(collection.countDocuments == 0)
-        {
+        // The drop() command destroys all data from a collection.
+          // Make sure you run it against proper database and collection.
+          try {
+            collection.drop();
+  
+          }
+          catch (err)
+          {
+  
+          }
+  
           // make a bunch of time series data
           let userData = [];
   
@@ -57,12 +58,13 @@ module.exports = {
           }
           collection.insertMany(userData);
   
-          console.log("User Database seeded");
-        }  
-        else
-        {
-          console.log("Users are already in database. Did not seed.");
-        }
+          console.log("User are already in database seeded");
+      }
+      else
+      {
+        console.log("Users already in database. Did not seed.")
+      }
+
 
       return callback(err);
     });
