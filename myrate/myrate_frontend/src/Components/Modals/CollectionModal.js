@@ -5,14 +5,35 @@ import '../css/collectionModal.css';
 const CollectionCheckbox = (props) => {
 
   const removeFromCollection = () => {
-    const newMovies = c.movies.filter((m) => m !== props.mediaId);
-    const collectionData = {
+    let collectionData = {
       title: c.title,
       description: c.description,
       books: c.books,
-      movies: newMovies,
+      movies: c.movies,
       tvshows: c.tvshows
     }
+
+
+    if (props.mediaType === "movie") {
+      const newMovies = c.movies.filter((m) => m !== props.mediaId);
+      collectionData = {
+        title: c.title,
+        description: c.description,
+        books: c.books,
+        movies: newMovies,
+        tvshows: c.tvshows
+      }
+  }
+  else if (props.mediaType === "tvshow") {
+    const newTVShows = c.tvshows.filter((t) => t !== props.mediaId);
+    collectionData = {
+      title: c.title,
+      description: c.description,
+      books: c.books,
+      movies: c.movies,
+      tvshows: newTVShows
+    }
+  }
 
     axios.post(`http://localhost:5000/collection/update/${c._id}`, collectionData
     ).then(response => {
@@ -25,14 +46,33 @@ const CollectionCheckbox = (props) => {
   }
 
   const addToCollection = () => {
+    let collectionData = {
+      title: c.title,
+      description: c.description,
+      books: c.books,
+      movies: c.movies,
+      tvshows: c.tvshows
+    }
+    if (props.mediaType === "movie") {
     const newMovies = [...c.movies, props.mediaId]
-    const collectionData = {
+    collectionData = {
       title: c.title,
       description: c.description,
       books: c.books,
       movies: newMovies,
       tvshows: c.tvshows
     }
+  }
+  else if (props.mediaType === "tvshow") {
+    const newTVShows = [...c.tvshows, props.mediaId]
+    collectionData = {
+      title: c.title,
+      description: c.description,
+      books: c.books,
+      movies: c.movies,
+      tvshows: newTVShows
+    }
+  }
     axios.post(`http://localhost:5000/collection/update/${c._id}`, collectionData
     ).then(response => {
       console.log(collectionData);
@@ -60,6 +100,38 @@ const CollectionCheckbox = (props) => {
         </div>
       )
     } else {
+      return (
+        <div>
+        <label>
+          <input
+            type="checkbox"
+            defaultChecked={false}
+            onChange={addToCollection}
+          />
+          {c.title}
+        </label>
+        </div>
+      )
+    }
+  }
+
+  if(props.mediaType==="tvshow") {
+    if(c.tvshows.indexOf(props.mediaId) > -1) {
+      // tvshow is already in this collection
+      return (
+        <div>
+        <label>
+          <input
+            type="checkbox"
+            defaultChecked={true}
+            onChange={removeFromCollection}
+          />
+          {c.title}
+        </label>
+        </div>
+      )
+    }
+    else {
       return (
         <div>
         <label>
