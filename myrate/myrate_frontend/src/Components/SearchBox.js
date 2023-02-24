@@ -56,15 +56,20 @@ const SearchBox = (timeFrame, count) => {
             var bookTitle = responseb.title;
             var bookAuthor = author;
             var publisher = response.publisher;
-            var description = response.description;
+            var description = responseb.description.value;
             var amazonlink = "amazon.com/db/" + amazon;
 
             const bookDetails = {book : {image: image, bookTitle: bookTitle, bookAuthor: bookAuthor, publisher: pub, isbn_10: isbn_10_input, isbn_13: isbn_13_input, description: description, purchaseLinks: [{name: "Amazon" }, {link: amazonlink}]}}
             
             console.log("details: " + JSON.stringify(bookDetails));
             
-            navigate('/secondary-book-page', { state : {bookDetails}}, { replace: true } );
+            navigate('/secondary-book-page', { state : {bookDetails}} );
         }
+    }
+
+    function navigateToSearchPage(input)
+    {
+        navigate('/searc-page', { state : {input}} );
     }
 
     const renderSliderList = (res) => {
@@ -75,7 +80,7 @@ const SearchBox = (timeFrame, count) => {
             {
                 for (let i = 0; i < res.length; i++) {
                     pub = res[i].publisher[0];
-                    // will need to change probably
+                    // will need to change probably but good for now
                     try {
                         isbn_10_input = res[i].isbn[0];
                         isbn_13_input = res[i].isbn[1];
@@ -119,7 +124,7 @@ const SearchBox = (timeFrame, count) => {
                     <div>
                         <Dropdown.Menu show = {showDrop? true : false}>
                             {renderSliderList(response)}
-                            <Dropdown.Item className="dropdownlink" href="/search-page" state={{searchEntry}}>
+                            <Dropdown.Item onClick={() => navigate('/search-page', { state : {searchEntry}} )} className="dropdownlink" >
                                 View More Results
                             </Dropdown.Item>
                         </Dropdown.Menu>
