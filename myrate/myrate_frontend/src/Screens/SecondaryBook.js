@@ -127,7 +127,7 @@ const SecondaryBook = () => {
         }).then(response => {
             const b = ((response.data));
             // check if review exists
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_id: b._id,
                 },
@@ -139,7 +139,8 @@ const SecondaryBook = () => {
                     stars: rate,
                     review: review,
                     media_type: "books",
-                    media_id: mediaId
+                    media_id: mediaId,
+                    user: userProfile.username
                 }
                 if(!currReview) {
                     // adds rating to database

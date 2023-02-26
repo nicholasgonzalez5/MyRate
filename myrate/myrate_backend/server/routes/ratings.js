@@ -85,8 +85,8 @@ ratingRoutes.route("/rating/add").post(function (req, response) {
     stars: req.body.stars,
     review: req.body.review,
     media_type: req.body.media_type,
-    media_id: ObjectId(req.body.media_id)
-    //user_id: user_id,
+    media_id: ObjectId(req.body.media_id),
+    user: req.body.user,
  };
  console.log(myobj);
  db_connect.collection("ratings").insertOne(myobj, function (err, res) {
@@ -104,8 +104,8 @@ ratingRoutes.route("/rating/update/:id").post(function (req, response) {
     stars: req.body.stars,
     review: req.body.review,
     media_type: req.body.media_type,
-    media_id: ObjectId(req.body.media_id)
-    //user_id: user_id,
+    media_id: ObjectId(req.body.media_id),
+    user: req.body.user,
    },
  };
  db_connect
