@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import '../css/collectionModal.css';
 
@@ -202,17 +203,19 @@ const CollectionCheckbox = (props) => {
 
 const CollectionModal = (props) => {
 
+  const userProfile = useSelector((state) => { return state.userProfile; });
+
     const { open, close, header } = props;
     const [collections, setCollections] = useState();
 
-    // Fetch existing collections
+    // Fetch existing collections under this user
     useEffect(() => {
-      axios.get(`http://localhost:5000/collection`)
+      axios.get(`http://localhost:5000/collection/getmedia/${userProfile.username}`)
           .then(function (response) {
               console.log(response.data);
               setCollections(response.data);
           });
-  }, []);
+  }, [userProfile]);
   
     return (
 

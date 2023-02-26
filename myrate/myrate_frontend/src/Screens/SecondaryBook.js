@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
@@ -11,6 +12,8 @@ const SecondaryBook = () => {
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
     const [modalOpen, setModalOpen] = useState(false); 
+
+    const userProfile = useSelector((state) => { return state.userProfile; });
 
     const location = useLocation();
     const { bookDetails } = location.state;
@@ -90,7 +93,7 @@ const SecondaryBook = () => {
             .catch((response) => {
                 console.log("error with axios: " + response);
             });
-    }, []);
+    }, [userProfile]);
 
 
     function toTitleCase(str) {
