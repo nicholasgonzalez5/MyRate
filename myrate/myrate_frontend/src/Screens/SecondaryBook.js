@@ -114,8 +114,10 @@ const SecondaryBook = () => {
 
     const submitReview = (e) => {
         e.preventDefault();
-        console.log("rate: ", rate);
-
+        if (userProfile.username === null) {
+            alert("Please login to submit your review");
+        }
+        else {
         // find the book's id to store in review 
         axios.get(`http://localhost:5000/book/findbook`, {
             params: {
@@ -160,6 +162,7 @@ const SecondaryBook = () => {
         }).catch(response => {
             console.log(response);
         })
+    }
 
     }
     /*
