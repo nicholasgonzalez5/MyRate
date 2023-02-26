@@ -4,6 +4,7 @@ import ScrollMenu from 'react-horizontal-scrolling-menu'
 import axios from 'axios';
 import "./CollectionList.css";
 import CollectionItems from "./CollectionItems";
+import LoginForm from "../Components/LoginForm";
 
 const CollectionList = () => {
 
@@ -51,10 +52,26 @@ const CollectionList = () => {
                 setItems(itemList);
 
             });
-    }, []);
+    }, [userProfile]);
 
     // TODO: Display the first item in each collection as the cover
+    if(userProfile.username === null) {
+        return (
+            <LoginForm />
+        )
+    }
 
+    else if(userProfile.username && collections.length === 0) {
+        return (
+            <>
+            <div class="wrap">
+            {"You don't have any collections yet..."}
+                </div>
+                {selectedItems && <CollectionItems title={title} items={selectedItems} />}
+            </>
+        )
+    }
+    else {
     return (
         <>
         <div class="wrap">
@@ -70,6 +87,7 @@ const CollectionList = () => {
         </>
         
     );
+                }
  
 };
 
