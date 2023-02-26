@@ -71,7 +71,7 @@ const SecondaryBook = () => {
                 console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
                 setMediaId(book._id);
 
-                axios.get(`http://localhost:5000/rating/findrating`, {
+                axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                     params: {
                         media_type: "books",
                         media_id: book._id,
