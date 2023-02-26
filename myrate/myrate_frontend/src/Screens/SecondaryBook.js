@@ -79,7 +79,7 @@ const SecondaryBook = () => {
                 })
                 .then(response => {
                     ratingsList = (response.data);
-                    console.log(response.data);
+                    console.log("ratings", response.data);
                     // set current rating and review to the first value of this list
                     // In the future, set it to current user's rating and review
                     setRate(ratingsList[0]?.stars);
@@ -224,7 +224,7 @@ const SecondaryBook = () => {
                 <div class="form-group" className="userReviewDiv">
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
-                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate}>
+                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate?rate:''}>
                             <option selected hidden />
                             <option value="1">Poor</option>
                             <option value="2">Fair</option>
@@ -234,7 +234,7 @@ const SecondaryBook = () => {
                         </select>
                     </div>
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {toTitleCase(bookTitle)}*</label>
-                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review}></textarea>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review?review:""}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>
