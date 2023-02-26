@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import axios from "axios";
@@ -13,6 +14,8 @@ const SecondaryTV = () => {
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
     const [modalOpen, setModalOpen] = useState(false); 
+
+    const userProfile = useSelector((state) => { return state.userProfile; });
 
     const location = useLocation();
     const { tvDetails } = location.state;
@@ -73,7 +76,7 @@ const SecondaryTV = () => {
             dbTVId = tvshow._id;
             setMediaId(tvshow._id);
 
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_type: "tvshow",
                     media_id: dbTVId,
@@ -97,7 +100,7 @@ const SecondaryTV = () => {
             console.log(`TV Show with name ${JSON.stringify(newTVShow.name)} aired on ${JSON.stringify(newTVShow.first_air_date)} with id ${JSON.stringify(tvshow._id)} was found`);
             dbTVId = tvshow._id;
             setMediaId(dbTVId);
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                     params: {
                         media_type: "tvshow",
                         media_id: dbTVId,
@@ -118,7 +121,7 @@ const SecondaryTV = () => {
         .catch((response) => {
             console.log("error with axios: " + response);
         });
-      }, []);
+      }, [userProfile]);
 
     // Base URL that needs to be pre-pended to 'poster_path'
     const prePosterPath = "https://image.tmdb.org/t/p/original";
@@ -162,7 +165,7 @@ const SecondaryTV = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={name} currRate={rate} currReview={review} media={newTVShow} mediaId={mediaId} mediaType={"tvshow"} />
+            <ReviewForm title={name} currRate={rate?rate:''} currReview={review?review:''} media={newTVShow} mediaId={mediaId} mediaType={"tvshow"} />
             {/* <RelatedTitlesSliderList apiId={apiId} isMovie={false} /> */}
         </>
     );
