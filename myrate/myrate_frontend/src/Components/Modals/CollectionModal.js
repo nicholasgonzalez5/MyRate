@@ -233,6 +233,10 @@ const CollectionModal = (props) => {
                 <CollectionCheckbox collection={c} mediaType={props.mediaType} mediaId={props.mediaId}/>
               ))}
             </main>
+              {userProfile.username? null:(<main>
+                <label>{"Login to add to collections"}</label>
+                </main>
+              )}
             <footer>
               <button className="close" onClick={close}>
                 close
