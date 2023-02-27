@@ -8,6 +8,9 @@ const client = new MongoClient(Db, {
 
 var _db;
 
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
+
 module.exports = {
   connectToServer: function (callback) {
     client.connect(function (err, db) {
@@ -45,13 +48,15 @@ module.exports = {
           for (let i = 0; i < 5000; i++) {
               const firstName = faker.name.firstName();
               const lastName = faker.name.lastName();
+              const password = bcrypt.hashSync(firstName, saltRounds);
+
               let newUser = {
                   firstName,
                   lastName,
                   day_joined: faker.date.past(),
                   email: faker.internet.email(firstName, lastName),
                   username: faker.name.firstName() + faker.random.word() + faker.random.alphaNumeric(),
-                  password: faker.internet.password(),
+                  password,
               };
   
               userData.push(newUser);

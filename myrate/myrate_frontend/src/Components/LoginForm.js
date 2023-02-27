@@ -6,6 +6,8 @@ import { userLogin } from '../store';
 import axios from 'axios';
 
 const LoginForm = () => {
+    const bcrypt = require('bcryptjs');
+    
     var dispatch = useDispatch();
     //const userProfile = useSelector((state) => { return state.userProfile; });
 
@@ -47,8 +49,9 @@ const LoginForm = () => {
                     username: response.data.username,
                     password: response.data.password,
                 };
+                const PASSWORD_MATCH = bcrypt.compareSync(password, userCredentials.password);
 
-                if (username !== userCredentials.username || password !== userCredentials.password) {
+                if (username !== userCredentials.username || !PASSWORD_MATCH) {
                     setLoginError(true);
                 }
                 else {
