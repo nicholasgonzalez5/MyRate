@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import axios from "axios";
@@ -13,6 +14,8 @@ const SecondaryMovie = () => {
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
     const [modalOpen, setModalOpen] = useState(false); 
+
+    const userProfile = useSelector((state) => { return state.userProfile; });
 
     const location = useLocation();
     const { movieDetails } = location.state;
@@ -74,7 +77,7 @@ const SecondaryMovie = () => {
                 
                 setMediaId(movie._id);
 
-                axios.get(`http://localhost:5000/rating/findrating`, {
+                axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_type: "movies",
                     media_id: dbMovieId,
@@ -98,7 +101,7 @@ const SecondaryMovie = () => {
             
             setMediaId(movie._id);
 
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_type: "movies",
                     media_id: dbMovieId,
@@ -119,7 +122,7 @@ const SecondaryMovie = () => {
         .catch((response) => {
             console.log("error with axios: " + response);
         });
-      }, []);
+      }, [userProfile]);
 
 
 
@@ -164,7 +167,7 @@ const SecondaryMovie = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
+            <ReviewForm title={title} currRate={rate?rate:''} currReview={review?review:''} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
             {/* <RelatedTitlesSliderList apiId={apiId} isMovie={true} /> */}
         </>
     );
