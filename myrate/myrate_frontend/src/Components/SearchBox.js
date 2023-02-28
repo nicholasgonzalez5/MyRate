@@ -67,10 +67,6 @@ const SearchBox = (timeFrame, count) => {
         }
     }
 
-    function navigateToSearchPage(input)
-    {
-        navigate('/searc-page', { state : {input}} );
-    }
 
     const renderSliderList = (res) => {
         if (!loading) {
