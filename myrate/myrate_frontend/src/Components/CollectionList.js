@@ -37,14 +37,6 @@ const CollectionList = () => {
         
     };
 
-    const addCollection = (e) => {
-        e.preventDefault();
-
-        
-
-
-    }
-
     // Fetch collection data of this user from the backend
 
     useEffect(() => {
@@ -69,7 +61,7 @@ const CollectionList = () => {
                 setItems(itemList);
 
             });
-    }, [userProfile]);
+    }, [userProfile, modalOpen]);
 
     // TODO: Display the first item in each collection as the cover
     if(userProfile.username === null) {
@@ -102,9 +94,9 @@ const CollectionList = () => {
                 ))}
             </div>
             </div>
-            {selectedItems && <CollectionItems title={title} items={selectedItems} />}
             <button class="btn btn-primary" onClick={openModal}>Add a collection</button>
             <AddCollectionModal open={modalOpen} close={closeModal} header="New Collection"></AddCollectionModal>
+            {selectedItems && <CollectionItems title={title} items={selectedItems} />}
         </>
         
     );

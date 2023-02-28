@@ -37,6 +37,7 @@ const AddCollectionModal = (props) => {
           description: description,
           user: userProfile.username,
         }
+        console.log(collectionData);
         axios.post(`http://localhost:5000/collection/add`, collectionData
         ).then(response => {
           console.log("added collection")
