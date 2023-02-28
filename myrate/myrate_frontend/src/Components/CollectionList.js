@@ -5,6 +5,7 @@ import axios from 'axios';
 import "./CollectionList.css";
 import CollectionItems from "./CollectionItems";
 import LoginForm from "../Components/LoginForm";
+import AddCollectionModal from "./Modals/AddCollectionModal";
 
 const CollectionList = () => {
 
@@ -13,8 +14,16 @@ const CollectionList = () => {
     let [collections, setCollections] = useState([]);
     let [items, setItems] = useState();
     let [selectedItems, setSelectedItems] = useState();
+    const [modalOpen, setModalOpen] = useState(false); 
 
     const [title, setTitle] = useState();
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
     const handleClickCollection = e => {
         let currId = e.target.id;
@@ -76,7 +85,8 @@ const CollectionList = () => {
             {"You don't have any collections yet..."}
                 </div>
                 {selectedItems && <CollectionItems title={title} items={selectedItems} />}
-                <button type="submit" class="btn btn-primary">Add a collection</button>
+                <button class="btn btn-primary" onClick={openModal}>Add a collection</button>
+            <AddCollectionModal open={modalOpen} close={closeModal} header="New Collection"></AddCollectionModal>
             </>
         )
     }
@@ -93,7 +103,8 @@ const CollectionList = () => {
             </div>
             </div>
             {selectedItems && <CollectionItems title={title} items={selectedItems} />}
-            <button type="submit" class="btn btn-primary">Add a collection</button>
+            <button class="btn btn-primary" onClick={openModal}>Add a collection</button>
+            <AddCollectionModal open={modalOpen} close={closeModal} header="New Collection"></AddCollectionModal>
         </>
         
     );
