@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./CollectionList.css";
 import "../Screens/Collections.css";
 import "./TrendingBooks.css";
+import DeleteCollectionModal from "./Modals/DeleteCollectionModal";
 
 function Items(props) {
     const prePosterPath = "https://image.tmdb.org/t/p/original";
@@ -62,7 +63,14 @@ function Items(props) {
 }
 
 function CollectionItems(props) {
-    console.log(props.items);
+    const [modalOpen, setModalOpen] = useState(false); 
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+
     return (
         //TODO: Need to update this to display correctly for books, movies, and tv shows
         //rn, only goes to book secondary page
@@ -75,6 +83,8 @@ function CollectionItems(props) {
                     ))
                 }
             </div>
+            <button class="btn btn-primary" onClick={openModal}>Delete Collection</button>
+            <DeleteCollectionModal open={modalOpen} close={closeModal} header="Delete Collection"></DeleteCollectionModal>
         </>
     );
 };
