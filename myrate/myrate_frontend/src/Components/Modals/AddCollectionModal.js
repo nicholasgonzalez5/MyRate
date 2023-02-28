@@ -40,7 +40,7 @@ const AddCollectionModal = (props) => {
         console.log(collectionData);
         axios.post(`http://localhost:5000/collection/add`, collectionData
         ).then(response => {
-          console.log("added collection")
+          window.location.reload(false);
         })
       }
       catch(err) {

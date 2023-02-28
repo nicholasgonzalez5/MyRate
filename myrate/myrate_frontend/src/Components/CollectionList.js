@@ -62,7 +62,7 @@ const CollectionList = () => {
                 setItems(itemList);
 
             });
-    }, [userProfile, modalOpen]);
+    }, [userProfile]);
 
     // TODO: Display the first item in each collection as the cover
     if(userProfile.username === null) {
