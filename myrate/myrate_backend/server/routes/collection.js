@@ -98,7 +98,7 @@ collectionRoutes.route("/collection/update/:id").post(function (req, response) {
 });
  
 // This section will help you delete a collection
-collectionRoutes.route("/:id").delete((req, response) => {
+collectionRoutes.route("/collection/delete/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect.collection("collections").deleteOne(myquery, function (err, obj) {

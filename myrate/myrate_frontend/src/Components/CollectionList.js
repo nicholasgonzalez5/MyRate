@@ -14,6 +14,7 @@ const CollectionList = () => {
     let [collections, setCollections] = useState([]);
     let [items, setItems] = useState();
     let [selectedItems, setSelectedItems] = useState();
+    let [selectedId, setSelectedId] = useState();
     const [modalOpen, setModalOpen] = useState(false); 
 
     const [title, setTitle] = useState();
@@ -34,7 +35,7 @@ const CollectionList = () => {
         console.log(selected);
         setTitle(selected.title);
         setSelectedItems(items[currId]);
-        
+        setSelectedId(currId);
     };
 
     // Fetch collection data of this user from the backend
@@ -96,7 +97,7 @@ const CollectionList = () => {
             </div>
             <button class="btn btn-primary" onClick={openModal}>Add a collection</button>
             <AddCollectionModal open={modalOpen} close={closeModal} header="New Collection"></AddCollectionModal>
-            {selectedItems && <CollectionItems title={title} items={selectedItems} />}
+            {selectedItems && <CollectionItems id={selectedId} title={title} items={selectedItems} />}
         </>
         
     );

@@ -12,7 +12,10 @@ const DeleteCollectionModal = (props) => {
 
     const deleteCollection = (e) => {
       e.preventDefault();
-
+      axios.delete(`http://localhost:5000/collection/delete/${props.id}`)
+      .then(function (response) {
+        console.log("deleted", props.id);
+      })
     }
   
     return (
