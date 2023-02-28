@@ -5,6 +5,7 @@ import axios from 'axios';
 import "./CollectionList.css";
 import CollectionItems from "./CollectionItems";
 import LoginForm from "../Components/LoginForm";
+import AddCollectionModal from "./Modals/AddCollectionModal";
 
 const CollectionList = () => {
 
@@ -13,8 +14,17 @@ const CollectionList = () => {
     let [collections, setCollections] = useState([]);
     let [items, setItems] = useState();
     let [selectedItems, setSelectedItems] = useState();
+    let [selectedId, setSelectedId] = useState();
+    const [modalOpen, setModalOpen] = useState(false); 
 
     const [title, setTitle] = useState();
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
     const handleClickCollection = e => {
         let currId = e.target.id;
@@ -25,7 +35,7 @@ const CollectionList = () => {
         console.log(selected);
         setTitle(selected.title);
         setSelectedItems(items[currId]);
-        
+        setSelectedId(currId);
     };
 
     // Fetch collection data of this user from the backend
@@ -68,6 +78,8 @@ const CollectionList = () => {
             {"You don't have any collections yet..."}
                 </div>
                 {selectedItems && <CollectionItems title={title} items={selectedItems} />}
+                <button class="btn btn-primary" onClick={openModal}>Add a collection</button>
+            <AddCollectionModal open={modalOpen} close={closeModal} header="New Collection"></AddCollectionModal>
             </>
         )
     }
@@ -83,7 +95,9 @@ const CollectionList = () => {
                 ))}
             </div>
             </div>
-            {selectedItems && <CollectionItems title={title} items={selectedItems} />}
+            <button class="btn btn-primary" onClick={openModal}>Add a collection</button>
+            <AddCollectionModal open={modalOpen} close={closeModal} header="New Collection"></AddCollectionModal>
+            {selectedItems && <CollectionItems id={selectedId} title={title} items={selectedItems} />}
         </>
         
     );
