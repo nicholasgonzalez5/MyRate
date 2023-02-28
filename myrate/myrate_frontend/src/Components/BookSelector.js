@@ -39,7 +39,7 @@ const BookSelector = () => {
                     <div className="bookDiv">
                         <div className="bookImageDiv">
                             <Link to="/secondary-book-page" state={{ bookDetails: { book } }}>
-                                {<img src={book.image} height="275" width="175" />}
+                                {<img src={book.image} height="255" width="155" />}
                             </Link>
                         </div>
                     </div>
