@@ -57,12 +57,10 @@ collectionRoutes.route("/collection/findcollections").get(function (req, res) {
 collectionRoutes.route("/collection/add").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myobj = {
-   title: req.body.title,
-   description: req.body.description,
-   books: [],
-   movies: [],
-   tvshows: [],
-   user: req.body.username,
+   collectionTitle: req.body.collectionTitle,
+   collectionOwner: req.body.collectionOwner,
+   media: req.body.media,
+   owner_id: req.body.owner_id,
  };
  db_connect.collection("collections").insertOne(myobj, function (err, res) {
    if (err) throw err;
@@ -172,4 +170,3 @@ collectionRoutes.route("/collection/user/:id").get(function (req, res) {
 
 
 module.exports = collectionRoutes;
-

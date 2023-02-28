@@ -28,14 +28,6 @@ const CollectionList = () => {
         
     };
 
-    const addCollection = (e) => {
-        e.preventDefault();
-
-        
-
-
-    }
-
     // Fetch collection data of this user from the backend
 
     useEffect(() => {
@@ -76,7 +68,6 @@ const CollectionList = () => {
             {"You don't have any collections yet..."}
                 </div>
                 {selectedItems && <CollectionItems title={title} items={selectedItems} />}
-                <button type="submit" class="btn btn-primary">Add a collection</button>
             </>
         )
     }
@@ -93,7 +84,6 @@ const CollectionList = () => {
             </div>
             </div>
             {selectedItems && <CollectionItems title={title} items={selectedItems} />}
-            <button type="submit" class="btn btn-primary">Add a collection</button>
         </>
         
     );
