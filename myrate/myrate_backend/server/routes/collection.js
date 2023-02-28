@@ -62,7 +62,7 @@ collectionRoutes.route("/collection/add").post(function (req, response) {
    books: [],
    movies: [],
    tvshows: [],
-   user: req.body.username,
+   user: req.body.user,
  };
  db_connect.collection("collections").insertOne(myobj, function (err, res) {
    if (err) throw err;

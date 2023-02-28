@@ -26,6 +26,25 @@ const AddCollectionModal = (props) => {
 
     const addCollection = (e) => {
       e.preventDefault();
+      if (title === '' || description === '') {
+        setIncompleteForm(true);
+        return;
+      }
+      try {
+        setIncompleteForm(false);
+        const collectionData = {
+          title: title,
+          description: description,
+          user: userProfile.username,
+        }
+        axios.post(`http://localhost:5000/collection/add`, collectionData
+        ).then(response => {
+          console.log("added collection")
+        })
+      }
+      catch(err) {
+        console.log("Internal Server Error at collection/add");
+      }
     }
   
     return (
