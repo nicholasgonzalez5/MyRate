@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import "./ReviewForm.css";
 import axios from "axios";
 
@@ -7,6 +8,8 @@ const ReviewForm = (props) => {
 
     const rate = props.currRate;
     const review = props.currReview;
+
+    const userProfile = useSelector((state) => { return state.userProfile; });
 
     const [newRate, setNewRate] = useState(props.currRate);
     const [newReview, setNewReview] = useState(props.currReview);
@@ -26,7 +29,7 @@ const ReviewForm = (props) => {
         }).then((response) => {
             // check if review already exists
             const movie = ((response.data));
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_id: movie._id,
                 },
@@ -38,7 +41,8 @@ const ReviewForm = (props) => {
                     stars: newRate,
                     review: newReview,
                     media_type: "movies",
-                    media_id: mediaId
+                    media_id: mediaId,
+                    user: userProfile.username
                 }
                 if(!review) {
                 // adds rating to database
@@ -75,7 +79,7 @@ const ReviewForm = (props) => {
         }).then((response) => {
             // check if review already exists
             const tvshow = ((response.data));
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_id: tvshow._id,
                 },
@@ -88,6 +92,7 @@ const ReviewForm = (props) => {
                     review: newReview,
                     media_type: "tvshows",
                     media_id: mediaId,
+                    user: userProfile.username
                 }
                 if(!review) {
                     // adds rating to database

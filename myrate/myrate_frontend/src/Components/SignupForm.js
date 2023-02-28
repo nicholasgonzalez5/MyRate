@@ -6,6 +6,9 @@ import axios from 'axios';
 import "./SignupForm.css";
 
 const LoginForm = () => {
+    const bcrypt = require('bcryptjs');
+    const saltRounds = 10;
+
     var dispatch = useDispatch();
     //const userProfile = useSelector((state) => { return state.userProfile; });
     const[firstname, setFirstname] = useState("");
@@ -56,13 +59,15 @@ const LoginForm = () => {
 
             if (response.data == null) {
                 setDuplicatUsername(false);
+                
+                const hashedPassword = bcrypt.hashSync(password, saltRounds);
 
                 const userCredentials = {
                     firstname: firstname,
                     lastname: lastname,
                     email: email,
                     username: username,
-                    password: password,
+                    password: hashedPassword,
                 };
 
                 try { 

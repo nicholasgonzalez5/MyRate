@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import axios from 'axios';
 import "./CollectionList.css";
 import CollectionItems from "./CollectionItems";
+import LoginForm from "../Components/LoginForm";
 
 const CollectionList = () => {
+
+    const userProfile = useSelector((state) => { return state.userProfile; });
 
     let [collections, setCollections] = useState([]);
     let [items, setItems] = useState();
@@ -27,12 +31,12 @@ const CollectionList = () => {
     // Fetch collection data of this user from the backend
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/collection/getmedia`)
+        axios.get(`http://localhost:5000/collection/getmedia/${userProfile.username}`)
             .then(function (response) {
                 // setCollections with data in the response
                 setCollections(response.data);
                 let itemList = {};
-                console.log(response.data);
+                console.log("collections: ", response.data);
                 response.data.map(d => {
                     itemList[d._id] = {"books": [], "movies": [], "tvshows": []}
                     d.book_list?.map(b => {
@@ -48,10 +52,26 @@ const CollectionList = () => {
                 setItems(itemList);
 
             });
-    }, []);
+    }, [userProfile]);
 
     // TODO: Display the first item in each collection as the cover
+    if(userProfile.username === null) {
+        return (
+            <LoginForm />
+        )
+    }
 
+    else if(userProfile.username && collections.length === 0) {
+        return (
+            <>
+            <div class="wrap">
+            {"You don't have any collections yet..."}
+                </div>
+                {selectedItems && <CollectionItems title={title} items={selectedItems} />}
+            </>
+        )
+    }
+    else {
     return (
         <>
         <div class="wrap">
@@ -67,6 +87,7 @@ const CollectionList = () => {
         </>
         
     );
+                }
  
 };
 

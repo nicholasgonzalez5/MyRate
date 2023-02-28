@@ -106,11 +106,17 @@ collectionRoutes.route("/:id").delete((req, response) => {
  });
 });
 
-collectionRoutes.route("/collection/getmedia").get(function (req, res) {
+collectionRoutes.route("/collection/getmedia/:username").get(function (req, res) {
     let db_connect = dbo.getDb("media");
+    let username = req.params.username;
     db_connect
         .collection("collections")
         .aggregate([
+            {
+                $match: {
+                    user: username
+                }
+            },
             {
                 $lookup: {
                     from: 'books',
@@ -142,4 +148,25 @@ collectionRoutes.route("/collection/getmedia").get(function (req, res) {
             res.json(result);
         });
 });
+
+collectionRoutes.route("/collection/user/:id").get(function (req, res) {
+  let db_connect = dbo.getDb("media");
+  let userId = ObjectId(req.params.id);
+  db_connect
+      .collection("collections")
+      .aggregate([
+          {
+              $match: {
+                  user: userId
+              }
+          }
+
+  ])
+      .toArray(function (err, result) {
+          if (err) throw err;
+          res.json(result);
+      });
+});
+
+
 module.exports = collectionRoutes;
