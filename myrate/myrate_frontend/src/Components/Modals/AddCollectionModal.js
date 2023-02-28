@@ -9,6 +9,24 @@ const AddCollectionModal = (props) => {
   const userProfile = useSelector((state) => { return state.userProfile; });
 
     const { open, close, header } = props;
+
+    const[title, setTitle] = useState('');
+    const[description, setDescription] = useState('');
+    const[incompleteForm, setIncompleteForm] = useState(false);
+
+    const handleTitleChange = (e) => {
+      e.preventDefault();
+      setTitle(e.target.value);
+    }
+
+    const handleDescriptionChange = (e) => {
+      e.preventDefault();
+      setDescription(e.target.value);
+    }
+
+    const addCollection = (e) => {
+      e.preventDefault();
+    }
   
     return (
 
@@ -22,7 +40,14 @@ const AddCollectionModal = (props) => {
               </button>
             </header>
             <main>
-              {"Hello"}
+            <div class="loginFormDiv">
+                <form class="loginbox" autocomplete="off">
+                    <input placeholder="Title" type="text" id="title" value={title} onChange={handleTitleChange}></input>
+                    <input placeholder="Description" type="text" id="description" value={description} onChange={handleDescriptionChange}></input>
+                    <button onClick={addCollection}>Add Collection</button>
+                    <p id="incompleteFormError" hidden={!incompleteForm}>Please Complete All Form Fields</p>
+                </form>
+            </div>
             </main>
             <footer>
               <button className="close" onClick={close}>
