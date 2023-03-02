@@ -1,17 +1,21 @@
 import { React, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import axios from "axios";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import RelatedTitlesSliderList from "../Components/RelatedTitlesSliderList";
 import ReviewForm from "../Components/ReviewForm";
+import CollectionModal from "../Components/Modals/CollectionModal"
 
 const SecondaryMovie = () => {
 
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
-    const [apiId, setApiId] = useState(); 
+    const [modalOpen, setModalOpen] = useState(false); 
+
+    const userProfile = useSelector((state) => { return state.userProfile; });
 
     const location = useLocation();
     const { movieDetails } = location.state;
@@ -24,6 +28,13 @@ const SecondaryMovie = () => {
         release_date: release_date,
         api_id: movieDetails['movie'].id,
     };
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
         // store movie's ID for creating ratings/reviews
     let dbMovieId = 0;
@@ -65,9 +76,8 @@ const SecondaryMovie = () => {
 
                 
                 setMediaId(movie._id);
-                setApiId(movie.api_id);
 
-                axios.get(`http://localhost:5000/rating/findrating`, {
+                axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_type: "movies",
                     media_id: dbMovieId,
@@ -90,9 +100,8 @@ const SecondaryMovie = () => {
             dbMovieId = movie._id;
             
             setMediaId(movie._id);
-            setApiId(movie.api_id);
 
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_type: "movies",
                     media_id: dbMovieId,
@@ -113,7 +122,7 @@ const SecondaryMovie = () => {
         .catch((response) => {
             console.log("error with axios: " + response);
         });
-      }, []);
+      }, [userProfile]);
 
 
 
@@ -138,6 +147,10 @@ const SecondaryMovie = () => {
                 <div className="bookImageDiv">
                     <img src={`${prePosterPath}${poster_path}`} height="275" width="175" />
                 </div>
+                <div className="purchaseLinkDiv">
+                    <button className="purchaseButton" onClick={openModal}>Add to collection</button>
+                    <CollectionModal open={modalOpen} close={closeModal} header="Your collections" mediaType={"movie"} mediaId={mediaId}></CollectionModal>
+                </div>
             </div>
             <div className="productDetailsDiv">
                 <h5 className="productDetailsHeader">Product Details</h5>
@@ -154,7 +167,7 @@ const SecondaryMovie = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={title} currRate={rate} currReview={review} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
+            <ReviewForm title={title} currRate={rate?rate:''} currReview={review?review:''} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
             {/* <RelatedTitlesSliderList apiId={apiId} isMovie={true} /> */}
         </>
     );

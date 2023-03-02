@@ -52,6 +52,31 @@ ratingRoutes.route("/rating/findrating").get(function (req, res) {
     });
 });
 
+ratingRoutes.route("/rating/findrating/:username").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let mid = req.query.media_id;
+  const query = {media_id: ObjectId(mid)};
+  let username = req.params.username;
+  db_connect
+      .collection("ratings")
+      .aggregate([
+        {
+          $match: {
+            media_id: ObjectId(mid)
+          }
+        },
+        {
+          $match: {
+            user: username
+          }
+        }
+      ])
+      .toArray(function(err, result) {
+        if(err) throw err;
+        res.json(result);
+      })
+})
+
  
 // This section will help you create a new rating.
 ratingRoutes.route("/rating/add").post(function (req, response) {
@@ -60,8 +85,8 @@ ratingRoutes.route("/rating/add").post(function (req, response) {
     stars: req.body.stars,
     review: req.body.review,
     media_type: req.body.media_type,
-    media_id: req.body.media_id
-    //user_id: user_id,
+    media_id: ObjectId(req.body.media_id),
+    user: req.body.user,
  };
  console.log(myobj);
  db_connect.collection("ratings").insertOne(myobj, function (err, res) {
@@ -79,8 +104,8 @@ ratingRoutes.route("/rating/update/:id").post(function (req, response) {
     stars: req.body.stars,
     review: req.body.review,
     media_type: req.body.media_type,
-    media_id: req.body.media_id
-    //user_id: user_id,
+    media_id: ObjectId(req.body.media_id),
+    user: req.body.user,
    },
  };
  db_connect

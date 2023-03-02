@@ -57,10 +57,12 @@ collectionRoutes.route("/collection/findcollections").get(function (req, res) {
 collectionRoutes.route("/collection/add").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myobj = {
-   collectionTitle: req.body.collectionTitle,
-   collectionOwner: req.body.collectionOwner,
-   media: req.body.media,
-   owner_id: req.body.owner_id,
+   title: req.body.title,
+   description: req.body.description,
+   books: [],
+   movies: [],
+   tvshows: [],
+   user: req.body.user,
  };
  db_connect.collection("collections").insertOne(myobj, function (err, res) {
    if (err) throw err;
@@ -69,15 +71,21 @@ collectionRoutes.route("/collection/add").post(function (req, response) {
 });
  
 // This section will help you update a collection by id.
-collectionRoutes.route("/update/:id").post(function (req, response) {
+collectionRoutes.route("/collection/update/:id").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
+
+ let bookIds = req.body.books.map(b => ObjectId(b));
+ let movieIds = req.body.movies.map(m => ObjectId(m));
+ let tvshowIds = req.body.tvshows.map(t => ObjectId(t));
+
  let newvalues = {
    $set: {
-    collectionTitle: req.body.collectionTitle,
-    collectionOwner: req.body.collectionOwner,
-    media: req.body.media,
-    owner_id: req.body.owner_id,
+    title: req.body.title,
+    description: req.body.description,
+    books: bookIds,
+    movies: movieIds,
+    tvshows: tvshowIds,
    },
  };
  db_connect
@@ -90,7 +98,7 @@ collectionRoutes.route("/update/:id").post(function (req, response) {
 });
  
 // This section will help you delete a collection
-collectionRoutes.route("/:id").delete((req, response) => {
+collectionRoutes.route("/collection/delete/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect.collection("collections").deleteOne(myquery, function (err, obj) {
@@ -100,11 +108,17 @@ collectionRoutes.route("/:id").delete((req, response) => {
  });
 });
 
-collectionRoutes.route("/collection/getmedia").get(function (req, res) {
+collectionRoutes.route("/collection/getmedia/:username").get(function (req, res) {
     let db_connect = dbo.getDb("media");
+    let username = req.params.username;
     db_connect
         .collection("collections")
         .aggregate([
+            {
+                $match: {
+                    user: username
+                }
+            },
             {
                 $lookup: {
                     from: 'books',
@@ -136,4 +150,26 @@ collectionRoutes.route("/collection/getmedia").get(function (req, res) {
             res.json(result);
         });
 });
+
+collectionRoutes.route("/collection/user/:id").get(function (req, res) {
+  let db_connect = dbo.getDb("media");
+  let userId = ObjectId(req.params.id);
+  db_connect
+      .collection("collections")
+      .aggregate([
+          {
+              $match: {
+                  user: userId
+              }
+          }
+
+  ])
+      .toArray(function (err, result) {
+          if (err) throw err;
+          res.json(result);
+      });
+});
+
+
 module.exports = collectionRoutes;
+

@@ -1,14 +1,19 @@
 import { React, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import Navbar from "../Components/Navbar";
 import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
 import axios from "axios";
+import CollectionModal from "../Components/Modals/CollectionModal"
 
 
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
+    const [modalOpen, setModalOpen] = useState(false); 
+
+    const userProfile = useSelector((state) => { return state.userProfile; });
 
     const location = useLocation();
     const { bookDetails } = location.state;
@@ -24,6 +29,13 @@ const SecondaryBook = () => {
         description: description,
         purchaseLinks: purchaseLinks,
     };
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
     // store book's ID for creating ratings/reviews
     let ratingsList = null;
@@ -59,7 +71,7 @@ const SecondaryBook = () => {
                 console.log(`Book with title ${JSON.stringify(newBook.bookTitle)} by ${JSON.stringify(newBook.bookAuthor)} with id ${JSON.stringify(book._id)} was found`);
                 setMediaId(book._id);
 
-                axios.get(`http://localhost:5000/rating/findrating`, {
+                axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                     params: {
                         media_type: "books",
                         media_id: book._id,
@@ -67,7 +79,7 @@ const SecondaryBook = () => {
                 })
                 .then(response => {
                     ratingsList = (response.data);
-                    console.log(response.data);
+                    console.log("ratings", response.data);
                     // set current rating and review to the first value of this list
                     // In the future, set it to current user's rating and review
                     setRate(ratingsList[0]?.stars);
@@ -81,7 +93,7 @@ const SecondaryBook = () => {
             .catch((response) => {
                 console.log("error with axios: " + response);
             });
-    }, []);
+    }, [userProfile]);
 
 
     function toTitleCase(str) {
@@ -102,8 +114,10 @@ const SecondaryBook = () => {
 
     const submitReview = (e) => {
         e.preventDefault();
-        console.log("rate: ", rate);
-
+        if (userProfile.username === null) {
+            alert("Please login to submit your review");
+        }
+        else {
         // find the book's id to store in review 
         axios.get(`http://localhost:5000/book/findbook`, {
             params: {
@@ -113,7 +127,7 @@ const SecondaryBook = () => {
         }).then(response => {
             const b = ((response.data));
             // check if review exists
-            axios.get(`http://localhost:5000/rating/findrating`, {
+            axios.get(`http://localhost:5000/rating/findrating/${userProfile.username}`, {
                 params: {
                     media_id: b._id,
                 },
@@ -125,7 +139,8 @@ const SecondaryBook = () => {
                     stars: rate,
                     review: review,
                     media_type: "books",
-                    media_id: mediaId
+                    media_id: mediaId,
+                    user: userProfile.username
                 }
                 if(!currReview) {
                     // adds rating to database
@@ -148,6 +163,7 @@ const SecondaryBook = () => {
         }).catch(response => {
             console.log(response);
         })
+    }
 
     }
     /*
@@ -176,6 +192,10 @@ const SecondaryBook = () => {
                         </a>
                     </div>
                 ))}
+                <div className="purchaseLinkDiv">
+                    <button className="purchaseButton" onClick={openModal}>Add to collection</button>
+                    <CollectionModal open={modalOpen} close={closeModal} header="Your collections" mediaType={"book"} mediaId={mediaId}></CollectionModal>
+                </div>
             </div>
             <div className="productDetailsDiv">
                 <h5 className="productDetailsHeader">Product Details</h5>
@@ -205,7 +225,7 @@ const SecondaryBook = () => {
                 <div class="form-group" className="userReviewDiv">
                     <div class="form-group col-md-4">
                         <label for="overallRating">Overall Rating*</label>
-                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate}>
+                        <select id="overallRating" class="form-control" onChange={handleChangeSelect} value={rate?rate:''}>
                             <option selected hidden />
                             <option value="1">Poor</option>
                             <option value="2">Fair</option>
@@ -215,7 +235,7 @@ const SecondaryBook = () => {
                         </select>
                     </div>
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {toTitleCase(bookTitle)}*</label>
-                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review}></textarea>
+                    <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review?review:""}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>
