@@ -114,7 +114,8 @@ async function SeedReviews(media, type) {
         review: faker.lorem.paragraph(),
         media_type: type,
         media_id: media._id,
-        user_id: rUser[0]._id
+        user_id: rUser[0]._id,
+        user_username: rUser[0].username
       };
   
       ratingData.push(newRating);
