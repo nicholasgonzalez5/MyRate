@@ -20,7 +20,7 @@ const SearchPage = () => {
     method: 'get',
     searchterms: searchEntry,
     specify_type : 'q',
-    responseLength: 50,
+    responseLength: 1000,
 });
 
 const { responseb, loadingb, errorb } = useAxiosLibraryBooks({
@@ -65,18 +65,32 @@ const setBookCard = (key, author, title) => {
 
   // gets title/author for every book
   const renderSearchList = (res) => {
+    let loadBooks = []
     if (!loading && res) {
-      res.docs.map(book => (
-        console.log(book.cover_edition_key)
-      ))
-      return (
-        <div>
+      res.docs.map( function(book) {
+        // basically we only want to get books that display the cover
+        if(typeof book === "object")
+        {
+          if( typeof book.cover_i === "number")
           {
-            (res.docs.map(book => (
-              <div class="flip-card">
+            console.log("book type: " + typeof book);
+            console.log("cover_i: " + typeof book.cover_i);
+            console.log("book in add books: " + book.cover_i)
+            loadBooks.push(book);
+          }
+        }
+
+    });
+    if(!loading && res)
+    {
+      return (
+        <div style={{display : 'inline-block'}}>
+          {
+            (loadBooks.map(book => (
+              <div class="flip-card" style={{display : 'inline-block'}}>
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
-                    <img src={"https://covers.openlibrary.org/b/olid/"+book.cover_edition_key +"-M.jpg"} alt="Cover Image" style={{width:180, height:272}}></img>
+                    <img src={"https://covers.openlibrary.org/b/ID/"+book.cover_i +"-M.jpg"} alt="Cover Image" style={{width:180, height:272}}></img>
                     </div>
                   <div class="flip-card-back">
                     <h3>{book.title}</h3>
@@ -89,6 +103,8 @@ const setBookCard = (key, author, title) => {
           }
         </div>
       )
+
+    }
     }
   };
 
