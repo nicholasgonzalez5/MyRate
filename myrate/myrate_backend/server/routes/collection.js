@@ -57,10 +57,12 @@ collectionRoutes.route("/collection/findcollections").get(function (req, res) {
 collectionRoutes.route("/collection/add").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myobj = {
-   collectionTitle: req.body.collectionTitle,
-   collectionOwner: req.body.collectionOwner,
-   media: req.body.media,
-   owner_id: req.body.owner_id,
+   title: req.body.title,
+   description: req.body.description,
+   books: [],
+   movies: [],
+   tvshows: [],
+   user: req.body.user,
  };
  db_connect.collection("collections").insertOne(myobj, function (err, res) {
    if (err) throw err;
@@ -96,7 +98,7 @@ collectionRoutes.route("/collection/update/:id").post(function (req, response) {
 });
  
 // This section will help you delete a collection
-collectionRoutes.route("/:id").delete((req, response) => {
+collectionRoutes.route("/collection/delete/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect.collection("collections").deleteOne(myquery, function (err, obj) {
@@ -170,3 +172,4 @@ collectionRoutes.route("/collection/user/:id").get(function (req, res) {
 
 
 module.exports = collectionRoutes;
+

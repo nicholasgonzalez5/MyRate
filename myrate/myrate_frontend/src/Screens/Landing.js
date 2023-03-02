@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import Navbar from "../Components/Navbar";
-import TrendingMovies from "../Components/TrendingMovies"
-import TrendingTV from "../Components/TrendingTV"
+import TrendingMovies from "../Components/TrendingMovies";
+import TrendingTV from "../Components/TrendingTV";
+import BookSelector from "../Components/BookSelector";
 import './Landing.css'
 
 const Landing = () => {
@@ -18,7 +18,7 @@ const Landing = () => {
                             <h1 className="header">
                                 One Platform, All Media
                             </h1>
-                            <div>
+                            {/* <div>
                                     <button>
                                         Get started
                                     </button>
@@ -27,12 +27,13 @@ const Landing = () => {
                                         Discover
                                         </button>
                                     </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
             </div>
             </section>
+            < BookSelector />
             < TrendingMovies timeFrame={"day"} movieCount={10} />
             < TrendingTV timeFrame={"day"} tvCount={10} />
         </>
