@@ -1,4 +1,11 @@
 {
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "flow": "flow"
+},
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "localforage": "^1.10.0",
