@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 import "./SecondaryBook.css";
 import axios from "axios";
 import CollectionModal from "../Components/Modals/CollectionModal"
+import ReviewList from "../Components/ReviewList";
 
 
 const SecondaryBook = () => {
@@ -239,6 +240,9 @@ const SecondaryBook = () => {
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
                 </div>
             </form>
+            <div className="reviewList">
+            <ReviewList mediaId={mediaId}></ReviewList>
+            </div>
         </>
     );
 };
