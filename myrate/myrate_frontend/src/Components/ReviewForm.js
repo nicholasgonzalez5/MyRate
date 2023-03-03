@@ -35,7 +35,6 @@ const ReviewForm = (props) => {
                 },
             }).then((response) => {
                 const review = ((response.data[0]));
-                console.log(review);
                 // create review
                 const reviewData = {
                     stars: newRate,

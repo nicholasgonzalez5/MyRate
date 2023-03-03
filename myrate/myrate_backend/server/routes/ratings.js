@@ -127,5 +127,23 @@ ratingRoutes.route("/:id").delete((req, response) => {
    response.json(obj);
  });
 });
+
+ratingRoutes.route("/rating/findothers").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let mid = req.query.media_id;
+  db_connect
+      .collection("ratings")
+      .aggregate([
+        {
+          $match: {
+            media_id: ObjectId(mid)
+          }
+        },
+      ])
+      .toArray(function(err, result) {
+        if(err) throw err;
+        res.json(result);
+      })
+})
  
 module.exports = ratingRoutes;

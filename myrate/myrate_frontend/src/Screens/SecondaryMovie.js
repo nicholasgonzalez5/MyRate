@@ -6,7 +6,8 @@ import axios from "axios";
 import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import RelatedTitlesSliderList from "../Components/RelatedTitlesSliderList";
 import ReviewForm from "../Components/ReviewForm";
-import CollectionModal from "../Components/Modals/CollectionModal"
+import CollectionModal from "../Components/Modals/CollectionModal";
+import ReviewList from "../Components/ReviewList";
 
 const SecondaryMovie = () => {
 
@@ -166,9 +167,10 @@ const SecondaryMovie = () => {
                 </div>
                 <hr class="solid" />
             </div>
-
             <ReviewForm title={title} currRate={rate?rate:''} currReview={review?review:''} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
             {/* <RelatedTitlesSliderList apiId={apiId} isMovie={true} /> */}
+
+            <ReviewList mediaId={mediaId}></ReviewList>
         </>
     );
 };

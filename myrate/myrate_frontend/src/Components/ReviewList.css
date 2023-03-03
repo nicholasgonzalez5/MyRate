@@ -1,0 +1,21 @@
+
+.reviewDiv {
+    width: 60%;
+    height: 100%;
+    padding: 0;
+    padding-top: 55px;
+    padding-bottom: 55px;
+}
+
+.reviewUser {
+    display: flex;
+    font-weight: bold;
+}
+
+.reviewItem {
+    margin: 30px;
+}
+
+.reviewRating {
+    margin: 10px;
+}
