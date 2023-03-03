@@ -112,7 +112,7 @@ ratingRoutes.route("/rating/update/:id").post(function (req, response) {
    .collection("ratings")
    .updateOne(myquery, newvalues, function (err, res) {
      if (err) throw err;
-     console.log("1 document updated");
+     console.log("1 rating updated");
      response.json(res);
    });
 });

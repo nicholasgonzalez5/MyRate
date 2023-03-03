@@ -8,6 +8,7 @@ import SecondaryMovie from "./Screens/SecondaryMovie";
 import SecondaryTV from "./Screens/SecondaryTV";
 import Profile from "./Screens/Profile";
 import LoginScreen from "./Screens/LoginScreen";
+import SearchPage from "./Screens/SearchPage";
 import SignupScreen from "./Screens/SignupScreen";
 
 import {
@@ -94,6 +95,7 @@ const App = () => {
                 <Route path="/secondary-movie-page/:id" element={<SecondaryMovie />} />
                 <Route path="/secondary-tv-page/:id" element={<SecondaryTV />} />
                 <Route path="/login" element={<LoginScreen />} />
+                <Route path="/search-page" element={<SearchPage />} />
                 <Route path="/signup" element={<SignupScreen />} />
             </Routes>
         </Router>
