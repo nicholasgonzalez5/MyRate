@@ -67,7 +67,7 @@ ratingRoutes.route("/rating/findrating/:username").get(function (req, res) {
         },
         {
           $match: {
-            user: username
+            user_username: username
           }
         }
       ])
@@ -86,7 +86,7 @@ ratingRoutes.route("/rating/add").post(function (req, response) {
     review: req.body.review,
     media_type: req.body.media_type,
     media_id: ObjectId(req.body.media_id),
-    user: req.body.user,
+    user_username: req.body.user,
  };
  console.log(myobj);
  db_connect.collection("ratings").insertOne(myobj, function (err, res) {
@@ -105,7 +105,7 @@ ratingRoutes.route("/rating/update/:id").post(function (req, response) {
     review: req.body.review,
     media_type: req.body.media_type,
     media_id: ObjectId(req.body.media_id),
-    user: req.body.user,
+    user_username: req.body.user,
    },
  };
  db_connect
