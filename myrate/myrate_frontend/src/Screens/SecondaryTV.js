@@ -7,12 +7,14 @@ import useAxiosTMDB from "../Hooks/useAxiosTMDB";
 import RelatedTitlesSliderList from "../Components/RelatedTitlesSliderList";
 import ReviewForm from "../Components/ReviewForm";
 import CollectionModal from "../Components/Modals/CollectionModal"
+import ReviewList from "../Components/ReviewList";
 
 const SecondaryTV = () => {
 
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
+    const [reviewId, setReviewId] = useState();
     const [modalOpen, setModalOpen] = useState(false); 
 
     const userProfile = useSelector((state) => { return state.userProfile; });
@@ -89,6 +91,7 @@ const SecondaryTV = () => {
         // In the future, set it to current user's rating and review
         setRate(ratingsList[0]?.stars);
         setReview(ratingsList[0]?.review);
+        setReviewId(ratingsList[0]?._id);
         }).catch((response) => {
             console.log("Error finding ratings: " + response);
         })
@@ -113,6 +116,7 @@ const SecondaryTV = () => {
                 // In the future, set it to current user's rating and review
                 setRate(ratingsList[0]?.stars);
                 setReview(ratingsList[0]?.review);
+                setReviewId(ratingsList[0]?._id);
                 }).catch((response) => {
                     console.log("Error finding ratings: " + response);
                 })
@@ -165,8 +169,9 @@ const SecondaryTV = () => {
                 <hr class="solid" />
             </div>
 
-            <ReviewForm title={name} currRate={rate?rate:''} currReview={review?review:''} media={newTVShow} mediaId={mediaId} mediaType={"tvshow"} />
+            <ReviewForm title={name} currRate={rate?rate:''} currReview={review?review:''} media={newTVShow} mediaId={mediaId} mediaType={"tvshow"} reviewId={reviewId} />
             {/* <RelatedTitlesSliderList apiId={apiId} isMovie={false} /> */}
+            <ReviewList mediaId={mediaId}></ReviewList>
         </>
     );
 };

@@ -13,11 +13,13 @@ const ReviewForm = (props) => {
 
     const [newRate, setNewRate] = useState(props.currRate);
     const [newReview, setNewReview] = useState(props.currReview);
+    const [reviewId, setReviewId] = useState(props.reviewId);
 
     useEffect(() => {
         setNewRate(props.currRate);
         setNewReview(props.currReview);
-    },[rate, review])
+        setReviewId(props.reviewId);
+    },[rate, review, props.reviewId])
 
     const movieReview = () => {
         // find the movie's id to store in review 
@@ -35,7 +37,6 @@ const ReviewForm = (props) => {
                 },
             }).then((response) => {
                 const review = ((response.data[0]));
-                console.log(review);
                 // create review
                 const reviewData = {
                     stars: newRate,
@@ -132,6 +133,15 @@ const ReviewForm = (props) => {
 
     }
 
+    const deleteReview = (e) => {
+        e.preventDefault();
+
+        axios.delete(`http://localhost:5000/ratings/delete/${reviewId}`)
+        .then(function(response) {
+            window.location.reload(false);
+        })
+    }
+
     const handleTextChange = (e) => {
         setNewReview(e.target.value);
 
@@ -160,6 +170,7 @@ const ReviewForm = (props) => {
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {props.title}*</label>
                     <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} defaultValue={newReview}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
+                    <button type="submit" class="btn deleteButton btn-primary" onClick={deleteReview}>Delete Review</button>
                 </div>
             </form>
         </>
