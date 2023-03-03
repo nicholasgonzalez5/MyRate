@@ -14,6 +14,7 @@ const SecondaryMovie = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
     const [mediaId, setMediaId] = useState();
+    const [reviewId, setReviewId] = useState();
     const [modalOpen, setModalOpen] = useState(false); 
 
     const userProfile = useSelector((state) => { return state.userProfile; });
@@ -48,7 +49,6 @@ const SecondaryMovie = () => {
                 release_date: (newMovie.release_date),
             },
         }).then((response) => {
-          console.log(response.data);
           const movie = ((response.data));
           if (!movie) {
             console.log(`Movie with title ${JSON.stringify(newMovie.title)} and release date ${JSON.stringify(newMovie.release_date)} not found`);
@@ -91,6 +91,7 @@ const SecondaryMovie = () => {
                 // In the future, set it to current user's rating and review
                 setRate(ratingsList[0]?.stars);
                 setReview(ratingsList[0]?.review);
+                setReviewId(ratingsList[0]?._id);
             }).catch((response) => {
                 console.log("Error finding ratings: " + response);
             })
@@ -115,6 +116,7 @@ const SecondaryMovie = () => {
                 // In the future, set it to current user's rating and review
                 setRate(ratingsList[0]?.stars);
                 setReview(ratingsList[0]?.review);
+                setReviewId(ratingsList[0]?._id);
             }).catch((response) => {
                 console.log("Error finding ratings: " + response);
             })
@@ -167,7 +169,7 @@ const SecondaryMovie = () => {
                 </div>
                 <hr class="solid" />
             </div>
-            <ReviewForm title={title} currRate={rate?rate:''} currReview={review?review:''} media={newMovie} mediaId={mediaId} mediaType={"movie"}  />
+            <ReviewForm title={title} currRate={rate?rate:''} currReview={review?review:''} media={newMovie} mediaId={mediaId} mediaType={"movie"} reviewId={reviewId}  />
             {/* <RelatedTitlesSliderList apiId={apiId} isMovie={true} /> */}
 
             <ReviewList mediaId={mediaId}></ReviewList>

@@ -118,7 +118,7 @@ ratingRoutes.route("/rating/update/:id").post(function (req, response) {
 });
  
 // This section will help you delete a rating
-ratingRoutes.route("/:id").delete((req, response) => {
+ratingRoutes.route("/ratings/delete/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect.collection("ratings").deleteOne(myquery, function (err, obj) {
