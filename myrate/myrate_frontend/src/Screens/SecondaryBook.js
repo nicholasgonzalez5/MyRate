@@ -6,11 +6,13 @@ import "./SecondaryBook.css";
 import axios from "axios";
 import CollectionModal from "../Components/Modals/CollectionModal"
 import ReviewList from "../Components/ReviewList";
+import ReviewForm from "../Components/ReviewForm";
 
 
 const SecondaryBook = () => {
     const [rate, setRate] = useState();
     const [review, setReview] = useState();
+    const [reviewId, setReviewId] = useState();
     const [mediaId, setMediaId] = useState();
     const [modalOpen, setModalOpen] = useState(false); 
 
@@ -81,10 +83,9 @@ const SecondaryBook = () => {
                 .then(response => {
                     ratingsList = (response.data);
                     console.log("ratings", response.data);
-                    // set current rating and review to the first value of this list
-                    // In the future, set it to current user's rating and review
                     setRate(ratingsList[0]?.stars);
                     setReview(ratingsList[0]?.review);
+                    setReviewId(ratingsList[0]?._id);
                 }).catch((response) => {
                     console.log("Error finding ratings: " + response);
                 })
@@ -167,6 +168,15 @@ const SecondaryBook = () => {
     }
 
     }
+
+    const deleteReview = (e) => {
+        e.preventDefault();
+
+        axios.delete(`http://localhost:5000/ratings/delete/${reviewId}`)
+        .then(function(response) {
+            window.location.reload(false);
+        })
+    }
     /*
     // get list of ratings for this book
     ratingsList = axios.get(`http://localhost:5000/rating/findrating`, {
@@ -238,11 +248,10 @@ const SecondaryBook = () => {
                     <label for="userReview" className="userReviewLabel">Detailed Review For - {toTitleCase(bookTitle)}*</label>
                     <textarea class="form-control" id="userReview" rows="3" placeholder="Tell others what you thought!" onChange={handleTextChange} value={review?review:""}></textarea>
                     <button type="submit" class="btn btn-primary" onClick={submitReview}>Post Review</button>
+                    <button type="submit" class="btn btn-primary deleteButton" onClick={deleteReview}>Delete Review</button>
                 </div>
             </form>
-            <div className="reviewList">
             <ReviewList mediaId={mediaId}></ReviewList>
-            </div>
         </>
     );
 };

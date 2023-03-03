@@ -26,6 +26,7 @@ const ReviewList = (props) => {
 
     return (
         <>
+        <div className="reviewList">
                 <div class="form-group" className="reviewDiv">
                     <h4>Reviews from others</h4>
                     {reviews ? reviews.map(r => (
@@ -42,6 +43,7 @@ const ReviewList = (props) => {
                         </>
                     ))
                     : null }
+                </div>
                 </div>
         </>
     )
